@@ -5,7 +5,6 @@ import {
     Image,
     Platform
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS } from "./Constants"
 
 const Header = ({ containerStyle, title, titleStyle, leftComponent, rightComponent,img ,imgstyle}) => {
@@ -27,7 +26,7 @@ const Header = ({ containerStyle, title, titleStyle, leftComponent, rightCompone
             }
             {title?
             (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-            <Text style={{  ...FONTS.h2, ...titleStyle}}>{title}</Text>
+            <Text style={{  ...FONTS.h2, ...titleStyle,color:COLORS.black}}>{title}</Text>
         </View>):(
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                 <Image

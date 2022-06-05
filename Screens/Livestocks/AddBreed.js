@@ -390,6 +390,9 @@ const Addanimals = ({navigation, route}) => {
           borderRadius: SIZES.radius,
           backgroundColor: COLORS.lightGray2,
         }}>
+          {
+            showc &&
+          
         <PickerType
           show={showc}
           setshow={setshowc}
@@ -398,6 +401,7 @@ const Addanimals = ({navigation, route}) => {
           setprofile_pic={setprofile_pic}
           setshowc={setshowu}
         />
+          }
         <View
           style={{
             marginTop: 6,
@@ -579,10 +583,10 @@ const Addanimals = ({navigation, route}) => {
                   style={{
                     alignSelf: 'center',
                     justifyContent: 'center',
-                    marginLeft: 0,
+                    // marginLeft: 0,
                   }}>
                   <Image
-                    source={unit == true ? images.kg : images.scale}
+                    source={unit === true ? images.kg : images.scale}
                     style={{width: 28, height: 28, tintColor: COLORS.Primary}}
                   />
                 </View>
@@ -970,8 +974,8 @@ const Addanimals = ({navigation, route}) => {
               // enableAvatar
               // required
               disableSelectionTick
-              animationIn="zoomIn"
-              animationOut="zoomOut"
+              animationIn="bounceInLeft"
+          animationOut="bounceOutLeft"
               primaryColor={COLORS.Primary}
               avatarSize={28}
               value={vaccinated}

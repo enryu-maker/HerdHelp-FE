@@ -87,8 +87,8 @@ export default function ReportFilter({
           primaryColor={COLORS.Primary}
           value={species}
           onChange={updateStatus}
-          animationIn="zoomIn"
-          animationOut="zoomOut"
+          animationIn="bounceInLeft"
+          animationOut="bounceOutLeft"
           mainContainerStyle={{
             borderRadius: SIZES.padding,
             width: '88%',

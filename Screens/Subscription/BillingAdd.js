@@ -109,8 +109,8 @@ export default function BillingAdd({navigation,route}) {
           onChange={value => {
             setCountry(value);
           }}
-          animationIn="zoomIn"
-          animationOut="zoomOut"
+          animationIn="bounceInLeft"
+          animationOut="bounceOutLeft"
           mainContainerStyle={{
             borderRadius: SIZES.padding,
             width: '88%',
@@ -144,8 +144,8 @@ export default function BillingAdd({navigation,route}) {
           onChange={value => {
             setState(value);
           }}
-          animationIn="zoomIn"
-          animationOut="zoomOut"
+          animationIn="bounceInLeft"
+          animationOut="bounceOutLeft"
           mainContainerStyle={{
             borderRadius: SIZES.padding,
             width: '88%',

@@ -113,8 +113,8 @@ export default function Report(props) {
           <ActivityIndicator
             animating={loading}
             color={COLORS.Primary}
-            size="large"
-            style={{height: SIZES.height/2}}
+            size="small"
+            style={{top: SIZES.height*0.35}}
           />
         ):
         renderButtons()

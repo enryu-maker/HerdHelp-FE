@@ -741,8 +741,8 @@ const EditAnimal = ({navigation, route}) => {
                 avatarSize={28}
                 value={bred}
                 onChange={onChangeB}
-                animationIn="zoomIn"
-                animationOut="zoomOut"
+                animationIn="bounceInLeft"
+          animationOut="bounceOutLeft"
                 // mode="outlined"
                 mainContainerStyle={{
                   borderRadius: SIZES.padding,
@@ -775,8 +775,8 @@ const EditAnimal = ({navigation, route}) => {
               // enableAvatar
               // required
               disableSelectionTick
-              animationIn="zoomIn"
-              animationOut="zoomOut"
+              animationIn="bounceInLeft"
+          animationOut="bounceOutLeft"
               primaryColor={COLORS.Primary}
               avatarSize={28}
               value={vaccinated}

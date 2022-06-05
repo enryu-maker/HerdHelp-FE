@@ -1,4 +1,4 @@
-import { View, Text ,TouchableOpacity,FlatList,Image,ScrollView,Platform} from 'react-native'
+import { View, Text ,TouchableOpacity,FlatList,Image,ScrollView,Platform,SafeAreaView} from 'react-native'
 import React from 'react'
 import Header from '../../Components/Header';
 import Card from '../../Components/Card';
@@ -201,12 +201,15 @@ async function getData(api){
         <View style={{
           flex:1,
           justifyContent:"center",
-        }}><ActivityIndicator size="large"
+        }}><ActivityIndicator size="small"
         color={COLORS.Primary}
         style={{
           alignSelf:"center"
         }}/></View>
         ):
+        <SafeAreaView style={{
+          flex:1
+        }}>
         <FlatList
         data={filterList(Data)}
         keyExtractor={item => `${item.support_tag}`}
@@ -230,6 +233,7 @@ async function getData(api){
               }}
             />
           )}/>
+          </SafeAreaView>
             }
 
         <TextButton label={"Generate Report"}

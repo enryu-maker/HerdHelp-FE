@@ -1,4 +1,4 @@
-import {View, Text, Modal, Image, TouchableOpacity,Platform} from 'react-native';
+import {View, Text, Modal, Image, TouchableOpacity,TouchableWithoutFeedback} from 'react-native';
 import {COLORS, SIZES, FONTS, images, Bred} from '../../Components/Constants';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import React from 'react';
@@ -58,29 +58,36 @@ export default function PickerType({
   return (
     <Modal
       transparent={true}
-      animationType={'slide'}
+      animationType={"fade"}
       visible={show}
       onRequestClose={() => {
         setshow(false);
       }}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#00000040',
-          justifyContent: 'flex-end',
-          alignSelf: 'center',
-          alignItems: 'center',
-        }}
-        onStartShouldSetResponder={() => setshow(false)}>
+        <View
+                style={{
+                    flex: 1,
+                    backgroundColor: COLORS.primary
+                }}
+            >
+      <TouchableWithoutFeedback
+                    onPress={() => setshow(false)}
+                >
+                    <View
+                        style={{
+                            height:SIZES.height-130,
+                            backgroundColor:"#C0C0C070"
+                        }}
+                    />
+                </TouchableWithoutFeedback>
           
         <View
           style={{
-            height: 110,
+            height: 130,
             width: '100%',
             backgroundColor: COLORS.white,
             alignSelf: 'center',
-            borderTopLeftRadius: SIZES.radius+10,
-            borderTopRightRadius: SIZES.radius+10,
+            borderTopLeftRadius: SIZES.padding,
+            borderTopRightRadius: SIZES.padding,
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             alignItems: 'center',

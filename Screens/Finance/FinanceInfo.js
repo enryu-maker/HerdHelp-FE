@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, Image, FlatList,ActivityIndicator} from 'react-native';
+import {View, Text, TouchableOpacity, Image, FlatList,SafeAreaView} from 'react-native';
 import React from 'react';
 import axiosIns from '../../helpers/helpers';
 import Header from '../../Components/Header';
@@ -87,6 +87,9 @@ export default function FinanceInfo({navigation}) {
   return (
     <View style={{flex: 1}}>
       {renderHeader()}
+      <SafeAreaView style={{
+        flex:1
+      }}>
       {
         finance?.length<0?<ActivityIndicatorExample />:
         <FlatList
@@ -103,6 +106,7 @@ export default function FinanceInfo({navigation}) {
           />
           )}/>
         }
+        </SafeAreaView>
         
       {/* <TextButton
         onPress={() => {

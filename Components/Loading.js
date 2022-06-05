@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {View, StyleSheet,ActivityIndicator } from 'react-native';
+import {View, StyleSheet } from 'react-native';
 import { FONTS, SIZES, COLORS, icons, dummyData } from './Constants';
+import { ActivityIndicator } from 'react-native-paper';
 class ActivityIndicatorExample extends Component {
     _isMounted = false;
    state = { animating: true }
@@ -18,7 +19,7 @@ class ActivityIndicatorExample extends Component {
             <ActivityIndicator
                animating = {animating}
                color = {COLORS.Primary}
-               size = "large"
+               size = "small"
                style = {styles.activityIndicator}/>
          </View>
       )

@@ -263,6 +263,7 @@ const Addanimals = ({navigation, route}) => {
             setLoading(false);
             dispatch(getHerds())
             dispatch(getTags())
+            dispatch(getOverview())
             clear();
             showMessage({
               message: 'Animal Added',

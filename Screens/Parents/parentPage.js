@@ -198,7 +198,7 @@ export default function ParentPage({navigation,route}) {
           color:COLORS.white,
           alignSelf:"center"
         }
-      }>$ {price}
+      }>{formatter.format(price)}
         </Text>
       </View>
     )

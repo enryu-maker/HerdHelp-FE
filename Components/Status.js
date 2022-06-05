@@ -8,7 +8,7 @@ import TextButton from './TextButton';
 import FormInput from './FormInput';
 import axiosIns from '../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAnimal, getHerds } from '../Store/actions';
+import { getAnimal, getHerds, getOverview } from '../Store/actions';
 import FormDateInput from './FormDateInput';
 const Status = ({show, setShow, animal}) => {
   const [status, setStatus] = React.useState("Alive");
@@ -52,6 +52,7 @@ const Status = ({show, setShow, animal}) => {
           if (Response.status == 200) {
             setErr('Status Update sucessfully');
             setloading(false);
+            dispatch(getOverview())
             dispatch(getHerds())
             dispatch(getAnimal(animal?.tag_number))
             if(status.toString()!="Alive"){

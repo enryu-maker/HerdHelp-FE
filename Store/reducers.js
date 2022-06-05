@@ -11,6 +11,7 @@ const initialState = {
   animal: {},
   med: {},
   fcat: [],
+  overView: [],
 };
 
 export default (state = initialState, action) => {
@@ -54,6 +55,11 @@ export default (state = initialState, action) => {
         ...state,
         userData: action.payload,
       };
+      case 'OVERVIEW':
+        return {
+          ...state,
+          overView: action.payload,
+        };
     case 'CATEGORY':
       return {
         ...state,

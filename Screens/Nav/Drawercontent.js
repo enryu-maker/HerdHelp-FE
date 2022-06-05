@@ -15,22 +15,17 @@ import LineDivider from '../../Components/LineDivider';
 import axiosIns, { baseURL } from '../../helpers/helpers';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { Logout, UserData } from '../../Store/actions';
+import { getOverview, Logout, UserData } from '../../Store/actions';
 import { SafeAreaView } from 'react-native-safe-area-context';
 export default function Drawercontent(props) {
-  const [overView,setoverView] = React.useState([])
-  const fetchOverview = async () => {
-    const {data} = await axiosIns.get('reports/getoverview/');
-    return data;
-  };
 const dispatch = useDispatch()
 React.useEffect(()=>{
   dispatch(UserData())
-  fetchOverview().then(data=>{
-    setoverView(data)
-  })
+  dispatch(getOverview())
 },[])
  const User = useSelector(state=>state.Reducers.userData) 
+ const overView = useSelector(state=>state.Reducers.overView) 
+
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView

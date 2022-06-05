@@ -49,7 +49,6 @@ const Main = ({navigation}) => {
         : null;
     });
   }, []);
-  
   var iconweight;
   return (
     <>

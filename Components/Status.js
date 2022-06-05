@@ -9,6 +9,7 @@ import FormInput from './FormInput';
 import axiosIns from '../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAnimal, getHerds } from '../Store/actions';
+import FormDateInput from './FormDateInput';
 const Status = ({show, setShow, animal}) => {
   const [status, setStatus] = React.useState("Alive");
   const [Price, setPrice] = React.useState(0);
@@ -16,7 +17,9 @@ const Status = ({show, setShow, animal}) => {
   const [Flagged, setFlagged] = React.useState(animal.flagged);
   const [Flaggedesp, setFlaggedesp] = React.useState(animal.flag_desc);
   const [err, setErr] = React.useState('');
-  const statusCat = useSelector(state=>state.Reducers.status)
+  const [treat, setTreat] = React.useState('');
+  const [treatt, setTreatt] = React.useState('');
+  const statusCat = useSelector(state => state.Reducers.status);
   async function delAnimal() {
     try {
       await axiosIns.delete(`animals/${animal.tag_number}`);
@@ -33,14 +36,15 @@ const Status = ({show, setShow, animal}) => {
           `animals/${animal.tag_number}`,
           {
             status: status.toString(),
-            soldprice: Price,
+            soldprice: status!='ALive'?Price:null,
+            solddate: status!='ALive'?treatt:null,
             tag_number: status.toString() == 'Alive' ? `${animal?.tag_number}` : status.toString() == 'Dead' ?`${animal.tag_number + "D"}`:`${animal.tag_number + "S"}`,
             flagged:Flagged,
             flag_desc:Flaggedesp
           },
           {
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type' : 'application/json',
             },
           },
         )
@@ -92,7 +96,7 @@ const Status = ({show, setShow, animal}) => {
               }}>
               <Image
                 source={images.x}
-                style={{width: 25, height: 25, tintColor: COLORS.white,alignSelf:"center"}}
+                style={{width: 22, height: 22, tintColor: COLORS.white,alignSelf:"center"}}
               />
             </TouchableOpacity>
           </View>
@@ -157,6 +161,28 @@ const Status = ({show, setShow, animal}) => {
           }}
           itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
         />
+        {
+          status=="Alive"?null:
+        <>
+        <FormDateInput
+        returnKeyType={"next"}
+          label={`${status} Date`}
+          placeholder="YYYY-MM-DD"
+          value={treat}
+          setDate={setTreat}
+          formatDate={setTreatt}
+          containerStyle={{
+            marginTop: SIZES.radius,
+          }}
+          inputContainerStyle={{
+            backgroundColor: COLORS.white,
+            width: '88%',
+            alignSelf: 'center',
+            marginTop: SIZES.radius,
+          }}
+          inputStyle={{marginLeft: 20, fontSize: 16}}
+          
+        />
         <FormInput
           prependComponent={
             <View style={{alignSelf: 'center', justifyContent: 'center'}}>
@@ -166,7 +192,7 @@ const Status = ({show, setShow, animal}) => {
               />
             </View>
           }
-          label={'Amount*'}
+          label={`${status} Amount`}
           value={Price}
           onChange={value => {
             value = value.replace(/,/g,"")
@@ -181,6 +207,8 @@ const Status = ({show, setShow, animal}) => {
           }}
           inputStyle={{marginLeft: 20, fontSize: 16}}
         />
+        </>
+  }
         <Dropdown
           label="Flagged"
           borderRadius={SIZES.radius}

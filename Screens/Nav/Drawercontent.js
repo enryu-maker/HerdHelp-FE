@@ -42,7 +42,7 @@ React.useEffect(()=>{
             flex:1,
             height:40,
             width:40,
-            backgroundColor:COLORS.white,
+            backgroundColor:COLORS.Primary,
             borderRadius:40/2,
             justifyContent:"center",
             alignSelf:"flex-end",
@@ -53,9 +53,9 @@ React.useEffect(()=>{
           }}
           >
           <Image source={images.x} style={{
-            height:25,
-            width:25,
-            tintColor:COLORS.Primary,
+            height:22,
+            width:22,
+            tintColor:COLORS.white,
             alignSelf:"center"
           }}/>
 

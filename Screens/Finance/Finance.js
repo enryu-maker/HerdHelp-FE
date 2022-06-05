@@ -130,7 +130,6 @@ export const Finance = ({navigation}) => {
                 width:40,
                 justifyContent:"center",
                 borderRadius:40/2,
-
                 }}
               onPress={() => {
                 navigation.goBack();

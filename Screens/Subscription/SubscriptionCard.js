@@ -15,7 +15,7 @@ const SubscriptionCard=({
     <TouchableOpacity
     style={{
         backgroundColor:active?COLORS.Primary:COLORS.lightGray2,
-        height:100,
+        height:115,
         width:"88%",
         alignSelf:"center",
         borderRadius:SIZES.radius,
@@ -68,7 +68,7 @@ const SubscriptionCard=({
             color:active?COLORS.white:COLORS.black
 
         }}>
-           {`Animal Limit : ${count}`}
+           {desc}
         </Text>
         
         </View>

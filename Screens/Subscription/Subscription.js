@@ -186,7 +186,7 @@ export default function Subscription() {
         Platinum Tier
       </Text>
       {products.map(a=>(
-        <View>
+        <View >
           <Text>{a.description}</Text>
           <TouchableOpacity>
             <Text>Suscribe now</Text>

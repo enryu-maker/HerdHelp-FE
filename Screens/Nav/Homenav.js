@@ -31,10 +31,10 @@ import Babies from '../../Components/Babies';
 import axiosIns from '../../helpers/helpers';
 import EditAnimal from '../Edit/editAnimal';
 import Subscription from '../Subscription/Subscription';
-import Payment from '../Subscription/Payment';
-import SubDetails from '../Subscription/SubDetails';
-import Confirm from '../Subscription/Confirm';
-import BillingAdd from '../Subscription/BillingAdd';
+// import Payment from '../Subscription/Payment';
+// import SubDetails from '../Subscription/SubDetails';
+// import Confirm from '../Subscription/Confirm';
+// import BillingAdd from '../Subscription/BillingAdd';
 import ParentPage from '../Parents/parentPage';
 const Stack = createNativeStackNavigator()
 
@@ -166,10 +166,10 @@ fetchprofile = async () => {
           <Stack.Screen name='Babies' component={Babies}/>
           <Stack.Screen name='editAnimal' component={EditAnimal}/>
           <Stack.Screen name='Subscription' component={Subscription}/>
-          <Stack.Screen name='Payment' component={Payment}/>
+          {/* <Stack.Screen name='Payment' component={Payment}/>
           <Stack.Screen name='Details' component={SubDetails}/>
           <Stack.Screen name='Confirm' component={Confirm}/>
-          <Stack.Screen name='Address' component={BillingAdd}/>
+          <Stack.Screen name='Address' component={BillingAdd}/> */}
           <Stack.Screen name='ParentPage' component={ParentPage}/>
         </Stack.Navigator>
       </>

@@ -1,6 +1,6 @@
 import {baseURL} from './helpers/helpers';
 import {request, PERMISSIONS, requestMultiple} from 'react-native-permissions';
-import {StripeProvider} from '@stripe/stripe-react-native';
+
 import FlashMessage from 'react-native-flash-message';
 import SplashScreen from 'react-native-splash-screen';
 import React, {useEffect, useState} from 'react';
@@ -63,7 +63,6 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <StripeProvider publishableKey={"pk_test_51KkRiWSCRjhQ59aV02LeMYb4qDlPbjYjDzNg6tkqbQaslExRye4QO9m1Do7FgnuAeKmVzpvTAjbVKQYnPANExl900000675L28"}>
         <Permission.Provider value={PermissionResult}>
           <StatusBar
             barStyle={Platform.OS === 'android' ? 'default' : 'dark-content'}
@@ -71,7 +70,6 @@ const App = () => {
           />
           <RootNavigation />
         </Permission.Provider>
-      </StripeProvider>
     </Provider>
   );
 };

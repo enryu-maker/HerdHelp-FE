@@ -5,11 +5,11 @@ import { COLORS, FONTS, formatter, images, SIZES } from '../../Components/Consta
 const SubscriptionCard=({
     label,
     price,
-    count=0,
+    count = 0,
     buttonStyle,
     onPress,
     active,
-    desc
+    desc,
 })=>{
   return (
     <TouchableOpacity
@@ -70,7 +70,6 @@ const SubscriptionCard=({
         }}>
            {desc}
         </Text>
-        
         </View>
         {
            active? <Image source={images.paid} style={{

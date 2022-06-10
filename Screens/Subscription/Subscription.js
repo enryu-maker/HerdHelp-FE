@@ -11,7 +11,7 @@ import { COLORS, FONTS } from "../../Components/Constants";
 import { images } from "../../Components/Constants";
 import Header from "../../Components/Header";
 import SubscriptionCard from "./SubscriptionCard";
-import iap from "react-native-iap";
+import RNIap, { initConnection } from "react-native-iap";
 
 import ActivityIndicatorExample from "../../Components/Loading";
 import { showMessage } from "react-native-flash-message";
@@ -22,18 +22,21 @@ const itemSkus = Platform.select({
     "T21199", // dooboolab
     "T32599",
   ],
-  android: ["com.example.coins100"],
+  android: [
+    "tier1699",
+    "tier1199", // dooboolab
+    "tier2599",
+  ],
 });
 export default function Subscription({ navigation }) {
-  const  [products, setProducts] = React.useState([]);
-  const  [Loading, setLoading] = React.useState(false);
+  const [products, setProducts] = React.useState([]);
+  const [Loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
-    setLoading(true);
-    iap
-      .initConnection()
+    // RNIap.initConnection();
+    RNIap.initConnection()
       .catch(() => {
-        setLoading(false);;
+        setLoading(false);
         showMessage({
           message: 'Cannot Load the Subscription',
           type: 'danger',
@@ -48,7 +51,7 @@ export default function Subscription({ navigation }) {
       })
       .then(() => {
         showMessage({
-          message: 'Subscription List Loaded',
+          message: 'Subscription List Loading',
           type: 'success',
           backgroundColor: COLORS.Primary,
           color: COLORS.white,
@@ -58,27 +61,25 @@ export default function Subscription({ navigation }) {
           },
           animationDuration: 250,
         });
-        setLoading(false);;
-        iap
-          .getProducts(itemSkus)
+        RNIap.getProducts(itemSkus)
           .then((res) => {
             setProducts(res);
           })
-          .catch(() => {
-            console.log("Something went wrong");;
-            setLoading(false);;
-          });;
-      });;
-    const updateSubscription = iap.purchaseUpdatedListener((purchase)=>{
+          .catch((e) => {
+            console.log(e);
+            console.log("Something went wrong");
+          });
+      });
+    const updateSubscription = RNIap.purchaseUpdatedListener((purchase)=>{
       const receipt = purchase.transactionReceipt;
-      if  (receipt) {
-        iap.finishTransaction(purchase);
+      if (receipt) {
+        RNIap.finishTransaction(purchase);
       }
     });
-    return  () => {
+    return () => {
       updateSubscription.remove();
     };
-  }, []);;
+  }, []);
   return (
     <View
       style={{
@@ -106,7 +107,7 @@ export default function Subscription({ navigation }) {
                 borderRadius: 40 / 2,
               }}
               onPress={() => {
-                navigation.openDrawer();;
+                navigation.openDrawer();
               }}
             >
               <Image
@@ -123,7 +124,7 @@ export default function Subscription({ navigation }) {
         }
         title={'Subscription'}
       />
-      {Loading ? (
+      {products.length<=0?(
         <ActivityIndicatorExample />
       ) : (
         <FlatList
@@ -136,7 +137,7 @@ export default function Subscription({ navigation }) {
               desc={item.description}
               price={item.price}
               onPress={() => {
-                iap.requestSubscription(item.productId);;
+                RNIap.requestSubscription(item.productId);
               }}
             />
           )}

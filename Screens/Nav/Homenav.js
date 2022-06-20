@@ -179,6 +179,6 @@ fetchprofile = async () => {
 const styles = StyleSheet.create({
   drawerStyle: {
     backgroundColor:         COLORS.Primary,
-    width:                   '90%',
+    width:                   '100%',
 },
 })

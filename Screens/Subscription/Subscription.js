@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Text
 } from "react-native";
 
 import React, { Component } from "react";
@@ -28,12 +29,19 @@ const itemSkus = Platform.select({
     "tier2599",
   ],
 });
-export default function Subscription({ navigation }) {
+export default function Subscription({ navigation, route }) {
   const [products, setProducts] = React.useState([]);
   const [Loading, setLoading] = React.useState(false);
+  const [cond, setCond] = React.useState(false);
+  const [msg, setMsg] = React.useState('hello there');
+
 
   React.useEffect(() => {
-    // RNIap.initConnection();
+    let {msg} = route.params;
+    // setMsg(msg)
+    let {cond} = route.params;
+    setCond(cond)
+
     RNIap.initConnection()
       .catch(() => {
         setLoading(false);
@@ -51,7 +59,7 @@ export default function Subscription({ navigation }) {
       })
       .then(() => {
         showMessage({
-          message: 'Subscription List Loading',
+          message: 'Subscription List Loading...',
           type: 'success',
           backgroundColor: COLORS.Primary,
           color: COLORS.white,
@@ -124,6 +132,15 @@ export default function Subscription({ navigation }) {
         }
         title={'Subscription'}
       />
+      {
+        cond?<Text style={{
+          color:COLORS.red,
+          ...FONTS.h3,
+          alignSelf:"center",
+          paddingBottom:10
+        }}>{msg}</Text>:null
+      }
+      
       {products.length<=0?(
         <ActivityIndicatorExample />
       ) : (

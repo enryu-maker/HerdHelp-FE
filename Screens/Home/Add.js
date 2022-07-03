@@ -9,13 +9,19 @@ import {
   images,
   SIZES,
 } from '../../Components/Constants';
+import ReportFilter from '../Report/ReportFilter';
 export default function Add({navigation,route}) {
   const [label,setLabel]=React.useState("")
   const [loading,setLoading]=React.useState(false)
   const [cond,setCond]=React.useState(false)
   const [show,setShow]=React.useState(false)
+  const [showFilter,setShowFilter]=React.useState(false)
+
   const [data,setData]=React.useState([])
   const [searched,setSearched] = React.useState("")
+  const [sep, setSpec] = React.useState('')
+  const [vacc, setVacc] = React.useState('')
+  const [med, setMed] = React.useState('')
   React.useEffect(()=>{
     
     let {label} = route.params
@@ -36,7 +42,14 @@ export default function Add({navigation,route}) {
           .includes(searched.toString().toLowerCase()) ||
         listItem.name.toString().toLowerCase().includes(searched.toString().toLowerCase()) ||
         listItem.weight.toString().includes(searched.toString().toLowerCase()) ||
-        listItem.gender.toLowerCase().includes(searched.toLowerCase())
+        listItem.gender.toLowerCase().includes(searched.toLowerCase()) ||
+        (listItem.species.toString().includes(sep.toString()) &&
+          (listItem.vaccinated
+          .toString()
+          .includes(vacc.toString()) &&
+          listItem.medicated
+          .toString()
+          .includes(med.toString())))
     );
   }
   function renderHeader() {
@@ -166,6 +179,20 @@ export default function Add({navigation,route}) {
           placeholderTextColor={COLORS.gray}
           onChangeText={text => {setSearched(text)}}
         />
+        <TouchableOpacity 
+        onPress={()=>{
+          setShowFilter(true)
+        }}
+        >
+        <Image
+          source={images.filter}
+          style={{
+            height: 22,
+            width: 22,
+            tintColor: COLORS.Primary,
+          }}
+        />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -175,7 +202,10 @@ export default function Add({navigation,route}) {
       {
         show?renderSearch():null
       }
-
+  {
+        showFilter &&
+      <ReportFilter show={showFilter} setShow={setShowFilter} setSpec={setSpec} setMed={setMed} setVacc={setVacc} vacc={vacc} med={med}/>
+      }
       <FlatList
       data={filterList(data)}
       keyExtractor={item => `${item.tag_number}`}

@@ -24,9 +24,9 @@ const itemSkus = Platform.select({
     "T32599",
   ],
   android: [
-    "tier1699",
-    "tier1199", // dooboolab
-    "tier2599",
+    "tier699",
+    "tier21199", // dooboolab
+    "tier32599",
   ],
 });
 export default function Subscription({ navigation, route }) {
@@ -44,7 +44,6 @@ export default function Subscription({ navigation, route }) {
 
     RNIap.initConnection()
       .catch(() => {
-        setLoading(false);
         showMessage({
           message: 'Cannot Load the Subscription',
           type: 'danger',
@@ -154,12 +153,17 @@ export default function Subscription({ navigation, route }) {
               desc={item.description}
               price={item.price}
               onPress={() => {
+                setLoading(true)
                 RNIap.requestSubscription(item.productId);
+                setLoading(false)
               }}
             />
           )}
         />
       )}
+      {
+        Loading?<ActivityIndicatorExample />:null
+      }
     </View>
   );
 }

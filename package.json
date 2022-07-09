@@ -21,6 +21,7 @@
     "react-native": "0.68.2",
     "react-native-add-calendar-event": "^4.0.0",
     "react-native-date-picker": "^4.2.2",
+    "react-native-dropdownalert": "^4.5.1",
     "react-native-flash-message": "^0.2.1",
     "react-native-gesture-handler": "^2.4.2",
     "react-native-iap": "^8.0.10",

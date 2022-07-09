@@ -70,6 +70,7 @@ export default function Subscription({ navigation, route }) {
         });
         RNIap.getProducts(itemSkus)
           .then((res) => {
+            console.log(res)
             setProducts(res);
           })
           .catch((e) => {
@@ -80,6 +81,7 @@ export default function Subscription({ navigation, route }) {
     const updateSubscription = RNIap.purchaseUpdatedListener((purchase)=>{
       const receipt = purchase.transactionReceipt;
       if (receipt) {
+        alert(receipt)
         RNIap.finishTransaction(purchase);
       }
     });

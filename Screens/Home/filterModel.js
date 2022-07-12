@@ -7,12 +7,17 @@ import {
     TouchableWithoutFeedback,
     Modal,
     Platform,
+    TouchableOpacity,
+    Image,
     KeyboardAvoidingView
 } from 'react-native';
 
 import TextButton from '../../Components/TextButton';
 import { COLORS, FONTS, SIZES } from "../../Components/Constants";
+import { images } from '../../Components/Constants';
 import LineDivider from '../../Components/LineDivider';
+import { useSelector } from 'react-redux';
+import {Dropdown} from 'sharingan-rn-modal-dropdown';
 
 const Section = ({ containerStyle, title, children }) => {
     return (
@@ -29,7 +34,15 @@ const Section = ({ containerStyle, title, children }) => {
     )
 }
 
-const FilterModal = ({ isVisible, onClose }) => {
+const FilterModal = ({ 
+    isVisible, 
+    onClose,
+    setSpec,
+    setVacc,
+    setMed,
+    vacc,
+    med, 
+}) => {
 
     const modalAnimatedValue = React.useRef(new Animated.Value(0)).current
 
@@ -60,297 +73,115 @@ const FilterModal = ({ isVisible, onClose }) => {
         inputRange: [0, 1],
         outputRange: [SIZES.height, SIZES.height > 700 ? SIZES.height - 680 : SIZES.height - 580]
     })
-    function renderGender(){
-        return(
-            <View
-                style={{
-                    flexDirection: 'row',
-                    height: 50,
-                    marginTop: SIZES.radius,
-                    paddingHorizontal: SIZES.padding,
-                    marginBottom:20,
-                    borderBottomEndRadius:SIZES.radius,
-                    borderBottomStartRadius:SIZES.radius
-                }}
-            >
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        borderRadius: SIZES.radius,
-                        // backgroundColor: (selectedTab == 'history') ? COLORS.Primary : COLORS.transparentPrimary2
-                        backgroundColor:COLORS.transparentPrimary
-                    }}
-                    label="Male"
-                    labelStyle={{
-                        // color: (selectedTab == 'history') ? COLORS.white : COLORS.primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("history")
-                        // setOrders(dummyData.orderHistories)
-                    }}
-                />
-    
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Female"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                />
-            </View>
-        )
-    }
-    function renderSpecies(){
-        return(
-            <View style={{
-                flexDirection:"column",
-            }}>
-                <View
-                style={{
-                    flexDirection:"row",
-                    height: 50,
-                    marginTop: SIZES.radius,
-                    paddingHorizontal: SIZES.padding,
-                    marginBottom:20,
-                    borderBottomEndRadius:SIZES.radius,
-                    borderBottomStartRadius:SIZES.radius
-                }}
-            >
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        borderRadius: SIZES.radius,
-                        // backgroundColor: (selectedTab == 'history') ? COLORS.Primary : COLORS.transparentPrimary2
-                        backgroundColor:COLORS.transparentPrimary
-                    }}
-                    label="Cow"
-                    labelStyle={{
-                        // color: (selectedTab == 'history') ? COLORS.white : COLORS.primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("history")
-                        // setOrders(dummyData.orderHistories)
-                    }}
-                />
-    
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Goat"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                /></View>
-                <View
-                style={{
-                    flexDirection:"row",
-                    height: 50,
-                    marginTop: SIZES.radius,
-                    paddingHorizontal: SIZES.padding,
-                    marginBottom:20,
-                    borderBottomEndRadius:SIZES.radius,
-                    borderBottomStartRadius:SIZES.radius
-                }}
-            >
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        // marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Pig"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                />
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Dog"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                />
-            </View>
-            <View
-                style={{
-                    flexDirection:"row",
-                    height: 50,
-                    marginTop: SIZES.radius,
-                    paddingHorizontal: SIZES.padding,
-                    marginBottom:20,
-                    borderBottomEndRadius:SIZES.radius,
-                    borderBottomStartRadius:SIZES.radius
-                }}
-            >
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        // marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Sheep"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                />
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Chicken"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                />
-            </View>
-            <View
-                style={{
-                    flexDirection:"row",
-                    height: 50,
-                    marginTop: SIZES.radius,
-                    paddingHorizontal: SIZES.padding,
-                    marginBottom:20,
-                    borderBottomEndRadius:SIZES.radius,
-                    borderBottomStartRadius:SIZES.radius
-                }}
-            >
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        // marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Rabbit"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                />
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Horse"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                />
-            </View>
-            </View>
-        )
-    }
-    function renderTabButtons() {
+    const [species, setSpecies] = React.useState(null);
+  // const [animal, setAnimal] = React.useState([]);
+  const updateStatus = value => {
+    setSpecies(value);
+    setSpec(value);
+  };
+  const animal = useSelector(state=>state.Reducers.cat)
+    function catFilter() {
         return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    height: 50,
-                    marginTop: SIZES.radius,
-                    paddingHorizontal: SIZES.padding,
-                    marginBottom:20,
-                    borderBottomEndRadius:SIZES.radius,
-                    borderBottomStartRadius:SIZES.radius
-                }}
-            >
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        borderRadius: SIZES.radius,
-                        // backgroundColor: (selectedTab == 'history') ? COLORS.Primary : COLORS.transparentPrimary2
-                        backgroundColor:COLORS.transparentPrimary
-                    }}
-                    label="Breed"
-                    labelStyle={{
-                        // color: (selectedTab == 'history') ? COLORS.white : COLORS.primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("history")
-                        // setOrders(dummyData.orderHistories)
-                    }}
-                />
-    
-                <TextButton
-                    buttonContainerStyle={{
-                        flex: 1,
-                        marginLeft: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor:COLORS.transparentPrimary
-                        // backgroundColor: (selectedTab == 'upcoming') ? COLORS.primary : COLORS.transparentPrimary9
-                    }}
-                    label="Purchased"
-                    labelStyle={{
-                        // color: (selectedTab == 'upcoming') ? COLORS.white : COLORS.Primary
-                    }}
-                    onPress={() => {
-                        // setSelectedTab("upcoming")
-                        // setOrders(dummyData.upcomingOrders)
-                    }}
-                />
-            </View>
+          <View
+            style={{
+              paddingVertical: SIZES.padding,
+              paddingHorizontal: SIZES.radius,
+              borderRadius: SIZES.radius,
+              backgroundColor: COLORS.lightGray2,
+            }}>
+            <Dropdown
+              label="Cateogry"
+              borderRadius={SIZES.radius}
+              data={animal}
+              dropdownIcon={images.down}
+              dropdownIconSize={22}
+              textInputStyle={(FONTS.body2, {letterSpacing: 2})}
+              selectedItemTextStyle={
+                (FONTS.body3,
+                {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
+              }
+              selectedItemViewStyle={{
+                backgroundColor: COLORS.Primary,
+                margin: 5,
+                borderRadius: SIZES.radius,
+              }}
+              disableSelectionTick
+              primaryColor={COLORS.Primary}
+              value={species}
+              onChange={updateStatus}
+              animationIn="bounceInLeft"
+              animationOut="bounceOutLeft"
+              mainContainerStyle={{
+                borderRadius: SIZES.padding,
+                width: '88%',
+                alignSelf: 'center'
+              }}
+              itemContainerStyle={{
+                backgroundColor: COLORS.white,
+                margin: 5,
+              }}
+            />
+          </View>
+        );
+      }
+      function buttonFilter(){
+        return(
+          <View
+            style={{
+              marginTop:15,
+              paddingVertical: SIZES.padding,
+              paddingHorizontal: SIZES.radius,
+              borderRadius: SIZES.radius,
+              backgroundColor: COLORS.lightGray2,
+            }}>
+          <View style={{
+            flex:1,
+            flexDirection:"row",
+            justifyContent:"space-evenly",
+            marginTop:10
+          }}>
+          <TouchableOpacity
+          style={{
+            backgroundColor:vacc?COLORS.Primary:COLORS.transparentPrimary,
+            height:50,
+            width:120,
+            borderRadius:SIZES.radius,
+            justifyContent:"center",
+            alignItems:"center"
+          }}
+          onPress={()=>{
+            setVacc(!vacc)
+          }}
+          >
+            <Text style={{
+              ...FONTS.h3,
+              color:vacc?COLORS.white:COLORS.black
+            }}>Vaccinated</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+          style={{
+            backgroundColor:med? COLORS.Primary:COLORS.transparentPrimary,
+            height:50,
+            width:120,
+            borderRadius:SIZES.radius,
+            justifyContent:"center",
+            alignItems:"center"
+            // alignSelf:"center"
+          }}
+          onPress={()=>{
+            setMed(!med)
+          }}
+          >
+           <Text style={{
+              ...FONTS.h3,
+              color:med?COLORS.white:COLORS.black
+            }}>Medicated</Text>
+          </TouchableOpacity>
+          
+          </View>
+          </View>
         )
-    }
+      }
     return (
         <Modal
             animationType="fade"
@@ -392,47 +223,32 @@ const FilterModal = ({ isVisible, onClose }) => {
                         // paddingBottom:30
                     }}
                 >
-                    <View style={{flex:1}}>
-                    <ScrollView
-        // style={{flex:1}}
-        contentContainerStyle={{paddingBottom:250}}
-        showsVerticalScrollIndicator={false}
-        
-        >
-                        <KeyboardAvoidingView behavior="position">
-                    {/* <Text style={ [FONTS.body3,{letterSpacing:2,padding:8}]}>Type of Animal</Text>
-                    {renderTabButtons()}
-                    <LineDivider
-                    lineStyle={{width:"98%",alignSelf:"center"}}/> */}
-                    <Text style={ [FONTS.body3,{letterSpacing:2,padding:8}]}>Gender</Text>
-                    {renderGender()}
-                    <LineDivider
-                    lineStyle={{width:"98%",alignSelf:"center"}}/>
-                    
-                    <Text style={ [FONTS.body3,{letterSpacing:2,padding:8}]}>Species</Text>
-                    
-                        {renderSpecies()}
-                    <LineDivider
-                    lineStyle={{width:"98%",alignSelf:"center"}}/>
-                        </KeyboardAvoidingView>
-                    
+                    <ScrollView>
+                        {
+                            catFilter()
+                        }
+                        {
+                            buttonFilter()
+                        }
                     </ScrollView>
-                    </View>
+                    
                     
                     {/* Apply Button */}
                     <View
                         style={{
-                            position: 'absolute',
-                            bottom: Platform.OS === 'ios' ? (SIZES.height > 700 ? 150 : 75) : 80,
+                            // position: 'absolute',
+                            bottom: Platform.OS === 'ios' ? (SIZES.height > 700 ? 150 : 90) : 80,
                             left: 0,
                             right: 0,
                             height: 110,
-                            paddingHorizontal: SIZES.padding,
-                            paddingVertical: SIZES.radius,
-                            backgroundColor: COLORS.white
+                            // paddingHorizontal: SIZES.padding,
+                            // paddingVertical: SIZES.radius,
+                            // backgroundColor: COLORS.white,
                         }}
                     >
                         <TextButton
+                            icon={images.correct}
+                            border={false}
                             label="Apply Filters"
                             buttonContainerStyle={{
                                 height: 50,
@@ -440,6 +256,23 @@ const FilterModal = ({ isVisible, onClose }) => {
                                 backgroundColor: COLORS.Primary
                             }}
                             onPress={() => setShowFilterModal(false)}
+                        />
+                        <TextButton
+                            icon={images.cancel}
+                            border={false}
+                            label="Remove Filters"
+                            buttonContainerStyle={{
+                                height: 50,
+                                borderRadius: SIZES.base,
+                                backgroundColor: COLORS.red,
+                                margin:10
+                            }}
+                            onPress={() => {
+                                setMed('');
+                                setSpec('');
+                                setVacc('');
+                                setShowFilterModal(false)
+                              }}
                         />
                     </View>
                 </Animated.View>

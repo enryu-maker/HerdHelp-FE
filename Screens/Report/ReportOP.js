@@ -14,6 +14,7 @@ import ReportFilter from './ReportFilter';
 import {ActivityIndicator} from 'react-native-paper'
 import TextButton from '../../Components/TextButton';
 import Generate from './Generate';
+import FilterModal from '../Home/filterModel';
 export default function ReportOP({navigation,route}) {
   const [label,setLabel]=React.useState("")
   const [loading,setLoading]=React.useState(false)
@@ -194,7 +195,9 @@ async function getData(api){
       {renderHeader()} 
       {
         show &&
-      <ReportFilter show={show} setShow={setShow} setSpec={setSpec} setMed={setMed} setVacc={setVacc} vacc={vacc} med={med}/>
+      <FilterModal isVisible={show} onClose={()=>{
+        setShow(false)
+      }} setSpec={setSpec} setMed={setMed} setVacc={setVacc} vacc={vacc} med={med}/>
       }
       {
         loading?(

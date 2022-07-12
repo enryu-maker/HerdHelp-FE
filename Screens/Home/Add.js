@@ -1,4 +1,4 @@
-import { View, Text ,TouchableOpacity,Image,TextInput,FlatList} from 'react-native'
+import { View, Text, TouchableOpacity, Image, TextInput, FlatList } from 'react-native'
 import React from 'react'
 import Header from '../../Components/Header';
 import Card from '../../Components/Card';
@@ -9,41 +9,43 @@ import {
   images,
   SIZES,
 } from '../../Components/Constants';
-import ReportFilter from '../Report/ReportFilter';
-export default function Add({navigation,route}) {
-  const [label,setLabel]=React.useState("")
-  const [loading,setLoading]=React.useState(false)
-  const [cond,setCond]=React.useState(false)
-  const [show,setShow]=React.useState(false)
-  const [showFilter,setShowFilter]=React.useState(false)
-
-  const [data,setData]=React.useState([])
-  const [searched,setSearched] = React.useState("")
+import FilterModal from './filterModel';
+export default function Add({ navigation, route }) {
+  const [label, setLabel] = React.useState("")
+  const [loading, setLoading] = React.useState(false)
+  const [cond, setCond] = React.useState(false)
+  const [show, setShow] = React.useState(false)
+  const [showFilter, setShowFilter] = React.useState(false)
+  const [showFilterModal, setShowFilterModal] = React.useState(false);
+  const [data, setData] = React.useState([])
+  const [searched, setSearched] = React.useState("")
   const [sep, setSpec] = React.useState('')
   const [vacc, setVacc] = React.useState('')
   const [med, setMed] = React.useState('')
-  React.useEffect(()=>{
-    
-    let {label} = route.params
-    let {data} =route.params
-    let {cond} =route.params
+  React.useEffect(() => {
+
+    let { label } = route.params
+    let { data } = route.params
+    let { cond } = route.params
     setCond(cond)
-    if (!loading){
+    if (!loading) {
       setLabel(label)
       setData(data)
     }
-  },[])
+  }, [])
   function filterList(list) {
     return list.filter(
       (listItem) =>
-        listItem.tag_number
+        (listItem.tag_number
           .toString()
           .toLowerCase()
           .includes(searched.toString().toLowerCase()) ||
         listItem.name.toString().toLowerCase().includes(searched.toString().toLowerCase()) ||
         listItem.weight.toString().includes(searched.toString().toLowerCase()) ||
-        listItem.gender.toLowerCase().includes(searched.toLowerCase()) ||
-        (listItem.species.toString().includes(sep.toString()) &&
+        listItem.gender.toLowerCase().includes(searched.toLowerCase())) &&
+        (listItem.species
+          .toString()
+          .includes(sep.toString()) &&
           (listItem.vaccinated
           .toString()
           .includes(vacc.toString()) &&
@@ -66,22 +68,23 @@ export default function Add({navigation,route}) {
             <TouchableOpacity
               style={{
                 marginLeft: 25,
-                backgroundColor:COLORS.Primary,
-                height:40,
-                width:40,
-                justifyContent:"center",
-                borderRadius:40/2,
-                }}
+                backgroundColor: COLORS.Primary,
+                height: 40,
+                width: 40,
+                justifyContent: "center",
+                borderRadius: 40 / 2,
+              }}
               onPress={() => {
                 navigation.goBack();
               }}>
               <Image
                 source={images.back}
-                style={{width: 25, 
-                  height: 25, 
+                style={{
+                  width: 25,
+                  height: 25,
                   tintColor: COLORS.white,
-                  alignSelf:"center",
-                  
+                  alignSelf: "center",
+
                 }}
               />
             </TouchableOpacity>
@@ -94,47 +97,47 @@ export default function Add({navigation,route}) {
         rightComponent={
           <View
             style={{
-              marginTop:20,
-              flexDirection:"row"
+              marginTop: 20,
+              flexDirection: "row"
             }}>
-              
+
             <View
               style={{
-              marginRight: 5,
-              backgroundColor:COLORS.Primary,
-              height:40,
-              width:40,
-              justifyContent:"center",
-              borderRadius:40/2,
-              justifyContent:"center"
+                marginRight: 5,
+                backgroundColor: COLORS.Primary,
+                height: 40,
+                width: 40,
+                justifyContent: "center",
+                borderRadius: 40 / 2,
+                justifyContent: "center"
               }}>
               <Text style={{
-                color:COLORS.white,
+                color: COLORS.white,
                 ...FONTS.h2,
-                alignSelf:"center"
+                alignSelf: "center"
               }}>{data.length}</Text>
             </View>
             <TouchableOpacity
               style={{
-              marginRight: 25,
-              backgroundColor:COLORS.Primary,
-              height:40,
-              width:40,
-              justifyContent:"center",
-              borderRadius:40/2,
-              justifyContent:"center"
+                marginRight: 25,
+                backgroundColor: COLORS.Primary,
+                height: 40,
+                width: 40,
+                justifyContent: "center",
+                borderRadius: 40 / 2,
+                justifyContent: "center"
               }}
-              onPress={()=>{
+              onPress={() => {
                 setShow(!show)
               }}
-              >
-                <Image source={images.search} style={{
-                  height:28,
-                  width:28,
-                  alignSelf:"center",
-                  tintColor:COLORS.white
-                }}/>
-              </TouchableOpacity>
+            >
+              <Image source={images.search} style={{
+                height: 28,
+                width: 28,
+                alignSelf: "center",
+                tintColor: COLORS.white
+              }} />
+            </TouchableOpacity>
           </View>
         }
       />
@@ -154,7 +157,7 @@ export default function Add({navigation,route}) {
           backgroundColor: COLORS.lightGray2,
           bottom: Platform.OS === 'ios' ? null : 5,
           marginTop: Platform.OS === 'ios' ? 20 : null,
-          marginBottom:Platform.OS === 'ios' ? 20 : null,
+          marginBottom: Platform.OS === 'ios' ? 20 : null,
         }}>
         {/* Icon */}
         <Image
@@ -177,59 +180,68 @@ export default function Add({navigation,route}) {
           }}
           placeholder="search..."
           placeholderTextColor={COLORS.gray}
-          onChangeText={text => {setSearched(text)}}
+          onChangeText={text => { setSearched(text) }}
         />
-        <TouchableOpacity 
-        onPress={()=>{
-          setShowFilter(true)
-        }}
-        >
-        <Image
-          source={images.filter}
-          style={{
-            height: 22,
-            width: 22,
-            tintColor: COLORS.Primary,
+        <TouchableOpacity
+          onPress={() => {
+            setShowFilterModal(true)
           }}
-        />
+        >
+          <Image
+            source={images.filter}
+            style={{
+              height: 22,
+              width: 22,
+              tintColor: COLORS.Primary,
+            }}
+          />
         </TouchableOpacity>
       </View>
     );
   }
   return (
-    <View style={{flex: 1, backgroundColor: COLORS.white}}>
-      {renderHeader()} 
+    <View style={{ flex: 1, backgroundColor: COLORS.white }}>
+      {renderHeader()}
       {
-        show?renderSearch():null
+        show ? renderSearch() : null
       }
-  {
-        showFilter &&
-      <ReportFilter show={showFilter} setShow={setShowFilter} setSpec={setSpec} setMed={setMed} setVacc={setVacc} vacc={vacc} med={med}/>
+      {
+        showFilterModal &&
+        <FilterModal
+          isVisible={showFilterModal}
+          onClose={() => setShowFilterModal(false)
+          }
+          vacc={vacc}
+          setMed={setMed}
+          med={med}
+          setVacc={setVacc}
+          setSpec={setSpec}
+        />
       }
       <FlatList
-      data={filterList(data)}
-      keyExtractor={item => `${item.tag_number}`}
-      showsVerticalScrollIndicator={false}
-      renderItem={({ item, index }) => (
-            <Card
-              key={index}
-              Flagged={item?.flagged}
-              cond={cond}
-              Name={item.name}
-              Tagnumber={item.support_tag}
-              Gender={item.gender}
-              Species={item.category}
-              Weight={item.weight}
-              image={item.animal_image==null ? item.image:item.animal_image}
-              weight_kg={item.weight_kg}
-              onPress={() => {
-                navigation.navigate('Info', {
-                  value: item,
-                  cond:cond
-                });
-              }}
-            />
-          )}/>
+        data={filterList(data)}
+        keyExtractor={item => `${item.tag_number}`}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <Card
+            key={index}
+            Flagged={item?.flagged}
+            cond={cond}
+            Name={item.name}
+            Tagnumber={item.support_tag}
+            Gender={item.gender}
+            Species={item.category}
+            Weight={item.weight}
+            image={item.animal_image == null ? item.image : item.animal_image}
+            weight_kg={item.weight_kg}
+            onPress={() => {
+              navigation.navigate('Info', {
+                value: item,
+                cond: cond
+              });
+            }}
+          />
+        )} />
     </View>
   )
 }

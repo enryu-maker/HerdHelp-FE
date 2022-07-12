@@ -36,6 +36,7 @@ export default function Subscription({ navigation, route }) {
   const [msg, setMsg] = React.useState('hello there');
 
 
+
   React.useEffect(() => {
     let {msg} = route.params;
     // setMsg(msg)
@@ -70,7 +71,6 @@ export default function Subscription({ navigation, route }) {
         });
         RNIap.getProducts(itemSkus)
           .then((res) => {
-            console.log(res)
             setProducts(res);
           })
           .catch((e) => {
@@ -80,9 +80,14 @@ export default function Subscription({ navigation, route }) {
       });
     const updateSubscription = RNIap.purchaseUpdatedListener((purchase)=>{
       const receipt = purchase.transactionReceipt;
+      const receiptBodyios = {
+        'receipt-data': purchase.transactionReceipt,
+        'password': '70abed6eca1f43d7ba739bd37015da78' 
+      };
       if (receipt) {
-        alert(receipt)
-        RNIap.finishTransaction(purchase);
+        // const isValid = Platform.OS==="ios"?RNIap.validateReceiptIos(receiptBodyios,true):null
+        // RNIap.validateReceiptIos(receiptBodyios,true)
+        // RNIap.finishTransaction(purchase);
       }
     });
     return () => {
@@ -141,7 +146,7 @@ export default function Subscription({ navigation, route }) {
           paddingBottom:10
         }}>{msg}</Text>:null
       }
-      
+
       {products.length<=0?(
         <ActivityIndicatorExample />
       ) : (
@@ -153,7 +158,7 @@ export default function Subscription({ navigation, route }) {
               key={index}
               label={item.title}
               desc={item.description}
-              price={item.price}
+              price={item.localizedPrice}
               onPress={() => {
                 setLoading(true)
                 RNIap.requestSubscription(item.productId);

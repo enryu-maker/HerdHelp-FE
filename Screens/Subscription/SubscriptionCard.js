@@ -60,7 +60,7 @@ const SubscriptionCard=({
             marginLeft:30,
             color:active?COLORS.white:COLORS.black
         }}>
-           {`${formatter.format( price)} / month`}
+           {price} / month
         </Text>
         <Text style={{
             ...FONTS.h3,

@@ -68,6 +68,8 @@ export const images ={
     coin:require("../assets/Logo/coin.png"),
     gain:require("../assets/Logo/gain.png"),
     x:require("../assets/Logo/x.png"),
+    bred:require("../assets/Logo/bred.png"),
+
 }
 export const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',

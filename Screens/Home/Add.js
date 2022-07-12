@@ -22,6 +22,8 @@ export default function Add({ navigation, route }) {
   const [sep, setSpec] = React.useState('')
   const [vacc, setVacc] = React.useState('')
   const [med, setMed] = React.useState('')
+  const [Bred, setBred] = React.useState('')
+
   React.useEffect(() => {
 
     let { label } = route.params
@@ -51,7 +53,12 @@ export default function Add({ navigation, route }) {
           .includes(vacc.toString()) &&
           listItem.medicated
           .toString()
-          .includes(med.toString())))
+          .includes(med.toString())
+          ) &&
+          listItem.bred
+          .toString()
+          .includes(Bred.toString())
+          )
     );
   }
   function renderHeader() {
@@ -216,6 +223,8 @@ export default function Add({ navigation, route }) {
           med={med}
           setVacc={setVacc}
           setSpec={setSpec}
+          bred={Bred}
+          setBred={setBred}
         />
       }
       <FlatList

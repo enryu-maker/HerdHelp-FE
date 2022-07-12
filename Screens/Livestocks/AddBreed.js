@@ -9,11 +9,11 @@ import {
   Modal,
 } from 'react-native';
 
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import Header from '../../Components/Header';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Dropdown} from 'sharingan-rn-modal-dropdown';
-import {useDispatch, useSelector} from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Dropdown } from 'sharingan-rn-modal-dropdown';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   COLORS,
   SIZES,
@@ -28,12 +28,14 @@ import FormInput from '../../Components/FormInput';
 import TextButton from '../../Components/TextButton';
 import FormDateInput from '../../Components/FormDateInput';
 import PickerType from './PickerType';
-import {showMessage} from 'react-native-flash-message';
-import {baseURL} from '../../helpers/helpers';
-import {Username} from '../Nav/Homenav';
+import { showMessage } from 'react-native-flash-message';
+import { baseURL } from '../../helpers/helpers';
+import { Username } from '../Nav/Homenav';
 import { getHerds, getTags } from '../../Store/actions';
-const Addanimals = ({navigation, route}) => {
+const Addanimals = ({ navigation, route }) => {
   const [bred, setBred] = useState(false);
+  const [breddob, setbredDob] = useState('');
+  const [breddobt, setbredDobt] = useState('');
   const [valueMS, setValueMS] = useState('');
   const [valueBS, setValueBS] = useState('');
   const [age, setAge] = useState(0);
@@ -100,17 +102,17 @@ const Addanimals = ({navigation, route}) => {
             width: 100,
             borderRadius: 100 / 2,
             alignSelf: 'center',
-            borderColor:COLORS.black,
+            borderColor: COLORS.black,
           }}>
           <Image
-            source={{uri: pic}}
+            source={{ uri: pic }}
             style={{
               width: 100,
               height: 100,
               borderRadius: 100 / 2,
               alignSelf: 'center',
               borderWidth: 2,
-              borderColor:COLORS.black
+              borderColor: COLORS.black
             }}
           />
           <View
@@ -146,7 +148,7 @@ const Addanimals = ({navigation, route}) => {
             borderColor: COLORS.black,
           }}>
           <Image
-            source={{uri: pic==''?`https://ui-avatars.com/api/?name=${username[0].username}`:pic}}
+            source={{ uri: pic == '' ? `https://ui-avatars.com/api/?name=${username[0].username}` : pic }}
             resizeMethod="auto"
             resizeMode="contain"
             style={{
@@ -155,7 +157,7 @@ const Addanimals = ({navigation, route}) => {
               borderRadius: 100 / 2,
               alignSelf: 'center',
               borderWidth: 2,
-              borderColor:COLORS.black
+              borderColor: COLORS.black
 
             }}
           />
@@ -281,24 +283,24 @@ const Addanimals = ({navigation, route}) => {
               },
             });
           }
-          else{
-          setLoading(false);
-          console.log(response);
-          showMessage({
-            message: `${response.msg}`,
-            type: 'default',
-            backgroundColor: COLORS.red,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: 'danger',
-            style: {
-              justifyContent: 'center',
-            },
-          });
+          else {
+            setLoading(false);
+            console.log(response);
+            showMessage({
+              message: `${response.msg}`,
+              type: 'default',
+              backgroundColor: COLORS.red,
+              color: COLORS.white,
+              titleStyle: {
+                alignSelf: 'center',
+                ...FONTS.h3,
+              },
+              animationDuration: 250,
+              icon: 'danger',
+              style: {
+                justifyContent: 'center',
+              },
+            });
           }
         })
         .catch(err => {
@@ -341,7 +343,7 @@ const Addanimals = ({navigation, route}) => {
   }
   React.useEffect(() => {
     setId(global.id);
-  },[]);
+  }, []);
   function renderHeader() {
     return (
       <Header
@@ -390,18 +392,18 @@ const Addanimals = ({navigation, route}) => {
           borderRadius: SIZES.radius,
           backgroundColor: COLORS.lightGray2,
         }}>
-          {
-            showc &&
-          
-        <PickerType
-          show={showc}
-          setshow={setshowc}
-          setPic={setPic}
-          setPicdata={setPicdata}
-          setprofile_pic={setprofile_pic}
-          setshowc={setshowu}
-        />
-          }
+        {
+          showc &&
+
+          <PickerType
+            show={showc}
+            setshow={setshowc}
+            setPic={setPic}
+            setPicdata={setPicdata}
+            setprofile_pic={setprofile_pic}
+            setshowc={setshowu}
+          />
+        }
         <View
           style={{
             marginTop: 6,
@@ -418,10 +420,10 @@ const Addanimals = ({navigation, route}) => {
 
         <FormInput
           prependComponent={
-            <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
               <Image
                 source={images.tag}
-                style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -434,14 +436,14 @@ const Addanimals = ({navigation, route}) => {
           inputContainerStyle={{
             backgroundColor: COLORS.white,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <FormInput
           prependComponent={
-            <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
               <Image
                 source={images.name}
-                style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -457,7 +459,7 @@ const Addanimals = ({navigation, route}) => {
           containerStyle={{
             marginTop: SIZES.radius,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <Dropdown
           label="Species"
@@ -465,10 +467,10 @@ const Addanimals = ({navigation, route}) => {
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
           data={animals}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
           selectedItemTextStyle={
             (FONTS.body3,
-            {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
+              { color: COLORS.white, letterSpacing: 2, alignSelf: 'center' })
           }
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
@@ -490,7 +492,7 @@ const Addanimals = ({navigation, route}) => {
             alignSelf: 'center',
             marginTop: SIZES.height > 800 ? SIZES.base : 10,
           }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
+          itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
         <Dropdown
           label="Gender"
@@ -498,10 +500,10 @@ const Addanimals = ({navigation, route}) => {
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
           data={genderdata}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
           selectedItemTextStyle={
             (FONTS.body3,
-            {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
+              { color: COLORS.white, letterSpacing: 2, alignSelf: 'center' })
           }
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
@@ -523,7 +525,7 @@ const Addanimals = ({navigation, route}) => {
             alignSelf: 'center',
             marginTop: SIZES.height > 800 ? SIZES.base : 10,
           }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
+          itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
         <Dropdown
           label="Purchased?"
@@ -531,10 +533,10 @@ const Addanimals = ({navigation, route}) => {
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
           data={Bought}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
           selectedItemTextStyle={
             (FONTS.body3,
-            {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
+              { color: COLORS.white, letterSpacing: 2, alignSelf: 'center' })
           }
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
@@ -556,7 +558,7 @@ const Addanimals = ({navigation, route}) => {
             alignSelf: 'center',
             marginTop: SIZES.height > 800 ? SIZES.base : 10,
           }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
+          itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
         {bought != true ? (
           <View>
@@ -575,7 +577,7 @@ const Addanimals = ({navigation, route}) => {
                 width: '88%',
                 alignSelf: 'center',
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
@@ -587,7 +589,7 @@ const Addanimals = ({navigation, route}) => {
                   }}>
                   <Image
                     source={unit === true ? images.kg : images.scale}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -596,7 +598,7 @@ const Addanimals = ({navigation, route}) => {
               value={weight}
               keyboardType="numeric"
               onChange={(value) => {
-                value=parseInt(value.replace(/,/g,""))
+                value = parseInt(value.replace(/,/g, ""))
                 setWeight(value);
               }}
               containerStyle={{
@@ -605,73 +607,73 @@ const Addanimals = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <View style={{
-              flexDirection:"row",
-              justifyContent:"space-evenly"
+              flexDirection: "row",
+              justifyContent: "space-evenly"
             }}>
-            <FormInput
-              returnKeyType={'next'}
-              label="30 Day"
-              value={weight30}
-              keyboardType="numeric"
-              onChange={(value) => {
-                value=parseInt(value.replace(/,/g,""))
-                setWeight30(value);
-              }}
-              containerStyle={{
-                marginTop: SIZES.radius,
-                width:80
-              }}
-              inputContainerStyle={{
-                backgroundColor: COLORS.white,
-              }}
-              inputStyle={{fontSize: 16}}
-            />
-             <FormInput
-              returnKeyType={'next'}
-              label="60 Day"
-              value={weight60}
-              keyboardType="numeric"
-              onChange={(value) => {
-                value=parseInt(value.replace(/,/g,""))
-                setWeight60(value);
-              }}
-              containerStyle={{
-                marginTop: SIZES.radius,
-                width:80
-              }}
-              inputContainerStyle={{
-                backgroundColor: COLORS.white,
-              }}
-              inputStyle={{fontSize: 16}}
-            />
-             <FormInput
-              returnKeyType={'next'}
-              label="90 Day"
-              value={weight90}
-              keyboardType="numeric"
-              onChange={(value) => {
-                value=parseInt(value.replace(/,/g,""))
-                setWeight90(value);
-              }}
-              containerStyle={{
-                marginTop: SIZES.radius,
-                width:80
-              }}
-              inputContainerStyle={{
-                backgroundColor: COLORS.white,
-              }}
-              inputStyle={{fontSize: 16}}
-            />
+              <FormInput
+                returnKeyType={'next'}
+                label="30 Day"
+                value={weight30}
+                keyboardType="numeric"
+                onChange={(value) => {
+                  value = parseInt(value.replace(/,/g, ""))
+                  setWeight30(value);
+                }}
+                containerStyle={{
+                  marginTop: SIZES.radius,
+                  width: 80
+                }}
+                inputContainerStyle={{
+                  backgroundColor: COLORS.white,
+                }}
+                inputStyle={{ fontSize: 16 }}
+              />
+              <FormInput
+                returnKeyType={'next'}
+                label="60 Day"
+                value={weight60}
+                keyboardType="numeric"
+                onChange={(value) => {
+                  value = parseInt(value.replace(/,/g, ""))
+                  setWeight60(value);
+                }}
+                containerStyle={{
+                  marginTop: SIZES.radius,
+                  width: 80
+                }}
+                inputContainerStyle={{
+                  backgroundColor: COLORS.white,
+                }}
+                inputStyle={{ fontSize: 16 }}
+              />
+              <FormInput
+                returnKeyType={'next'}
+                label="90 Day"
+                value={weight90}
+                keyboardType="numeric"
+                onChange={(value) => {
+                  value = parseInt(value.replace(/,/g, ""))
+                  setWeight90(value);
+                }}
+                containerStyle={{
+                  marginTop: SIZES.radius,
+                  width: 80
+                }}
+                inputContainerStyle={{
+                  backgroundColor: COLORS.white,
+                }}
+                inputStyle={{ fontSize: 16 }}
+              />
             </View>
             <FormInput
               prependComponent={
-                <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+                <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
                   <Image
                     source={images.tag}
-                    style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                    style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -687,14 +689,14 @@ const Addanimals = ({navigation, route}) => {
               containerStyle={{
                 marginTop: SIZES.radius,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
-                <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+                <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
                   <Image
                     source={images.tag}
-                    style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                    style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -710,18 +712,18 @@ const Addanimals = ({navigation, route}) => {
               containerStyle={{
                 marginTop: SIZES.radius,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
-        
-            
+
+
             <Dropdown
               label="Vaccinated"
               dropdownIcon={images.down}
               dropdownIconSize={22}
               borderRadius={SIZES.radius}
               data={Bred}
-              textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-              selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
+              textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+              selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
               selectedItemViewStyle={{
                 backgroundColor: COLORS.Primary,
                 margin: 5,
@@ -764,7 +766,7 @@ const Addanimals = ({navigation, route}) => {
                   width: '88%',
                   alignSelf: 'center',
                 }}
-                inputStyle={{marginLeft: 20, fontSize: 16}}
+                inputStyle={{ marginLeft: 20, fontSize: 16 }}
               />
             ) : (
               <View></View>
@@ -780,7 +782,7 @@ const Addanimals = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.dog}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -795,7 +797,7 @@ const Addanimals = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               returnKeyType={'next'}
@@ -808,7 +810,7 @@ const Addanimals = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.name}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -823,7 +825,7 @@ const Addanimals = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
           </View>
         ) : (
@@ -839,7 +841,7 @@ const Addanimals = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.coin}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -847,8 +849,8 @@ const Addanimals = ({navigation, route}) => {
               value={price}
               keyboardType="numeric"
               onChange={value => {
-                value = value.replace(/,/g,"")
-                value=parseInt(value.replace(/$/g,""))
+                value = value.replace(/,/g, "")
+                value = parseInt(value.replace(/$/g, ""))
                 setPrice(value);
               }}
               containerStyle={{
@@ -857,7 +859,7 @@ const Addanimals = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               returnKeyType={'next'}
@@ -870,7 +872,7 @@ const Addanimals = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.age}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -885,7 +887,7 @@ const Addanimals = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               returnKeyType={'next'}
@@ -898,7 +900,7 @@ const Addanimals = ({navigation, route}) => {
                   }}>
                   <Image
                     source={unit == true ? images.kg : images.scale}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -906,7 +908,7 @@ const Addanimals = ({navigation, route}) => {
               value={weight}
               keyboardType="numeric"
               onChange={value => {
-                value = parseInt(value.replace(/,/g,""))
+                value = parseInt(value.replace(/,/g, ""))
                 setWeight(value);
               }}
               containerStyle={{
@@ -915,17 +917,18 @@ const Addanimals = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             {valueBS != 'Male' ? (
+              <>
               <Dropdown
                 label="Bred"
                 dropdownIcon={images.down}
                 dropdownIconSize={22}
                 borderRadius={SIZES.radius}
                 data={Bred}
-                textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-                selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
+                textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+                selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
                 selectedItemViewStyle={{
                   backgroundColor: COLORS.Primary,
                   margin: 5,
@@ -955,17 +958,40 @@ const Addanimals = ({navigation, route}) => {
                   borderRadius: SIZES.radius,
                 }}
               />
+              {
+                bred?
+              <FormDateInput
+              label="Date of Bred"
+              placeholder="YYYY-MM-DD"
+              value={breddob}
+              setDate={setbredDob}
+              formatDate={setbredDobt}
+              containerStyle={{
+                marginTop: SIZES.radius,
+                // marginLeft:20
+              }}
+              inputContainerStyle={{
+                backgroundColor: COLORS.white,
+                width: '88%',
+                alignSelf: 'center',
+              }}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
+            />:null
+  }
+            </>
+              
             ) : (
               <View></View>
             )}
+            
             <Dropdown
               label="Vaccinated"
               dropdownIcon={images.down}
               dropdownIconSize={22}
               borderRadius={SIZES.radius}
               data={Bred}
-              textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-              selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
+              textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+              selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
               selectedItemViewStyle={{
                 backgroundColor: COLORS.Primary,
                 margin: 5,
@@ -975,7 +1001,7 @@ const Addanimals = ({navigation, route}) => {
               // required
               disableSelectionTick
               animationIn="bounceInLeft"
-          animationOut="bounceOutLeft"
+              animationOut="bounceOutLeft"
               primaryColor={COLORS.Primary}
               avatarSize={28}
               value={vaccinated}
@@ -1010,7 +1036,7 @@ const Addanimals = ({navigation, route}) => {
                   width: '88%',
                   alignSelf: 'center',
                 }}
-                inputStyle={{marginLeft: 20, fontSize: 16}}
+                inputStyle={{ marginLeft: 20, fontSize: 16 }}
               />
             ) : (
               <View></View>
@@ -1025,7 +1051,7 @@ const Addanimals = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.dog}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -1041,7 +1067,7 @@ const Addanimals = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
@@ -1053,7 +1079,7 @@ const Addanimals = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.name}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -1069,7 +1095,7 @@ const Addanimals = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
           </View>
         )}
@@ -1103,11 +1129,11 @@ const Addanimals = ({navigation, route}) => {
         icon={images.add}
         buttonContainerStyle={{
           marginTop: SIZES.padding,
-            marginHorizontal: SIZES.padding,
-            marginBottom: SIZES.padding,
-            borderTopLeftRadius: SIZES.radius,
-            borderTopRightRadius: SIZES.radius,
-            backgroundColor: COLORS.Primary,
+          marginHorizontal: SIZES.padding,
+          marginBottom: SIZES.padding,
+          borderTopLeftRadius: SIZES.radius,
+          borderTopRightRadius: SIZES.radius,
+          backgroundColor: COLORS.Primary,
         }}
         label={'Add Animal'}
         loading={loading}

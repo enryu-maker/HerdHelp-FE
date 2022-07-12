@@ -75,6 +75,12 @@ export default function AddModel({navigation}) {
         'image':images.gain,
         'nav':'weight'
     },
+    {
+      'id':4,
+      'label':'Update Bred',
+      'image':images.bred,
+      'nav':'Bred'
+  },
   ]
   function renderButtons() {
     return (

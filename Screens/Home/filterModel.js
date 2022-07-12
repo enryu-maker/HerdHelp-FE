@@ -42,6 +42,8 @@ const FilterModal = ({
     setMed,
     vacc,
     med, 
+    bred,
+    setBred
 }) => {
 
     const modalAnimatedValue = React.useRef(new Animated.Value(0)).current
@@ -182,6 +184,44 @@ const FilterModal = ({
           </View>
         )
       }
+      function bredButton(){
+        return(
+          <View
+            style={{
+              marginTop:15,
+              paddingVertical: SIZES.padding,
+              paddingHorizontal: SIZES.radius,
+              borderRadius: SIZES.radius,
+              backgroundColor: COLORS.lightGray2,
+            }}>
+          <View style={{
+            flex:1,
+            flexDirection:"row",
+            justifyContent:"space-evenly",
+            marginTop:10
+          }}>
+          <TouchableOpacity
+          style={{
+            backgroundColor:bred?COLORS.Primary:COLORS.transparentPrimary,
+            height:50,
+            width:120,
+            borderRadius:SIZES.radius,
+            justifyContent:"center",
+            alignItems:"center"
+          }}
+          onPress={()=>{
+            setBred(!bred)
+          }}
+          >
+            <Text style={{
+              ...FONTS.h3,
+              color:bred?COLORS.white:COLORS.black
+            }}>Bred</Text>
+          </TouchableOpacity>
+          </View>
+          </View>
+        )
+      }
     return (
         <Modal
             animationType="fade"
@@ -230,6 +270,9 @@ const FilterModal = ({
                         {
                             buttonFilter()
                         }
+                        {
+                          bredButton()
+                        }
                     </ScrollView>
                     
                     
@@ -237,7 +280,7 @@ const FilterModal = ({
                     <View
                         style={{
                             // position: 'absolute',
-                            bottom: Platform.OS === 'ios' ? (SIZES.height > 700 ? 150 : 90) : 80,
+                            bottom: Platform.OS === 'ios' ? (SIZES.height > 700 ? 180 : 90) : 80,
                             left: 0,
                             right: 0,
                             height: 110,
@@ -271,6 +314,8 @@ const FilterModal = ({
                                 setMed('');
                                 setSpec('');
                                 setVacc('');
+                                setBred('');
+
                                 setShowFilterModal(false)
                               }}
                         />

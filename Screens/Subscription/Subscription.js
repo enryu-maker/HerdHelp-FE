@@ -34,15 +34,92 @@ export default function Subscription({ navigation, route }) {
   const [Loading, setLoading] = React.useState(false);
   const [cond, setCond] = React.useState(false);
   const [msg, setMsg] = React.useState('hello there');
+  const [productID, setProductID] = React.useState('');
 
-
+  async function sendReceipt({
+    tier,
+    receipt,
+    purchase
+  }) {
+    setLoading(true)
+      try{
+        await axiosIns.post(`subscriptions/activate/`,{
+          'tier': tier,
+          'reciept':receipt
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then((Response)=>{
+          if (Response.status==200){
+            dispatch(getHerds())
+            setLoading(false)
+            showMessage({
+              message: "Status Updated",
+              type: "default",
+              backgroundColor: COLORS.Primary,
+              color:COLORS.white,
+              titleStyle:{
+                alignSelf:"center",
+                ...FONTS.h3
+              },
+              animationDuration:250,
+              icon:"success",
+              style:{
+                justifyContent:"center"
+              }
+            });
+            clear()
+            RNIap.finishTransaction(purchase);
+          }
+          else{
+          setLoading(false)
+          showMessage({
+            message: `Animal with tag ${tag} not found here`,
+            type: "default",
+            backgroundColor: COLORS.red,
+            color:COLORS.white,
+            titleStyle:{
+              alignSelf:"center",
+              ...FONTS.h3
+            },
+            animationDuration:250,
+            icon:"danger",
+            style:{
+              justifyContent:"center"
+            }
+          });
+          }
+        })
+      }catch(err){
+        console.log(err)
+        setLoading(false)
+        showMessage({
+          // message: `${err.response.data.msg}`,
+          type: "default",
+          backgroundColor: COLORS.red,
+          color:COLORS.white,
+          titleStyle:{
+            alignSelf:"center",
+            ...FONTS.h3
+          },
+          animationDuration:250,
+          icon:"danger",
+          style:{
+            justifyContent:"center"
+          }
+        });
+      }
+    }
+  
+  // https://api-nerdtech.herdhelp.com/subscriptions/activate/
 
   React.useEffect(() => {
-    let {msg} = route.params;
+    let { msg } = route.params;
     // setMsg(msg)
-    let {cond} = route.params;
+    let { cond } = route.params;
     setCond(cond)
-
+    
     RNIap.initConnection()
       .catch(() => {
         showMessage({
@@ -78,17 +155,22 @@ export default function Subscription({ navigation, route }) {
             console.log("Something went wrong");
           });
       });
-    const updateSubscription = RNIap.purchaseUpdatedListener((purchase)=>{
+    const updateSubscription = RNIap.purchaseUpdatedListener( (purchase) => {
       const receipt = purchase.transactionReceipt;
       const receiptBodyios = {
         'receipt-data': purchase.transactionReceipt,
-        'password': '70abed6eca1f43d7ba739bd37015da78' 
+        'password': '70abed6eca1f43d7ba739bd37015da78'
       };
-      if (receipt) {
-        // const isValid = Platform.OS==="ios"?RNIap.validateReceiptIos(receiptBodyios,true):null
-        // RNIap.validateReceiptIos(receiptBodyios,true)
-        // RNIap.finishTransaction(purchase);
-      }
+       const results =  Platform.OS==="ios"? 
+         RNIap.validateReceiptIos(receiptBodyios,true):
+         RNIap.validateReceiptAndroid(
+          purchase.packageNameAndroid,
+          purchase.productId,
+          purchase.purchaseToken,
+          "verify@pc-api-4637307351252359025-733.iam.gserviceaccount.com",
+          true,
+          )
+      console.log("ResultsInfo ==> ",results)
     });
     return () => {
       updateSubscription.remove();
@@ -102,7 +184,7 @@ export default function Subscription({ navigation, route }) {
       }}
     >
       <Header
-      leftComponent={
+        leftComponent={
           <View
             style={{
               justifyContent: "center",
@@ -139,15 +221,14 @@ export default function Subscription({ navigation, route }) {
         title={'Subscription'}
       />
       {
-        cond?<Text style={{
-          color:COLORS.red,
+        cond ? <Text style={{
+          color: COLORS.red,
           ...FONTS.h3,
-          alignSelf:"center",
-          paddingBottom:10
-        }}>{msg}</Text>:null
+          alignSelf: "center",
+          paddingBottom: 10
+        }}>{msg}</Text> : null
       }
-
-      {products.length<=0?(
+      {products.length <= 0 ? (
         <ActivityIndicatorExample />
       ) : (
         <FlatList
@@ -161,6 +242,7 @@ export default function Subscription({ navigation, route }) {
               price={item.localizedPrice}
               onPress={() => {
                 setLoading(true)
+                setProductID(item.title)
                 RNIap.requestSubscription(item.productId);
                 setLoading(false)
               }}
@@ -169,7 +251,7 @@ export default function Subscription({ navigation, route }) {
         />
       )}
       {
-        Loading?<ActivityIndicatorExample />:null
+        Loading ? <ActivityIndicatorExample /> : null
       }
     </View>
   );

@@ -69,6 +69,8 @@ export const images ={
     gain:require("../assets/Logo/gain.png"),
     x:require("../assets/Logo/x.png"),
     bred:require("../assets/Logo/bred.png"),
+    flag:require("../assets/Logo/flag.png"),
+
 
 }
 export const formatter = new Intl.NumberFormat('en-US', {

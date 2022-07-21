@@ -29,6 +29,7 @@ React.useEffect(()=>{
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView
+      
       showsVerticalScrollIndicator={false}
         {...props}
         style={{borderBottomWidth: 0.8, borderBottomColor: COLORS.Primary}}>
@@ -194,16 +195,17 @@ React.useEffect(()=>{
           />
         </Drawer.Section>
         <Drawer.Section> 
-          <SafeAreaView style={{
+          {/* <SafeAreaView style={{
             flex:1
-          }}>
+          }}> */}
         <Text style={[FONTS.h3, {letterSpacing: 2, color: COLORS.white,alignSelf:"center"}]}>Herds OverView</Text>
+        <View>
         <FlatList
         style={{
           alignSelf:"center",
           margin:5
         }}
-        disableVirtualization={true}
+        disableVirtualization={false}
         data={overView?.animals_overview}
       numColumns={2}
         showsVerticalScrollIndicator={false}
@@ -240,9 +242,11 @@ React.useEffect(()=>{
         </Text>
 
         </View>
+        
       )}
         />
-        </SafeAreaView>
+        </View>
+        {/* </SafeAreaView> */}
         
       </Drawer.Section> 
       </DrawerContentScrollView>

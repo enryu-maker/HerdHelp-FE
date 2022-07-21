@@ -156,11 +156,13 @@ export default function Subscription({ navigation, route }) {
           });
       });
     const updateSubscription = RNIap.purchaseUpdatedListener( (purchase) => {
+      console.log(purchase)
       const receipt = purchase.transactionReceipt;
       const receiptBodyios = {
         'receipt-data': purchase.transactionReceipt,
         'password': '70abed6eca1f43d7ba739bd37015da78'
       };
+      sendReceipt(productID,receipt)
        const results =  Platform.OS==="ios"? 
          RNIap.validateReceiptIos(receiptBodyios,true):
          RNIap.validateReceiptAndroid(
@@ -170,7 +172,6 @@ export default function Subscription({ navigation, route }) {
           "verify@pc-api-4637307351252359025-733.iam.gserviceaccount.com",
           true,
           )
-      console.log("ResultsInfo ==> ",results)
     });
     return () => {
       updateSubscription.remove();

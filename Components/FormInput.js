@@ -26,7 +26,8 @@ const FormInput = ({
     keytype="",
     onPressIn,
     returnKeyType,
-    col=COLORS.red
+    col=COLORS.red,
+    multiline
 }) => {
     return (
         <View style={{ ...containerStyle }}>
@@ -68,6 +69,7 @@ const FormInput = ({
                     onChangeText={(text) => onChange(text)}
                     returnKeyType={returnKeyType}
                     onPressIn={onPressIn}
+                    multiline={multiline}
                 />
                 {
                     appendComponent

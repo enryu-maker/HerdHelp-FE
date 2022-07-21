@@ -81,6 +81,12 @@ export default function AddModel({navigation}) {
       'image':images.bred,
       'nav':'Bred'
   },
+  {
+    'id':5,
+    'label':'Flag Animal',
+    'image':images.flag,
+    'nav':'Flag'
+},
   ]
   function renderButtons() {
     return (

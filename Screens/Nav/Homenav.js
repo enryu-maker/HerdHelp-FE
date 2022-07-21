@@ -31,6 +31,7 @@ import Babies from '../../Components/Babies';
 import axiosIns from '../../helpers/helpers';
 import EditAnimal from '../Edit/editAnimal';
 import Subscription from '../Subscription/Subscription';
+import Flag from '../Bred/Flag'
 // import Payment from '../Subscription/Payment';
 // import SubDetails from '../Subscription/SubDetails';
 // import Confirm from '../Subscription/Confirm';
@@ -173,6 +174,8 @@ fetchprofile = async () => {
           <Stack.Screen name='Address' component={BillingAdd}/> */}
           <Stack.Screen name='ParentPage' component={ParentPage}/>
           <Stack.Screen name='Bred' component={Bred}/>
+          <Stack.Screen name='Flag' component={Flag}/>
+
 
         </Stack.Navigator>
       </>

@@ -61,6 +61,7 @@ export default function Add({ navigation, route }) {
           )
     );
   }
+
   function renderHeader() {
     return (
       <Header
@@ -229,7 +230,7 @@ export default function Add({ navigation, route }) {
       }
       <FlatList
         data={filterList(data)}
-        keyExtractor={item => `${item.tag_number}`}
+        keyExtractor={item => `${item.support_tag}`}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <Card

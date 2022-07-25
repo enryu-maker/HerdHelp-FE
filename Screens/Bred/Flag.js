@@ -59,7 +59,7 @@ export default function Flag({
             dispatch(getHerds())
             setLoading(false)
             showMessage({
-              message: "FLag Updated",
+              message: "FLag Updated sucessfully",
               type: "default",
               backgroundColor: COLORS.Primary,
               color: COLORS.white,
@@ -302,7 +302,7 @@ export default function Flag({
           borderTopRightRadius: SIZES.radius,
           backgroundColor: Flaggedesp === "" ? COLORS.transparentPrimary : COLORS.Primary,
         }}
-        label={'Update Bred'}
+        label={'Update Flag'}
         disabled={Flaggedesp === "" ? true : false}
       />
     </View>

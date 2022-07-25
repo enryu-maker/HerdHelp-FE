@@ -5,15 +5,17 @@ import { COLORS, images, SIZES, FONTS } from '../../Components/Constants';
 import { showMessage } from "react-native-flash-message";
 import { useDispatch, useSelector } from 'react-redux';
 import { getHerds } from '../../Store/actions';
-import { Dropdown } from 'sharingan-rn-modal-dropdown';
+import { Dropdown ,GroupDropdown, MultiselectDropdown } from 'sharingan-rn-modal-dropdown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextButton from '../../Components/TextButton';
 import FormDateInput from '../../Components/FormDateInput';
 import axiosIns from '../../helpers/helpers';
+import axios from 'axios';
 export default function Bred({
   navigation
 }) {
-  const [tag, setTag] = React.useState('');
+  const [tag, setTag] = React.useState([]);
+  const [ftag, setfTag] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [breddob, setbredDob] = React.useState('');
   const [breddobt, setbredDobt] = React.useState('');
@@ -47,24 +49,35 @@ export default function Bred({
     setbredDob("")
     setTag([])
   }
+  // console.log(tag)
+   function axiosRequest(tag){
+    var ls = []
+    tag.map((a,index)=>{
+      const v =   `animals/${id}${species}${a}`
+      ls.push(v)
+    })
+    return(ls)
+  }
+
   async function updateBred() {
+    var final_list = axiosRequest(tag)
     if (tag != "", breddobt != '') {
       setLoading(true)
       try {
-        await axiosIns.patch(`animals/${id}${species}${tag}`, {
+        await Promise.all(final_list.map((endpoint) => axiosIns.patch(endpoint, {
           'bred': true,
           'bred_date': breddobt
         }, {
           headers: {
             'Content-Type': 'application/json',
           },
-        }).then((Response) => {
+        }))).then(axios.spread((Response) => {
           if (Response.status == 200) {
             dispatch(getHerds())
             setLoading(false)
             showMessage({
-              message: "Status Updated",
-              type: "default",
+              message: "Bred added sucessfully",
+              type: "success",
               backgroundColor: COLORS.Primary,
               color: COLORS.white,
               titleStyle: {
@@ -83,7 +96,7 @@ export default function Bred({
             setLoading(false)
             showMessage({
               message: `Animal with tag ${tag} not found here`,
-              type: "default",
+              type: "danger",
               backgroundColor: COLORS.red,
               color: COLORS.white,
               titleStyle: {
@@ -97,13 +110,13 @@ export default function Bred({
               }
             });
           }
-        })
+        }))
       } catch (err) {
         console.log(err)
         setLoading(false)
         showMessage({
           // message: `${err.response.data.msg}`,
-          type: "default",
+          type: "danger",
           backgroundColor: COLORS.red,
           color: COLORS.white,
           titleStyle: {
@@ -122,7 +135,7 @@ export default function Bred({
       setLoading(false)
       showMessage({
         message: `Please Enter valid Data`,
-        type: "default",
+        type: "danger",
         backgroundColor: COLORS.red,
         color: COLORS.white,
         titleStyle: {
@@ -211,7 +224,7 @@ export default function Bred({
           }}
           itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
-        <Dropdown
+        <MultiselectDropdown
           label="Tags"
           dropdownIcon={images.down}
           dropdownIconSize={22}
@@ -225,6 +238,7 @@ export default function Bred({
             borderRadius: SIZES.radius,
           }}
           // enableAvatar
+          enableSearch
           animationIn="bounceInLeft"
           animationOut="bounceOutLeft"
           disableSelectionTick
@@ -232,7 +246,7 @@ export default function Bred({
           avatarSize={28}
           value={tag}
           onChange={(value) => {
-            setTag(value);
+            setTag(value)
           }}
           mainContainerStyle={{
             borderRadius: SIZES.padding,

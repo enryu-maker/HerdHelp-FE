@@ -60,6 +60,8 @@ const Addanimals = ({ navigation, route }) => {
   const [registration, setRegistration] = React.useState('');
   const [showc, setshowc] = React.useState(false);
   const [showu, setshowu] = React.useState(false);
+  const [lease, setlease] = React.useState(false);
+
   const [pic, setPic] = React.useState('');
   const [profile_pic, setprofile_pic] = React.useState([]);
   const [picdata, setPicdata] = React.useState([]);
@@ -199,6 +201,7 @@ const Addanimals = ({ navigation, route }) => {
     formData.append('gender', valueBS);
     formData.append('species', valueMS);
     formData.append('birth_date', dobt);
+    formData.append('leased', lease);
     formData.append('mother_supporttag', mother != '' ? mother : '');
     formData.append(
       'mother_tagnumber',
@@ -562,6 +565,40 @@ const Addanimals = ({ navigation, route }) => {
         />
         {bought != true ? (
           <View>
+            <Dropdown
+              label="Leased?"
+              dropdownIcon={images.down}
+              dropdownIconSize={22}
+              borderRadius={SIZES.radius}
+              data={Bred}
+              textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+              selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
+              selectedItemViewStyle={{
+                backgroundColor: COLORS.Primary,
+                margin: 5,
+                borderRadius: SIZES.radius,
+              }}
+              disableSelectionTick
+              animationIn="bounceInLeft"
+              animationOut="bounceOutLeft"
+              primaryColor={COLORS.Primary}
+              avatarSize={28}
+              value={lease}
+              onChange={value => {
+                setlease(value);
+              }}
+              mainContainerStyle={{
+                borderRadius: SIZES.padding,
+                width: '88%',
+                alignSelf: 'center',
+                marginTop: SIZES.height > 800 ? SIZES.base : 10,
+              }}
+              itemContainerStyle={{
+                backgroundColor: COLORS.white,
+                margin: 5,
+                borderRadius: SIZES.radius,
+              }}
+            />
             <FormDateInput
               label="Date of Birth"
               placeholder="YYYY-MM-DD"

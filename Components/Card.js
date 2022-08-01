@@ -14,6 +14,7 @@ const Card = ({
   weight_kg,
   Flagged,
   navigation,
+  birth
 }) => {
   const unit = JSON.parse(useSelector(state=>state.Reducers.unit))
   return (
@@ -87,7 +88,8 @@ const Card = ({
           justifyContent: 'space-evenly',
           position:"absolute",
           marginLeft:120,
-          marginTop:15
+          // marginTop:15
+          alignSelf:"center"
         }}>
         <Text style={[FONTS.h4, {letterSpacing: 3,padding:3}]}>{Tagnumber}</Text>
         <Text style={[FONTS.h4, {letterSpacing: 3, fontWeight: '700',padding:3}]}>
@@ -95,6 +97,9 @@ const Card = ({
         </Text>
         <Text style={[FONTS.h4, {letterSpacing: 3,padding:3}]}>
           {unit ? `${Weight} lbs` : `${weight_kg} kg`}
+        </Text>
+        <Text style={[FONTS.h4, {letterSpacing: 3,padding:3}]}>
+          {!birth ? `Birthed` : `Purchased`}
         </Text>
       </View>
       <View

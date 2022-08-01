@@ -244,6 +244,7 @@ export default function Add({ navigation, route }) {
             Weight={item.weight}
             image={item.animal_image == null ? item.image : item.animal_image}
             weight_kg={item.weight_kg}
+            birth={item.bought}
             onPress={() => {
               navigation.navigate('Info', {
                 value: item,

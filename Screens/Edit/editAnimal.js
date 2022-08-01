@@ -23,6 +23,7 @@ import {showMessage, hideMessage} from 'react-native-flash-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {getHerds} from '../../Store/actions';
 const EditAnimal = ({navigation, route}) => {
+  const unit = JSON.parse(useSelector(state => state.Reducers.unit));
   React.useEffect(() => {
     setId(global.id);
   }, []);
@@ -36,7 +37,7 @@ const EditAnimal = ({navigation, route}) => {
   const [mother, setMother] = useState(route.params.animal?.mother_supporttag);
   const [father, setFather] = useState(route.params.animal?.father_supporttag);
   const [weight, setWeight] = useState(
-    unit ? route.params.animal?.weight : route.params.animal?.weight_kg,
+    unit ? route.params.animal?.weight : route.params.animal?.weight_kg
   );
   const [name, setName] = useState(route.params.animal?.name);
   const [dob, setDob] = useState('');
@@ -53,15 +54,16 @@ const EditAnimal = ({navigation, route}) => {
   const [registration, setRegistration] = React.useState(
     route.params.animal?.registration,
   );
+    console.log(route.params.animal?.weight)
+    console.log(route.params.animal?.weight_kg)
 
-  const unit = JSON.parse(useSelector(state => state.Reducers.unit));
 
   const [showc, setshowc] = React.useState(false);
   const [pic, setPic] = React.useState('');
   const [picdata, setPicdata] = React.useState('');
-  const [weight30, setWeight30] = useState(0);
-  const [weight60, setWeight60] = useState(0);
-  const [weight90, setWeight90] = useState(0);
+  const [weight30, setWeight30] = useState( unit ? route.params.animal?.weight_30 : route.params.animal?.weight_30_kg);
+  const [weight60, setWeight60] = useState(unit ? route.params.animal?.weight_60 : route.params.animal?.weight_60_kg);
+  const [weight90, setWeight90] = useState(unit ? route.params.animal?.weight_90 : route.params.animal?.weight_90_kg);
 
   const onChangeMS = value => {
     setValueMS(value);
@@ -103,8 +105,8 @@ const EditAnimal = ({navigation, route}) => {
     father_supporttag: father != '' ? father : '',
     father_tagnumber: father != '' ? `${id}${valueMS}${father}` : '',
     breed: Breed,
-    weight: unit == true ? weight : Math.round(weight / 0.45359237),
-    weight_kg: unit == false ? weight : Math.round(weight * 0.45359237),
+    weight: weight != route.params.animal?.weight?unit == true ? weight : Math.round(weight / 0.45359237):weight,
+    weight_kg:weight != route.params.animal?.weight_kg? unit == false ? weight : Math.round(weight * 0.45359237):weight,
     weight_30: unit == true ? weight30 : Math.round(weight30 / 0.45359237),
     weight_30_kg: unit == false ? weight30 : Math.round(weight30 * 0.45359237),
     weight_60: unit == true ? weight60 : Math.round(weight60 / 0.45359237),
@@ -396,6 +398,7 @@ const EditAnimal = ({navigation, route}) => {
                 </View>
               }
               label="Birth Weight"
+              placeholder={weight.toString()}
               returnKeyType={'next'}
               value={weight}
               keyboardType="numeric"
@@ -421,6 +424,7 @@ const EditAnimal = ({navigation, route}) => {
                 label="30 Day"
                 value={weight30}
                 keyboardType="numeric"
+              placeholder={weight30.toString()}
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
                   setWeight30(value);
@@ -439,6 +443,8 @@ const EditAnimal = ({navigation, route}) => {
                 label="60 Day"
                 value={weight60}
                 keyboardType="numeric"
+              placeholder={weight60.toString()}
+
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
                   setWeight60(value);
@@ -456,6 +462,7 @@ const EditAnimal = ({navigation, route}) => {
                 returnKeyType={'next'}
                 label="90 Day"
                 value={weight90}
+                placeholder={weight90.toString()}
                 keyboardType="numeric"
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
@@ -482,6 +489,7 @@ const EditAnimal = ({navigation, route}) => {
               }
               label="Mother Tag Number"
               value={mother}
+              placeholder={mother}
               returnKeyType={'next'}
               // keyboardType="numeric"
               onChange={value => {
@@ -506,6 +514,7 @@ const EditAnimal = ({navigation, route}) => {
               }
               label="Father Tag Number"
               value={father}
+              placeholder={father}
               onChange={value => {
                 setFather(value);
               }}
@@ -530,8 +539,6 @@ const EditAnimal = ({navigation, route}) => {
                 margin: 5,
                 borderRadius: SIZES.radius,
               }}
-              // enableAvatar
-              // required
               disableSelectionTick
               animationIn="bounceInLeft"
               animationOut="bounceOutLeft"

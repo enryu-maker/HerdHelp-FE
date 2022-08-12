@@ -95,6 +95,7 @@ const Addanimals = ({ navigation, route }) => {
     setValueMS("");
   };
   const username = global.User
+  console.log(profile_pic)
   function renderFileUri() {
     if (pic) {
       return (

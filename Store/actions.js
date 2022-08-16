@@ -119,6 +119,20 @@ export const WeightUnit = (cond) => {
       })
     }
   }
+  export const deleteFinance = (id) => {
+    return async dispatch => {
+      let {data} = await axiosIns.delete(`finance`,{
+        id:id
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }});
+      dispatch({
+        type: 'FINANCE',
+        payload:data
+      })
+    }
+  }
   export const getAlerts = () => {
     return async dispatch => {
       let {data} = await axiosIns.get('alerts/');

@@ -107,11 +107,11 @@ export const Home = ({navigation}) => {
                 }}
                 icon={{uri: baseURL + item.data[0]?.image}}
                 key={index}
-                label={`My ${item.label}`} 
+                label={item.label=="Sheep"?`My ${item.label}`:`My ${item.label}'s`} 
                 label2={`${item.data?.length}`}
                 onPress={() => {
                   navigation.navigate('add', {
-                    label: `My ${item.label}'s`,
+                    label: item.label,
                     data: item.data,
                     cond:true
                   });

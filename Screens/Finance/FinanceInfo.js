@@ -6,9 +6,12 @@ import TextButton from '../../Components/TextButton';
 import FinanceCard from './FinanceCard';
 import {COLORS, SIZES, images,FONTS} from '../../Components/Constants';
 import ActivityIndicatorExample from '../../Components/Loading';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { deleteFinance } from '../../Store/actions';
 
 export default function FinanceInfo({navigation}) {
+  const dispatch = useDispatch()
   const finance = useSelector(state=>state.Reducers.finance)
   function renderHeader() {
     return (
@@ -87,12 +90,23 @@ export default function FinanceInfo({navigation}) {
   return (
     <View style={{flex: 1}}>
       {renderHeader()}
+      <Text style={{
+        ...FONTS.h3,
+        color:COLORS.Primary,
+        alignSelf:"center"
+      }}>
+        Swipe Right to <Text style={{
+        ...FONTS.h3,
+        color:COLORS.red,
+        alignSelf:"center"
+      }}>Delete</Text>
+      </Text>
       <SafeAreaView style={{
         flex:1
       }}>
       {
         finance?.length<0?<ActivityIndicatorExample />:
-        <FlatList
+        <SwipeListView
         data={finance}
         keyExtractor={item => `${item.id}`}
         showsVerticalScrollIndicator={false}
@@ -104,7 +118,28 @@ export default function FinanceInfo({navigation}) {
             quantity={item.quantity}
             date={item.added_date}
           />
-          )}/>
+          )}
+          renderHiddenItem={(data, rowMap) => (
+            <TextButton
+            buttonContainerStyle={{
+                    // flex: 1,
+                    justifyContent:"flex-end",
+                    height:120,
+                    marginTop:5,
+                    backgroundColor: COLORS.red,
+                }}
+                icon={images.delet}
+                iconStyle={{
+                  height:30,
+                  width:30,
+                  marginRight:15
+                }}
+                onPress={() =>  {dispatch(deleteFinance(data.item.id))}}
+            />
+        )}
+        disableRightSwipe
+        rightOpenValue={-75}
+          />
         }
         </SafeAreaView>
         

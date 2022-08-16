@@ -4,7 +4,7 @@ import Header from '../../Components/Header'
 import { images, FONTS, SIZES, COLORS } from '../../Components/Constants'
 import HistoryCard from './HistoryCard'
 import { useSelector } from 'react-redux'
-import { VictoryLine, VictoryChart, VictoryTheme, VictoryLabel } from "victory-native";
+import { VictoryLine, VictoryChart, VictoryTheme,VictoryAxis, VictoryLabel } from "victory-native";
 export default function History({ navigation, route }) {
   const [whist, setWhist] = React.useState([])
   const [hist, setHist] = React.useState([])
@@ -99,20 +99,29 @@ export default function History({ navigation, route }) {
       {
         graph ?
           <View style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
+            // flex: 1,
+            alignSelf:"center"
+            // alignItems: "center",
+            // justifyContent: "center",
             // marginLeft:20
           }}>
             <VictoryChart
-              height={SIZES.height-100}
+              height={SIZES.height-150}
               width={SIZES.width-20}
               theme={VictoryTheme.material}
               domainPadding={30}
-              animate
+              // animate={{
+              //   duration: 2000,
+              //   easing: "linear"
+              // }}
             >
+              <VictoryAxis label={unit?"Weight(Lbs)":"Weight(Kg)"} dependentAxis style={{ tickLabels: { angle: 0 },axisLabel: {...FONTS.h3, padding: 30}, }}  />
+              <VictoryAxis label={"Date"}  style={{ tickLabels: { angle: -90, marginTop:10 },
+            axisLabel: {...FONTS.h3, padding: 30}
+            }}  />
+
               <VictoryLine
-                // horizontal
+                horizontal
                 labelComponent={<VictoryLabel dx={2} dy={10} />}
                 labels={({ datum }) => datum.y}
                 style={{
@@ -125,6 +134,8 @@ export default function History({ navigation, route }) {
                 x="x"
                 y="y"
                 data={hist}
+                
+              
               />
             </VictoryChart>
           </View>

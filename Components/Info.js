@@ -77,7 +77,7 @@ export const Info = ({navigation, route}) => {
         <View
           style={{
             height: 100,
-            width: 100,
+            // width: 100,
             borderRadius: 100 / 2,
             alignSelf: 'center',
           }}>
@@ -112,7 +112,8 @@ export const Info = ({navigation, route}) => {
             </Text>
           </View>
           <Text style={{alignSelf: 'center', ...FONTS.h3, paddingBottom: 10}}>
-            ID: {animal?.support_tag}
+            {`ID: ${animal?.support_tag}`}
+            
           </Text>
         </View>
       );

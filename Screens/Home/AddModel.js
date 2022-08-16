@@ -58,7 +58,7 @@ export default function AddModel({navigation}) {
   const data = [
       {
           'id':1,
-          'label':'Add Animals',
+          'label':'Add Animal',
           'image':images.addanimal,
           'nav':'Animals'
       },

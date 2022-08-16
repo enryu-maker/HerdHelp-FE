@@ -725,7 +725,7 @@ const Addanimals = ({ navigation, route }) => {
                 </View>
               }
               returnKeyType={'next'}
-              label="Mother Tag Number"
+              label="Mother's Tag Number"
               value={mother}
               onChange={(value) => {
                 setMother(value);
@@ -748,7 +748,7 @@ const Addanimals = ({ navigation, route }) => {
                 </View>
               }
               returnKeyType={'next'}
-              label="Father Tag Number"
+              label="Father's Tag Number"
               value={father}
               onChange={(value) => {
                 setFather(value);
@@ -861,7 +861,7 @@ const Addanimals = ({ navigation, route }) => {
                   />
                 </View>
               }
-              label="Registration"
+              label="# Registration"
               value={registration}
               onChange={value => {
                 setRegistration(value);

@@ -251,9 +251,9 @@ export const Info = ({navigation, route}) => {
               value={unit == true ?`${animal?.weight_90} lbs`:`${animal?.weight_90_kg} kg`}
             />
             <InfoItem label="Date Of Birth" value={animal?.birth_date} />
-            <InfoItem label="Mother Tag" value={animal?.mother_supporttag} />
+            <InfoItem label="Mother's Tag" value={animal?.mother_supporttag} />
             <InfoItem
-              label="Father Tag"
+              label="Father's Tag"
               value={animal?.father_supporttag}
               withDivider={false}
             />

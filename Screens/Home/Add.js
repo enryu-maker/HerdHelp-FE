@@ -98,7 +98,7 @@ export default function Add({ navigation, route }) {
             </TouchableOpacity>
           </View>
         }
-        title={label=="Sheep"?`My ${label}`:`My ${label}'s`} 
+        title={label=="Sheep"?`My ${label}`:`My ${label}s`} 
 
         titleStyle={{
           marginLeft: 65,

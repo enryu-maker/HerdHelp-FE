@@ -261,7 +261,7 @@ export default function Bred({
           }}
         />
         <FormDateInput
-          label="Date of Bred"
+          label="Date Bred"
           placeholder="YYYY-MM-DD"
           value={breddob}
           setDate={setbredDob}

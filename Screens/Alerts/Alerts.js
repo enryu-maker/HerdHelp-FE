@@ -301,7 +301,7 @@ export default function Alerts({navigation,route}) {
             </View>
           }
           returnKeyType={"next"}
-          label="What need to be Done?*"
+          label="What needs to be Done?*"
           value={content}
           onChange={value => {
             setContent(value);

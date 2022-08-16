@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {images, COLORS, SIZES, FONTS} from '../../Components/Constants';
 import axiosIns from '../../helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSpecies, getStatus, getTags, UserData,getHerds, getUnit, getFinance,getAlerts, getFcat } from '../../Store/actions';
+import { getSpecies, getStatus, getTags, UserData,getHerds, getUnit, getFinance,getAlerts, getFcat, getGender } from '../../Store/actions';
 import FinanceInfo from '../Finance/FinanceInfo';
 import {Home} from "./Home"
 import Alerts from '../Alerts/Alerts';
@@ -38,6 +38,7 @@ const Main = ({navigation}) => {
     dispatch(getAlerts())
     dispatch(getFinance())
     dispatch(getFcat())
+    dispatch(getGender())
     loadId();
     checkSubs().then(data => {
       global.isActive = data.isactive;

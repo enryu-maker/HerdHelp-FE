@@ -12,6 +12,7 @@ const initialState = {
   med: {},
   fcat: [],
   overView: [],
+  gender:[]
 };
 
 export default (state = initialState, action) => {
@@ -26,6 +27,11 @@ export default (state = initialState, action) => {
         ...state,
         unit: action.payload,
       };
+      case 'GENDER':
+        return {
+          ...state,
+          gender: action.payload,
+        };
       case 'CLEAN':
         return {
           ...state,

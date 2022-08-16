@@ -27,6 +27,15 @@ export const Login = (token,id) => {
     })
   }
 }
+export const getGender = () => {
+  return async dispatch => {
+    let {data} = await axiosIns.get('getanimaltypes/');
+    dispatch({
+      type: 'GENDER',
+      payload:data
+    })
+  }
+}
 export const WeightUnit = (cond) => {
     return async dispatch => {
       if (cond) {

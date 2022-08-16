@@ -68,7 +68,8 @@ const Addanimals = ({ navigation, route }) => {
   const token = useSelector(state => state.Reducers.authToken);
   const unit = JSON.parse(useSelector(state => state.Reducers.unit))
   const animals = useSelector(state => state.Reducers.cat)
-  const tagl = useSelector(state => state.Reducers.tags)
+  const gender = useSelector(state => state.Reducers.gender)
+  
   function finder(list, value) {
     var dataValue;
     list?.map(a => {
@@ -77,6 +78,17 @@ const Addanimals = ({ navigation, route }) => {
       }
     });
     return dataValue;
+  }
+  function findertype(list, value, type,setValue) {
+    list?.map(a => {
+      if (value == a.label) {
+        a.data.map(a => {
+      if (type == a.label) {
+        setValue(a.type)
+      }
+    });
+      }
+    });
   }
   function isEnableSignIn() {
     return tag != '' && valueMS != '' && valueBS != '';
@@ -95,7 +107,6 @@ const Addanimals = ({ navigation, route }) => {
     setValueMS("");
   };
   const username = global.User
-  console.log(profile_pic)
   function renderFileUri() {
     if (pic) {
       return (
@@ -186,8 +197,6 @@ const Addanimals = ({ navigation, route }) => {
             </Text>
           </View>
         </View>
-
-        //
       );
     }
   }
@@ -503,7 +512,7 @@ const Addanimals = ({ navigation, route }) => {
           dropdownIcon={images.down}
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
-          data={genderdata}
+          data={finder(gender,valueMS)}
           textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
           selectedItemTextStyle={
             (FONTS.body3,
@@ -519,7 +528,7 @@ const Addanimals = ({ navigation, route }) => {
           primaryColor={COLORS.Primary}
           value={valueBS}
           onChange={(value) => {
-            setValueBS(value);
+            findertype(gender,valueMS,value,setValueBS)
           }}
           animationIn="bounceInLeft"
           animationOut="bounceOutLeft"

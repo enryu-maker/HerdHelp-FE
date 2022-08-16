@@ -36,12 +36,14 @@
     "react-native-screens": "^3.13.1",
     "react-native-select-multiple": "^2.1.0",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-svg": "^12.4.4",
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "sharingan-rn-modal-dropdown": "^1.4.0"
+    "sharingan-rn-modal-dropdown": "^1.4.0",
+    "victory-native": "^36.6.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.2",

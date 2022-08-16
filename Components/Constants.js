@@ -70,8 +70,7 @@ export const images ={
     x:require("../assets/Logo/x.png"),
     bred:require("../assets/Logo/bred.png"),
     flag:require("../assets/Logo/flag.png"),
-
-
+    graph:require("../assets/Logo/diagram.png")
 }
 export const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',

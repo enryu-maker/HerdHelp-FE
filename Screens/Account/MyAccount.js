@@ -14,6 +14,7 @@ const MyAccount = ({navigation,route}) => {
   const [picdata, setPicdata] = React.useState('');
   const [profile_pic, setprofile_pic] = React.useState([]);
  const User = useSelector(state=>state.Reducers.userData)
+ 
 const dispatch = useDispatch()
     React.useEffect(() => {
       dispatch(UserData())
@@ -29,7 +30,7 @@ const dispatch = useDispatch()
             alignSelf:"center",
           }}>
           <Image
-            source={{uri: pic}}
+            source={{uri:pic}}
             style={{
               width: 100,
               height: 100,
@@ -67,7 +68,6 @@ const dispatch = useDispatch()
             borderRadius:100/2,
             alignSelf:"center",
           }}>
-  
           <Image
             source={{uri:`https://ui-avatars.com/api/?name=${User.username}`}}
             resizeMethod="auto"
@@ -80,8 +80,6 @@ const dispatch = useDispatch()
             borderWidth:2,
             }}
           />
-  
-  
           <View style={{
             position:"absolute",
             alignSelf:"flex-end",

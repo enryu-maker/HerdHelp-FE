@@ -32,10 +32,11 @@ export default function Parents({navigation}) {
       setLoading(true);
       try {
         let {data} = await axiosIns.get(
-          `reports/getchildren/${id}${animal}${tag}`,
+          `babiesbydate/${id}${animal}${tag}`,
         );
-        if (data.length > 0 && data != undefined) {
-          clear()
+       
+        if (Object.keys(data).length != 0 && data!=undefined) {
+          clear();
             navigation.navigate('ParentPage',{
               data:data,
             })
@@ -43,7 +44,7 @@ export default function Parents({navigation}) {
           return data;
         } else {
           setLoading(false);
-          setErr('babies Not found');
+          setErr('Babies Not found');
         }
       } catch (e) {
         setTag('');

@@ -31,13 +31,15 @@ import PickerType from './PickerType';
 import { showMessage } from 'react-native-flash-message';
 import { baseURL } from '../../helpers/helpers';
 import { Username } from '../Nav/Homenav';
-import { getHerds, getTags } from '../../Store/actions';
+import { getHerds, getOverview, getTags } from '../../Store/actions';
 const Addanimals = ({ navigation, route }) => {
   const [bred, setBred] = useState(false);
   const [breddob, setbredDob] = useState('');
   const [breddobt, setbredDobt] = useState('');
   const [valueMS, setValueMS] = useState('');
   const [valueBS, setValueBS] = useState('');
+  const [valueBST, setValueBST] = useState('');
+
   const [age, setAge] = useState(0);
   const [Breed, setBreed] = useState('');
   const [tag, setTag] = useState('');
@@ -209,6 +211,8 @@ const Addanimals = ({ navigation, route }) => {
     formData.append('registration', registration);
     formData.append('support_tag', tag);
     formData.append('gender', valueBS);
+    formData.append('gender_name', valueBST);
+
     formData.append('species', valueMS);
     formData.append('birth_date', dobt);
     formData.append('leased', lease);
@@ -318,9 +322,8 @@ const Addanimals = ({ navigation, route }) => {
         })
         .catch(err => {
           setLoading(false);
-          console.log(err);
           showMessage({
-            message: `${err.response.data?.msg}`,
+            message: `Something went Wrong`,
             type: 'default',
             backgroundColor: COLORS.red,
             color: COLORS.white,
@@ -526,8 +529,9 @@ const Addanimals = ({ navigation, route }) => {
           }}
           required
           primaryColor={COLORS.Primary}
-          value={valueBS}
+          value={valueBST}
           onChange={(value) => {
+            setValueBST(value)
             findertype(gender,valueMS,value,setValueBS)
           }}
           animationIn="bounceInLeft"

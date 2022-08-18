@@ -8,20 +8,22 @@ import {
 } from 'react-native';
 import React from 'react';
 import Header from './Header';
-import {COLORS, SIZES, images, FONTS} from './Constants';
+import { COLORS, SIZES, images, FONTS } from './Constants';
 import InfoItem from './InfoItem';
 import Status from './Status';
 import TextButton from './TextButton';
 import CustomButton from './CustomButton';
 import PickerType from '../Screens/Livestocks/PickerType';
 import Update from '../Screens/Account/Update';
-import {useDispatch, useSelector} from 'react-redux';
-import { CleanAnimal, getAnimal, getMedical } from '../Store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { CleanAnimal, getAnimal, getMedical, getMedicalP, getParent } from '../Store/actions';
 import ActivityIndicatorExample from './Loading';
 import { baseURL } from '../helpers/helpers';
-export const Info = ({navigation, route}) => {
+export const Info = ({ navigation, route }) => {
   const [cond, setCond] = React.useState(false);
   const [show, setShow] = React.useState(false);
+  const [type, setType] = React.useState(false);
+
   const [profile_pic, setprofile_pic] = React.useState([]);
   const [picdata, setPicdata] = React.useState('');
   const [pic, setPic] = React.useState('');
@@ -34,14 +36,23 @@ export const Info = ({navigation, route}) => {
     minimumFractionDigits: 2,
   });
   const dispatch = useDispatch()
-  const animal = useSelector(state=>state.Reducers.animal)
-  const med = useSelector(state=>state.Reducers.med)
-  // console.log(animal)
+
+    const animal = useSelector(state => type=="B"?state.Reducers.parent : state.Reducers.animal)
+    const med = useSelector(state => type=="B"?state.Reducers.parentmed : state.Reducers.med)
+   
   React.useEffect(() => {
-    let {value} = route.params;
-    let {cond} = route.params;
-    dispatch(getAnimal(value.tag_number))
-    dispatch(getMedical(value.tag_number))
+    let { value } = route.params;
+    let { cond } = route.params;
+    let { type } = route.params;
+    setType(type)
+    if (type == "B") {
+      dispatch(getParent(value))
+      dispatch(getMedicalP(value))
+    }
+    else {
+      dispatch(getAnimal(value.tag_number))
+      dispatch(getMedical(value.tag_number))
+    }
     setCond(cond);
   }, []);
   const unit = JSON.parse(useSelector(state => state.Reducers.unit))
@@ -56,16 +67,16 @@ export const Info = ({navigation, route}) => {
           backgroundColor: COLORS.lightGray2,
         }}>
         <InfoItem label="Name" value={animal?.name} />
-        <InfoItem label="Gender" value={animal?.gender} />
+        <InfoItem label="Gender" value={animal?.gender_name} />
         {animal?.gender == 'Female' ? (
           <InfoItem label="Bred" value={animal?.bred == false ? 'No' : 'Yes'} />
         ) : (
-          <View></View>
+          null
         )}
         <InfoItem label="Tag Number" value={animal?.support_tag} />
         <InfoItem
           label="Weight"
-          value={ unit == true ? `${animal?.weight} lbs` : `${animal?.weight_kg} kg`}
+          value={unit == true ? `${animal?.weight} lbs` : `${animal?.weight_kg} kg`}
           withDivider={false}
         />
       </View>
@@ -82,7 +93,7 @@ export const Info = ({navigation, route}) => {
             alignSelf: 'center',
           }}>
           <Image
-            source={{uri: baseURL + animal?.animal_image}}
+            source={{ uri: baseURL + animal?.animal_image }}
             style={{
               width: 100,
               height: 100,
@@ -111,9 +122,9 @@ export const Info = ({navigation, route}) => {
               Edit
             </Text>
           </View>
-          <Text style={{alignSelf: 'center', ...FONTS.h3, paddingBottom: 10}}>
+          <Text style={{ alignSelf: 'center', ...FONTS.h3, paddingBottom: 10 }}>
             {`ID: ${animal?.support_tag}`}
-            
+
           </Text>
         </View>
       );
@@ -128,7 +139,7 @@ export const Info = ({navigation, route}) => {
             alignSelf: 'center',
           }}>
           <Image
-            source={{uri: baseURL + animal?.image}}
+            source={{ uri: baseURL + animal?.image }}
             resizeMethod="auto"
             resizeMode="contain"
             style={{
@@ -160,7 +171,7 @@ export const Info = ({navigation, route}) => {
               Edit
             </Text>
           </View>
-          <Text style={{alignSelf: 'center', ...FONTS.h3, paddingBottom: 10}}>
+          <Text style={{ alignSelf: 'center', ...FONTS.h3, paddingBottom: 10 }}>
             ID: {animal?.support_tag}
           </Text>
         </View>
@@ -240,18 +251,21 @@ export const Info = ({navigation, route}) => {
           <View>
             <InfoItem
               label="30 Days"
-              value={unit == true ?`${animal?.weight_30} lbs` :`${animal?.weight_30_kg} kg`}
+              value={unit == true ? `${animal?.weight_30} lbs` : `${animal?.weight_30_kg} kg`}
             />
             <InfoItem
               label="60 Days"
-              value={unit == true ?`${animal?.weight_60} lbs`:`${animal?.weight_60_kg} kg`}
+              value={unit == true ? `${animal?.weight_60} lbs` : `${animal?.weight_60_kg} kg`}
             />
             <InfoItem
               label="90 Days"
-              value={unit == true ?`${animal?.weight_90} lbs`:`${animal?.weight_90_kg} kg`}
+              value={unit == true ? `${animal?.weight_90} lbs` : `${animal?.weight_90_kg} kg`}
             />
             <InfoItem label="Date Of Birth" value={animal?.birth_date} />
-            <InfoItem label="Mother's Tag" value={animal?.mother_supporttag} />
+            <InfoItem
+              label="Mother's Tag"
+              value={animal?.mother_supporttag}
+            />
             <InfoItem
               label="Father's Tag"
               value={animal?.father_supporttag}
@@ -311,9 +325,9 @@ export const Info = ({navigation, route}) => {
           alignSelf: 'center',
         }}
         onPress={() => {
-          navigation.navigate('ParentPage',{
-            data:animal?.children,
-            cond:true
+          navigation.navigate('ParentPage', {
+            data: animal?.children,
+            cond: true
           })
         }}
       />
@@ -329,7 +343,7 @@ export const Info = ({navigation, route}) => {
           backgroundColor: COLORS.lightGray2,
         }}>
         <InfoItem label="Flagged Description?" withDivider={false} />
-        <Text  style={Platform.OS=="android"?{ flex: 1, textAlign: 'left',  ...FONTS.body3,paddingBottom:20 }:{ flex: 1, textAlign: 'left',  ...FONTS.body2,paddingBottom:20 }}>{animal.flag_desc}</Text>
+        <Text style={Platform.OS == "android" ? { flex: 1, textAlign: 'left', ...FONTS.body3, paddingBottom: 20 } : { flex: 1, textAlign: 'left', ...FONTS.body2, paddingBottom: 20 }}>{animal.flag_desc}</Text>
 
       </View>
     );
@@ -356,8 +370,7 @@ export const Info = ({navigation, route}) => {
               }}
               onPress={() => {
                 navigation.goBack();
-                dispatch(CleanAnimal())
-
+                type=="B"?'':dispatch(CleanAnimal())
               }}>
               <Image
                 source={images.back}
@@ -424,31 +437,31 @@ export const Info = ({navigation, route}) => {
         cond={false}
       />
       {
-        animal?.length<0? <ActivityIndicatorExample/> :
-      
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: SIZES.padding
-        }}>
-        <TouchableOpacity
-          onPress={() => {
-            setshowc(true);
-          }}>
-          {renderFileUri()}
-        </TouchableOpacity>
-        {renderSectionOne()}
-        {renderSectionZero()}
-        {animal?.children?.length > 0 ? Babies() : null}
-        {Type()}
-        {renderSectionFour()}
-        {Vaccinated()}
-        {
-          animal?.flagged?renderSectionLast():null
-        }
-        
-      </ScrollView>
-}
+        animal?.length < 0 ? <ActivityIndicatorExample /> :
+
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: SIZES.padding
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                setshowc(true);
+              }}>
+              {renderFileUri()}
+            </TouchableOpacity>
+            {renderSectionOne()}
+            {renderSectionZero()}
+            {animal?.children?.length > 0 ? Babies() : null}
+            {Type()}
+            {renderSectionFour()}
+            {Vaccinated()}
+            {
+              animal?.flagged ? renderSectionLast() : null
+            }
+
+          </ScrollView>
+      }
 
       {cond ? (
         <TextButton
@@ -480,7 +493,7 @@ export const Info = ({navigation, route}) => {
             backgroundColor: COLORS.Primary,
           }}
           label={'Edit Animal'}
-          // loading={loading}
+        // loading={loading}
         />
       ) : null}
     </View>

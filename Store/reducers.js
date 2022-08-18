@@ -9,10 +9,13 @@ const initialState = {
   finance: [],
   alerts: [],
   animal: {},
+  parent: {},
+  parentmed: {},
   med: {},
   fcat: [],
   overView: [],
-  gender:[]
+  gender:[],
+  baby:[]
 };
 
 export default (state = initialState, action) => {
@@ -26,6 +29,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         unit: action.payload,
+      };
+      case 'BABY':
+      return {
+        ...state,
+        baby: action.payload,
       };
       case 'GENDER':
         return {
@@ -86,10 +94,20 @@ export default (state = initialState, action) => {
         ...state,
         animal: action.payload,
       };
+      case 'PARENT':
+      return {
+        ...state,
+        parent: action.payload,
+      };
     case 'ONEMED':
       return {
         ...state,
         med: action.payload,
+      };
+      case 'ONEMEDP':
+      return {
+        ...state,
+        parentmed: action.payload,
       };
     case 'FCAT':
       return {

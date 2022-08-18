@@ -38,6 +38,7 @@ import Flag from '../Bred/Flag'
 // import BillingAdd from '../Subscription/BillingAdd';
 import ParentPage from '../Parents/parentPage';
 import Bred from '../Bred/Bred';
+import { ChildInfo } from '../Parents/ChildInfo';
 const Stack = createNativeStackNavigator()
 
 const DrawerNav = () => {
@@ -175,6 +176,8 @@ fetchprofile = async () => {
           <Stack.Screen name='ParentPage' component={ParentPage}/>
           <Stack.Screen name='Bred' component={Bred}/>
           <Stack.Screen name='Flag' component={Flag}/>
+          <Stack.Screen name='ChildInfo' component={ChildInfo}/>
+
 
 
         </Stack.Navigator>

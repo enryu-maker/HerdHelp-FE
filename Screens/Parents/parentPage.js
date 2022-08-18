@@ -1,41 +1,41 @@
-import {View, TouchableOpacity, Image, Text,FlatList} from 'react-native';
+import { View, TouchableOpacity, Image, Text, FlatList } from 'react-native';
 import React from 'react';
-import {COLORS, SIZES, FONTS, images,formatter} from '../../Components/Constants';
+import { COLORS, SIZES, FONTS, images, formatter } from '../../Components/Constants';
 import Header from '../../Components/Header';
-import Card from '../../Components/Card';
+import ChildCard from './ChildCard';
 import { ActivityIndicator } from 'react-native-paper';
-export default function ParentPage({navigation,route}) {
+export default function ParentPage({ navigation, route }) {
   const [selected, setSelected] = React.useState('Herd');
-  const [Herd,setHerd] = React.useState([])
-  const [Sold,setSold] = React.useState([])
-  const [active,setActive] = React.useState([])
-  const [Amount,setAmount] = React.useState(0)
-  const [cond,setCond] = React.useState(false)
+  const [Herd, setHerd] = React.useState([])
+  const [Sold, setSold] = React.useState([])
+  const [active, setActive] = React.useState([])
+  const [Amount, setAmount] = React.useState(0)
+  const [cond, setCond] = React.useState(false)
 
 
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     let { data } = route.params;
     let { cond } = route.params;
     setCond(cond);
-    Seperator(data);
-  },[])
-  
-  function Seperator(data){
-    data.map(a=>{
-      a.status==="Alive"?(Herd.push(a)):(Sold.push(a));
-    })
-    setActive(Herd)
-  }
-  // console.log(Sold)
-  function getAmount(Sold){
-    let sum=0
-    Sold.forEach(x => {
-      sum += x.soldprice;
-  });
-  return sum;
-    
-  }
+    setHerd(data)
+    // Seperator(data);
+  }, [])
+  // function Seperator(data){
+  //   data.map(a=>{
+  //     a.status==="Alive"?(Herd.push(a)):(Sold.push(a));
+  //   })
+  //   setActive(Herd)
+  // }
+  // // console.log(Sold)
+  // function getAmount(Sold){
+  //   let sum=0
+  //   Sold.forEach(x => {
+  //     sum += x.soldprice;
+  // });
+  // return sum;
+
+  // }
   function renderheader() {
     return (
       <Header
@@ -90,7 +90,7 @@ export default function ParentPage({navigation,route}) {
             height: selected == 'Herd' ? 55 : 75,
             width: selected == 'Herd' ? 120 : 75,
             justifyContent: 'center',
-            borderRadius: selected == 'Herd'?12:75/2,
+            borderRadius: selected == 'Herd' ? 12 : 75 / 2,
             alignSelf: 'center',
           }}
           onPress={() => {
@@ -110,10 +110,10 @@ export default function ParentPage({navigation,route}) {
           style={{
             backgroundColor:
               selected == 'Sold' ? COLORS.Primary : COLORS.transparentPrimary2,
-              height: selected == 'Sold' ? 55 : 75,
-              width: selected == 'Sold' ? 120 : 75,
-              justifyContent: 'center',
-              borderRadius: selected == 'Sold'?12:75/2,
+            height: selected == 'Sold' ? 55 : 75,
+            width: selected == 'Sold' ? 120 : 75,
+            justifyContent: 'center',
+            borderRadius: selected == 'Sold' ? 12 : 75 / 2,
             alignSelf: 'center',
           }}
           onPress={() => {
@@ -132,73 +132,57 @@ export default function ParentPage({navigation,route}) {
       </View>
     );
   }
-  function renderCards(){
+  function renderCards(Herd) {
     return(
       <FlatList
-      data={active}
-      keyExtractor={item => `${item.support_tag}`}
-      showsVerticalScrollIndicator={false}
-      renderItem={({ item, index }) => (
-        <Card
-        key={index}
-        Flagged={item?.flagged}
-        cond={cond}
-        Name={item.name}
-        Tagnumber={item.support_tag}
-        Gender={item.gender}
-        Species={item.category}
-        Weight={item.weight}
-        image={item.animal_image==null ? item.image:item.animal_image}
-        weight_kg={item.weight_kg}
-        onPress={() => {
-          navigation.navigate('Info', {
-            value: item,
-            cond:cond
-          });
-        }}
-      />
+        data={Herd}
+        // keyExtractor={item => `${item.key}`}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+        <ChildCard date={item.key} data={item.data}
+        />
       )}
       />
     )
-  
+    
   }
-  function renderFooter(price){
-    return(
+  function renderFooter(price) {
+    return (
       <View style={{
-        justifyContent:"flex-end",
-        height:55,
-        borderRadius:SIZES.radius,
-        backgroundColor:COLORS.Primary,
-        flexDirection:"row",
-        justifyContent:"center",
-        width:"88%",
-        alignSelf:"center",
-        marginBottom:30,
+        justifyContent: "flex-end",
+        height: 55,
+        borderRadius: SIZES.radius,
+        backgroundColor: COLORS.Primary,
+        flexDirection: "row",
+        justifyContent: "center",
+        width: "88%",
+        alignSelf: "center",
+        marginBottom: 30,
       }}>
         <Text style={
-          
-         Platform.OS=="ios"?{
-          ...FONTS.h3,
-          color:COLORS.white,
-          alignSelf:"center"
-        }:{
-          ...FONTS.h4,
-          color:COLORS.white,
-          alignSelf:"center"
 
-        }
-      }>{`Total Amount: `}</Text>
-      <Text style={
-         Platform.OS=="ios"?{
-          ...FONTS.h3,
-          color:COLORS.white,
-          alignSelf:"center"
-        }:{
-          ...FONTS.h4,
-          color:COLORS.white,
-          alignSelf:"center"
-        }
-      }>{formatter.format(price)}
+          Platform.OS == "ios" ? {
+            ...FONTS.h3,
+            color: COLORS.white,
+            alignSelf: "center"
+          } : {
+            ...FONTS.h4,
+            color: COLORS.white,
+            alignSelf: "center"
+
+          }
+        }>{`Total Amount: `}</Text>
+        <Text style={
+          Platform.OS == "ios" ? {
+            ...FONTS.h3,
+            color: COLORS.white,
+            alignSelf: "center"
+          } : {
+            ...FONTS.h4,
+            color: COLORS.white,
+            alignSelf: "center"
+          }
+        }>{formatter.format(price)}
         </Text>
       </View>
     )
@@ -210,11 +194,13 @@ export default function ParentPage({navigation,route}) {
         backgroundColor: COLORS.white,
       }}>
       {renderheader()}
-      {renderButtons()}
-      {renderCards()}
-      {
+      {renderCards(Herd)}
+      {/* {renderButtons()} */}
+      
+
+      {/* {
           selected=="Sold"?renderFooter(getAmount(Sold)):null
-      }
+      } */}
     </View>
   );
 }

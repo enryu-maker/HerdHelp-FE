@@ -121,16 +121,11 @@ export const WeightUnit = (cond) => {
   }
   export const deleteFinance = (id) => {
     return async dispatch => {
-      let {data} = await axiosIns.delete(`finance`,{
-        id:id
-      }, {
+      let {data} = await axiosIns.delete(`finance/${id}`, {
         headers: {
           'Content-Type': 'application/json',
         }});
-      dispatch({
-        type: 'FINANCE',
-        payload:data
-      })
+        getFinance()
     }
   }
   export const getAlerts = () => {
@@ -151,6 +146,24 @@ export const WeightUnit = (cond) => {
       })
     }
   }
+  export const getParent = (tag) => {
+    return async dispatch => {
+      let {data} = await axiosIns.get(`animals/${tag}`);
+      dispatch({
+        type: 'PARENT',
+        payload:data
+      })
+    }
+  }
+  export const getBabies = (tag) => {
+    return async dispatch => {
+      let {data} = await axiosIns.get(`babiesbydate/${tag}`);
+      dispatch({
+        type: 'BABY',
+        payload:data
+      })
+    }
+  }
   export const CleanAnimal = () => {
     return async dispatch => {
       dispatch({
@@ -164,6 +177,15 @@ export const WeightUnit = (cond) => {
       let {data} = await axiosIns.get(`getmedication/${tag}`);
       dispatch({
         type: 'ONEMED',
+        payload:data
+      })
+    }
+  }
+  export const getMedicalP = (tag) => {
+    return async dispatch => {
+      let {data} = await axiosIns.get(`getmedication/${tag}`);
+      dispatch({
+        type: 'ONEMEDP',
         payload:data
       })
     }

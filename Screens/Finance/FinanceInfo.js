@@ -8,7 +8,7 @@ import {COLORS, SIZES, images,FONTS} from '../../Components/Constants';
 import ActivityIndicatorExample from '../../Components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { deleteFinance } from '../../Store/actions';
+import { deleteFinance, getFinance } from '../../Store/actions';
 
 export default function FinanceInfo({navigation}) {
   const dispatch = useDispatch()
@@ -134,7 +134,9 @@ export default function FinanceInfo({navigation}) {
                   width:30,
                   marginRight:15
                 }}
-                onPress={() =>  {dispatch(deleteFinance(data.item.id))}}
+                onPress={() =>  {
+                  dispatch(deleteFinance(data.item.id))
+                }}
             />
         )}
         disableRightSwipe
@@ -142,23 +144,6 @@ export default function FinanceInfo({navigation}) {
           />
         }
         </SafeAreaView>
-        
-      {/* <TextButton
-        onPress={() => {
-          navigation.replace('Finance');
-        }}
-        icon={images.money}
-        buttonContainerStyle={{
-          //   flex:1,
-          height: 60,
-          marginTop: SIZES.padding,
-          marginHorizontal: SIZES.padding,
-          marginBottom: SIZES.padding + 20,
-          borderRadius: SIZES.radius,
-          backgroundColor: COLORS.Primary,
-        }}
-        label={'Add Finance'}
-      /> */}
     </View>
   );
 }

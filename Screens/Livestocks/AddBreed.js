@@ -63,7 +63,8 @@ const Addanimals = ({ navigation, route }) => {
   const [showc, setshowc] = React.useState(false);
   const [showu, setshowu] = React.useState(false);
   const [lease, setlease] = React.useState(false);
-
+  const [pdatet, setPdatet] = useState('');
+  const [pdate, setPdate] = useState('');
   const [pic, setPic] = React.useState('');
   const [profile_pic, setprofile_pic] = React.useState([]);
   const [picdata, setPicdata] = React.useState([]);
@@ -881,6 +882,22 @@ const Addanimals = ({ navigation, route }) => {
           </View>
         ) : (
           <View>
+            <FormDateInput
+                label="Date of Purchase"
+                placeholder="YYYY-MM-DD"
+                value={pdate}
+                setDate={setPdate}
+                formatDate={setPdatet}
+                containerStyle={{
+                  marginTop: SIZES.radius,
+                }}
+                inputContainerStyle={{
+                  backgroundColor: COLORS.white,
+                  width: '88%',
+                  alignSelf: 'center',
+                }}
+                inputStyle={{marginLeft: 20, fontSize: 16}}
+              />
             <FormInput
               returnKeyType={'next'}
               prependComponent={

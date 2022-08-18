@@ -39,6 +39,7 @@ import Flag from '../Bred/Flag'
 import ParentPage from '../Parents/parentPage';
 import Bred from '../Bred/Bred';
 import { ChildInfo } from '../Parents/ChildInfo';
+import { EditFinance } from '../Finance/EditFinance';
 const Stack = createNativeStackNavigator()
 
 const DrawerNav = () => {
@@ -177,6 +178,8 @@ fetchprofile = async () => {
           <Stack.Screen name='Bred' component={Bred}/>
           <Stack.Screen name='Flag' component={Flag}/>
           <Stack.Screen name='ChildInfo' component={ChildInfo}/>
+          <Stack.Screen name='EditF' component={EditFinance}/>
+
 
 
 

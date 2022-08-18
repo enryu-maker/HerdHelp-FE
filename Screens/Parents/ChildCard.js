@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 export default function ChildCard({
     date = "26/11/2000",
     data,
+    type
 
 }) {
     const navigation = useNavigation()
@@ -47,7 +48,7 @@ export default function ChildCard({
 
                         }}
                     onPress={()=>{
-                        navigation.navigate('ChildInfo', {
+                        navigation.navigate(type=="B"?'ChildInfo':'Info', {
                             value: item,
                             cond: false
                           });
@@ -131,7 +132,7 @@ export default function ChildCard({
                             />
                             <View style={{}}>
                                 <Image
-                                    source={item?.gender == 'Male' ? images.male : images.female}
+                                    source={item?.gender === 'Male' ? images.male : images.female}
                                     style={{ height: 40, width: 40, justifyContent: "center", marginTop: 10, marginRight: 20 }}
                                 />
                             </View>

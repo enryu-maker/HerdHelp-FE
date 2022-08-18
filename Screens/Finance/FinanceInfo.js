@@ -120,14 +120,45 @@ export default function FinanceInfo({navigation}) {
           />
           )}
           renderHiddenItem={(data, rowMap) => (
+            <View style={{
+              flexDirection:"row",
+              alignSelf:"center",
+              marginTop:5,
+
+            }}>
+            <TextButton
+            buttonContainerStyle={{
+                    // flex: 1,
+                    justifyContent:"flex-start",
+                    height:120,
+                    width:"44%",
+                    marginTop:5,
+                    backgroundColor: COLORS.yellow,
+                }}
+                border={false}
+                icon={images.update}
+                iconStyle={{
+                  height:30,
+                  width:30,
+                  marginLeft:15
+                }}
+                onPress={() =>  {
+                  navigation.navigate('EditF',{
+                    data:data['item'],
+                    cond:true
+                  });
+                }}
+            />
             <TextButton
             buttonContainerStyle={{
                     // flex: 1,
                     justifyContent:"flex-end",
                     height:120,
+                    width:"44%",
                     marginTop:5,
                     backgroundColor: COLORS.red,
                 }}
+                border={false}
                 icon={images.delet}
                 iconStyle={{
                   height:30,
@@ -138,8 +169,9 @@ export default function FinanceInfo({navigation}) {
                   dispatch(deleteFinance(data.item.id))
                 }}
             />
+            </View>
         )}
-        disableRightSwipe
+        leftOpenValue={75}
         rightOpenValue={-75}
           />
         }

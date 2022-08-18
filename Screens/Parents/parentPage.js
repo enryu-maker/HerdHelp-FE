@@ -4,23 +4,36 @@ import { COLORS, SIZES, FONTS, images, formatter } from '../../Components/Consta
 import Header from '../../Components/Header';
 import ChildCard from './ChildCard';
 import { ActivityIndicator } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBabies } from '../../Store/actions';
 export default function ParentPage({ navigation, route }) {
   const [selected, setSelected] = React.useState('Herd');
-  const [Herd, setHerd] = React.useState([])
   const [Sold, setSold] = React.useState([])
   const [active, setActive] = React.useState([])
-  const [Amount, setAmount] = React.useState(0)
+  const [type, setType] = React.useState(0)
   const [cond, setCond] = React.useState(false)
-
-
-
+  const [Herd, setHerd] = React.useState([])
+  const [Data, setData] = React.useState([])
+  const data = useSelector(state=>state.Reducers.baby)
+  console.log(Herd)
+  const dispatch = useDispatch()
   React.useEffect(() => {
     let { data } = route.params;
     let { cond } = route.params;
+    let { type } = route.params;
+    setType(type)
     setCond(cond);
-    setHerd(data)
+    // {type=="B"?(
+    dispatch(getBabies(data))
+    // )
+    // :setData(data)}
     // Seperator(data);
   }, [])
+  
+    // if(type=="B")
+    // {setHerd(data)}
+    // else{setHerd(Data)}
+  
   // function Seperator(data){
   //   data.map(a=>{
   //     a.status==="Alive"?(Herd.push(a)):(Sold.push(a));
@@ -132,14 +145,15 @@ export default function ParentPage({ navigation, route }) {
       </View>
     );
   }
-  function renderCards(Herd) {
+  function renderCards(Herd,data,type) {
     return(
       <FlatList
-        data={Herd}
+        data={data}
         // keyExtractor={item => `${item.key}`}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
         <ChildCard date={item.key} data={item.data}
+        type={"B"}
         />
       )}
       />
@@ -194,7 +208,7 @@ export default function ParentPage({ navigation, route }) {
         backgroundColor: COLORS.white,
       }}>
       {renderheader()}
-      {renderCards(Herd)}
+      {renderCards(Herd,data,type)}
       {/* {renderButtons()} */}
       
 

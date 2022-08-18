@@ -35,7 +35,7 @@ export default function Parents({navigation}) {
           `babiesbydate/${id}${animal}${tag}`,
         );
        
-        if (Object.keys(data).length != 0 && data!=undefined) {
+        if (data.length != 0 && data!=undefined) {
           clear();
             navigation.navigate('ParentPage',{
               data:data,

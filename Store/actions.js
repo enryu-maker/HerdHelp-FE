@@ -172,6 +172,14 @@ export const WeightUnit = (cond) => {
       })
     }
   }
+  export const CleanParent = () => {
+    return async dispatch => {
+      dispatch({
+        type: 'CLEANP',
+        payload:null
+      })
+    }
+  }
   export const getMedical = (tag) => {
     return async dispatch => {
       let {data} = await axiosIns.get(`getmedication/${tag}`);

@@ -37,17 +37,22 @@ export const Info = ({ navigation, route }) => {
   });
   const dispatch = useDispatch()
 
-    const animal = useSelector(state => type=="B"?state.Reducers.parent : state.Reducers.animal)
-    const med = useSelector(state => type=="B"?state.Reducers.parentmed : state.Reducers.med)
+    const animal = useSelector(state => type==="B"?state.Reducers.parent : state.Reducers.animal)
+    const med = useSelector(state => type==="B"?state.Reducers.parentmed : state.Reducers.med)
    
   React.useEffect(() => {
     let { value } = route.params;
+
     let { cond } = route.params;
     let { type } = route.params;
     setType(type)
-    if (type == "B") {
+    if (type === "B") {
       dispatch(getParent(value))
       dispatch(getMedicalP(value))
+    }
+    else if(type === "A"){
+      dispatch(getAnimal(value))
+      dispatch(getMedical(value))
     }
     else {
       dispatch(getAnimal(value.tag_number))
@@ -326,8 +331,9 @@ export const Info = ({ navigation, route }) => {
         }}
         onPress={() => {
           navigation.navigate('ParentPage', {
-            data: animal?.children,
-            cond: true
+            data: animal?.tag_number,
+            cond: true,
+            type:"B"
           })
         }}
       />
@@ -370,7 +376,7 @@ export const Info = ({ navigation, route }) => {
               }}
               onPress={() => {
                 navigation.goBack();
-                type=="B"?'':dispatch(CleanAnimal())
+                type==="B"?'':dispatch(CleanAnimal())
               }}>
               <Image
                 source={images.back}

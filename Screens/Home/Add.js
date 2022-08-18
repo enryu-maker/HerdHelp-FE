@@ -249,7 +249,7 @@ export default function Add({ navigation, route }) {
             onPress={() => {
               navigation.navigate('Info', {
                 value: item,
-                cond: cond
+                cond: cond,
               });
             }}
           />

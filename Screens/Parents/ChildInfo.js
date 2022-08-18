@@ -16,7 +16,7 @@ import CustomButton from '../../Components/CustomButton';
 import PickerType from '../Livestocks/PickerType';
 import Update from '../Account/Update';
 import { useDispatch, useSelector } from 'react-redux';
-import { CleanAnimal, getAnimal, getMedical } from '../../Store/actions';
+import { CleanAnimal, CleanParent, getAnimal, getMedical, getMedicalP, getParent } from '../../Store/actions';
 import ActivityIndicatorExample from '../../Components/Loading';
 import { baseURL } from '../../helpers/helpers';
 export const ChildInfo = ({ navigation, route }) => {
@@ -34,14 +34,14 @@ export const ChildInfo = ({ navigation, route }) => {
         minimumFractionDigits: 2,
     });
     const dispatch = useDispatch()
-    const animal = useSelector(state => state.Reducers.animal)
-    const med = useSelector(state => state.Reducers.med)
+    const animal = useSelector(state => state.Reducers.parent)
+    const med = useSelector(state => state.Reducers.parentmed)
     // console.log(animal)
     React.useEffect(() => {
         let { value } = route.params;
         let { cond } = route.params;
-        dispatch(getAnimal(value.tag_number))
-        dispatch(getMedical(value.tag_number))
+        dispatch(getParent(value.tag_number))
+        dispatch(getMedicalP(value.tag_number))
         setCond(cond);
     }, []);
     const unit = JSON.parse(useSelector(state => state.Reducers.unit))
@@ -258,7 +258,7 @@ export const ChildInfo = ({ navigation, route }) => {
                                 navigation.navigate('Info', {
                                     value: animal?.mother_tagnumber,
                                     cond: false,
-                                    type: "B"
+                                    type: "A"
                                 });
                             }}
                         />
@@ -269,7 +269,7 @@ export const ChildInfo = ({ navigation, route }) => {
                                 navigation.navigate('Info', {
                                     value: animal?.father_tagnumber,
                                     cond: false,
-                                    type: "B"
+                                    type: "A"
                                 });
                             }}
                             withDivider={false}
@@ -373,7 +373,7 @@ export const ChildInfo = ({ navigation, route }) => {
                             }}
                             onPress={() => {
                                 navigation.goBack();
-                                dispatch(CleanAnimal())
+                                dispatch(CleanParent())
 
                             }}>
                             <Image

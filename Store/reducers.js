@@ -14,8 +14,8 @@ const initialState = {
   med: {},
   fcat: [],
   overView: [],
-  gender:[],
-  baby:[]
+  gender: [],
+  baby: []
 };
 
 export default (state = initialState, action) => {
@@ -25,26 +25,31 @@ export default (state = initialState, action) => {
         ...state,
         authToken: action.payload,
       };
+    case 'CLEANP':
+      return {
+        ...state,
+        parent: action.payload,
+      };
     case 'UNIT':
       return {
         ...state,
         unit: action.payload,
       };
-      case 'BABY':
+    case 'BABY':
       return {
         ...state,
         baby: action.payload,
       };
-      case 'GENDER':
-        return {
-          ...state,
-          gender: action.payload,
-        };
-      case 'CLEAN':
-        return {
-          ...state,
-          animal: action.payload,
-        };
+    case 'GENDER':
+      return {
+        ...state,
+        gender: action.payload,
+      };
+    case 'CLEAN':
+      return {
+        ...state,
+        animal: action.payload,
+      };
     case 'HERDS':
       return {
         ...state,
@@ -69,11 +74,11 @@ export default (state = initialState, action) => {
         ...state,
         userData: action.payload,
       };
-      case 'OVERVIEW':
-        return {
-          ...state,
-          overView: action.payload,
-        };
+    case 'OVERVIEW':
+      return {
+        ...state,
+        overView: action.payload,
+      };
     case 'CATEGORY':
       return {
         ...state,
@@ -94,7 +99,7 @@ export default (state = initialState, action) => {
         ...state,
         animal: action.payload,
       };
-      case 'PARENT':
+    case 'PARENT':
       return {
         ...state,
         parent: action.payload,
@@ -104,7 +109,7 @@ export default (state = initialState, action) => {
         ...state,
         med: action.payload,
       };
-      case 'ONEMEDP':
+    case 'ONEMEDP':
       return {
         ...state,
         parentmed: action.payload,

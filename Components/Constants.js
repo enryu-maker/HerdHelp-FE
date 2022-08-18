@@ -95,7 +95,8 @@ export const COLORS={
     transparent: "transparent",
     red: "#ff4d4d",
     green: "#27AE60",
-    layout:"#f0f0f0"
+    layout:"#f0f0f0",
+    yellow:'#ffdf00'
 }
 
 export const SIZES = {

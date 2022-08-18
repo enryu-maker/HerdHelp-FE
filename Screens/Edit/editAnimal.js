@@ -30,6 +30,11 @@ const EditAnimal = ({navigation, route}) => {
   const [bred, setBred] = useState(route.params.animal?.bred);
   const [valueMS, setValueMS] = useState(route.params.animal?.species);
   const [valueBS, setValueBS] = useState(route.params.animal?.gender);
+  const [valueBST, setValueBST] = useState(route.params.animal?.gender_name);
+  const [pdatet, setPdatet] = useState(route.params.animal?.purchase_date);
+  const [pdate, setPdate] = useState('');
+
+
   const [age, setAge] = useState(route.params.animal?.age);
   const [Breed, setBreed] = useState(route.params.animal?.breed);
   const [tag, setTag] = useState(route.params.animal?.support_tag);
@@ -94,10 +99,13 @@ const EditAnimal = ({navigation, route}) => {
     setPrice('');
     setName('');
   };
+  const gender = useSelector(state => state.Reducers.gender)
+
   const data = JSON.stringify({
     name: name,
     registration: registration,
-    gender: valueBS,
+    gender:valueBS,
+    gender_name:valueBST,
     species: valueMS,
     birth_date: dobt,
     mother_supporttag: mother != '' ? mother : '',
@@ -119,7 +127,28 @@ const EditAnimal = ({navigation, route}) => {
     vaccination_date: vaccinateddatet,
     price: price,
     bought: bought,
+    purchase_date:pdatet
   });
+  function finder(list, value) {
+    var dataValue;
+    list?.map(a => {
+      if (value == a.label) {
+        dataValue = a.data;
+      }
+    });
+    return dataValue;
+  }
+  function findertype(list, value, type,setValue) {
+    list?.map(a => {
+      if (value == a.label) {
+        a.data.map(a => {
+      if (type == a.label) {
+        setValue(a.type)
+      }
+    });
+      }
+    });
+  }
   const dispatch = useDispatch();
   async function postAnimal() {
     setLoading(true);
@@ -300,7 +329,7 @@ const EditAnimal = ({navigation, route}) => {
           dropdownIcon={images.down}
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
-          data={genderdata}
+          data={finder(gender,valueMS)}
           textInputStyle={(FONTS.body2, {letterSpacing: 2})}
           selectedItemTextStyle={
             (FONTS.body3,
@@ -316,8 +345,11 @@ const EditAnimal = ({navigation, route}) => {
           required
           disableSelectionTick
           primaryColor={COLORS.Primary}
-          value={valueBS}
-          onChange={onChangeBS}
+          value={valueBST}
+          onChange={(value) => {
+            setValueBST(value)
+            findertype(gender,valueMS,value,setValueBS)
+          }}
           animationIn="bounceInLeft"
           animationOut="bounceOutLeft"
           mainContainerStyle={{
@@ -637,6 +669,22 @@ const EditAnimal = ({navigation, route}) => {
           </View>
         ) : (
           <View>
+            <FormDateInput
+                label="Date of Purchase"
+                placeholder="YYYY-MM-DD"
+                value={pdate}
+                setDate={setPdate}
+                formatDate={setPdatet}
+                containerStyle={{
+                  marginTop: SIZES.radius,
+                }}
+                inputContainerStyle={{
+                  backgroundColor: COLORS.white,
+                  width: '88%',
+                  alignSelf: 'center',
+                }}
+                inputStyle={{marginLeft: 20, fontSize: 16}}
+              />
             <FormInput
               prependComponent={
                 <View
@@ -651,6 +699,7 @@ const EditAnimal = ({navigation, route}) => {
                   />
                 </View>
               }
+              placeholder={JSON.stringify(price)}
               label="Price"
               value={price}
               returnKeyType={'next'}
@@ -711,6 +760,7 @@ const EditAnimal = ({navigation, route}) => {
                   />
                 </View>
               }
+              placeholder={JSON.stringify(weight)}
               label="Weight"
               value={weight}
               returnKeyType={'next'}

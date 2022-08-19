@@ -21,7 +21,8 @@ import TextButton from '../../Components/TextButton';
 import FormDateInput from '../../Components/FormDateInput';
 import {showMessage, hideMessage} from 'react-native-flash-message';
 import {useDispatch, useSelector} from 'react-redux';
-import {getHerds} from '../../Store/actions';
+import {getAnimal, getHerds} from '../../Store/actions';
+import { baseURL } from '../../helpers/helpers';
 const EditAnimal = ({navigation, route}) => {
   const unit = JSON.parse(useSelector(state => state.Reducers.unit));
   React.useEffect(() => {
@@ -42,7 +43,7 @@ const EditAnimal = ({navigation, route}) => {
   const [mother, setMother] = useState(route.params.animal?.mother_supporttag);
   const [father, setFather] = useState(route.params.animal?.father_supporttag);
   const [weight, setWeight] = useState(
-    unit ? route.params.animal?.weight : route.params.animal?.weight_kg
+    route.params.animal?.weight
   );
   const [name, setName] = useState(route.params.animal?.name);
   const [dob, setDob] = useState('');
@@ -59,10 +60,6 @@ const EditAnimal = ({navigation, route}) => {
   const [registration, setRegistration] = React.useState(
     route.params.animal?.registration,
   );
-    console.log(route.params.animal?.weight)
-    console.log(route.params.animal?.weight_kg)
-
-
   const [showc, setshowc] = React.useState(false);
   const [pic, setPic] = React.useState('');
   const [picdata, setPicdata] = React.useState('');
@@ -100,35 +97,10 @@ const EditAnimal = ({navigation, route}) => {
     setName('');
   };
   const gender = useSelector(state => state.Reducers.gender)
+  const token = useSelector(state => state.Reducers.authToken)
 
-  const data = JSON.stringify({
-    name: name,
-    registration: registration,
-    gender:valueBS,
-    gender_name:valueBST,
-    species: valueMS,
-    birth_date: dobt,
-    mother_supporttag: mother != '' ? mother : '',
-    mother_tagnumber: mother != '' ? `${id}${valueMS}${mother}` : '',
-    father_supporttag: father != '' ? father : '',
-    father_tagnumber: father != '' ? `${id}${valueMS}${father}` : '',
-    breed: Breed,
-    weight: weight != route.params.animal?.weight?unit == true ? weight : Math.round(weight / 0.45359237):weight,
-    weight_kg:weight != route.params.animal?.weight_kg? unit == false ? weight : Math.round(weight * 0.45359237):weight,
-    weight_30: unit == true ? weight30 : Math.round(weight30 / 0.45359237),
-    weight_30_kg: unit == false ? weight30 : Math.round(weight30 * 0.45359237),
-    weight_60: unit == true ? weight60 : Math.round(weight60 / 0.45359237),
-    weight_60_kg: unit == false ? weight60 : Math.round(weight60 * 0.45359237),
-    weight_90: unit == true ? weight90 : Math.round(weight90 / 0.45359237),
-    weight_90_kg: unit == false ? weight90 : Math.round(weight90 * 0.45359237),
-    bred: bred,
-    age: age,
-    vaccinated: vaccinated,
-    vaccination_date: vaccinateddatet,
-    price: price,
-    bought: bought,
-    purchase_date:pdatet
-  });
+
+  
   function finder(list, value) {
     var dataValue;
     list?.map(a => {
@@ -149,16 +121,107 @@ const EditAnimal = ({navigation, route}) => {
       }
     });
   }
+
   const dispatch = useDispatch();
   async function postAnimal() {
     setLoading(true);
+    // const data = JSON.stringify({
+    //   name: name,
+    //   registration: registration,
+    //   gender:valueBS,
+    //   gender_name:valueBST,
+    //   species: valueMS,
+    //   birth_date: dobt,
+    //   mother_supporttag: mother != '' ? mother : '',
+    //   mother_tagnumber: mother != '' ? `${id}${valueMS}${mother}` : '',
+    //   father_supporttag: father != '' ? father : '',
+    //   father_tagnumber: father != '' ? `${id}${valueMS}${father}` : '',
+    //   breed: Breed,
+    //   weight: weight != route.params.animal?.weight?unit == true ? weight : Math.round(weight / 0.45359237):weight,
+    //   weight_kg:weight != route.params.animal?.weight_kg? unit == false ? weight : Math.round(weight * 0.45359237):weight,
+    //   weight_30: unit == true ? weight30 : Math.round(weight30 / 0.45359237),
+    //   weight_30_kg: unit == false ? weight30 : Math.round(weight30 * 0.45359237),
+    //   weight_60: unit == true ? weight60 : Math.round(weight60 / 0.45359237),
+    //   weight_60_kg: unit == false ? weight60 : Math.round(weight60 * 0.45359237),
+    //   weight_90: unit == true ? weight90 : Math.round(weight90 / 0.45359237),
+    //   weight_90_kg: unit == false ? weight90 : Math.round(weight90 * 0.45359237),
+    //   bred: bred,
+    //   age: age,
+    //   vaccinated: vaccinated,
+    //   vaccination_date: vaccinateddatet,
+    //   price: price,
+    //   bought: bought,
+    //   purchased_date:pdatet
+    // });
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('registration', registration);
+    formData.append('gender', valueBS);
+    formData.append('gender_name', valueBST);
+    formData.append('species', valueMS);
+    {
+      bought?formData.append('purchased_date',pdatet):formData.append('birth_date',dobt);
+    }
+    // formData.append('leased', lease);
+    formData.append('mother_supporttag', mother != '' ? mother : '');
+    formData.append(
+      'mother_tagnumber',
+      mother != '' ? `${id}${valueMS}${mother}` : '',
+    );
+    formData.append('father_supporttag', father != '' ? father : '');
+    formData.append(
+      'father_tagnumber',
+      father != '' ? `${id}${valueMS}${father}` : '',
+    );
+    formData.append('breed', Breed);
+    formData.append(
+      'weight',
+      unit == true ? weight : Math.round(weight / 0.45359237),
+    );
+    formData.append(
+      'weight_kg',
+      unit == false ? weight : Math.round(weight * 0.45359237),
+    );
+    formData.append(
+      'weight_30',
+      unit == true ? weight30 : Math.round(weight30 / 0.45359237),
+    );
+    formData.append(
+      'weight_30_kg',
+      unit == false ? weight30 : Math.round(weight30 * 0.45359237),
+    );
+    formData.append(
+      'weight_60',
+      unit == true ? weight60 : Math.round(weight60 / 0.45359237),
+    );
+    formData.append(
+      'weight_60_kg',
+      unit == false ? weight60 : Math.round(weight60 * 0.45359237),
+    );
+    formData.append(
+      'weight_90',
+      unit == true ? weight90 : Math.round(weight90 / 0.45359237),
+    );
+    formData.append(
+      'weight_90_kg',
+      unit == false ? weight90 : Math.round(weight90 * 0.45359237),
+    );
+    formData.append('bred', bred);
+    formData.append('age', age);
+    formData.append('vaccinated', vaccinated);
+    formData.append('vaccination_date',vaccinated=="YES"? vaccinateddatet : '');
+    formData.append('price', price);
+    formData.append('bought', bought);
     if (isEnableSignIn()) {
-      await axiosIns
-        .patch(`animals/${route.params.animal?.tag_number}`, data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+      fetch(baseURL + `/animals/${route.params.animal?.tag_number}`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      })
         .then(response => {
           if (response.status == 200) {
             clear();
@@ -178,6 +241,7 @@ const EditAnimal = ({navigation, route}) => {
                 justifyContent: 'center',
               },
             });
+            dispatch(getAnimal(route.params.animal?.tag_number))
             dispatch(getHerds());
           }
         })
@@ -957,11 +1021,13 @@ const EditAnimal = ({navigation, route}) => {
         }}>
         {renderForm()}
       </KeyboardAwareScrollView>
+        {
 
+        }
       <TextButton
         onPress={() => {
           postAnimal();
-          // console.log(typeof(price))
+          // alert(pdatet)
         }}
         icon={images.add}
         buttonContainerStyle={{

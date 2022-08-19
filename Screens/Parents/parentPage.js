@@ -15,7 +15,6 @@ export default function ParentPage({ navigation, route }) {
   const [Herd, setHerd] = React.useState([])
   const [Data, setData] = React.useState([])
   const data = useSelector(state=>state.Reducers.baby)
-  console.log(Herd)
   const dispatch = useDispatch()
   React.useEffect(() => {
     let { data } = route.params;
@@ -23,10 +22,10 @@ export default function ParentPage({ navigation, route }) {
     let { type } = route.params;
     setType(type)
     setCond(cond);
-    // {type=="B"?(
+    {type=="B"?(
     dispatch(getBabies(data))
-    // )
-    // :setData(data)}
+    )
+    :setData(data)}
     // Seperator(data);
   }, [])
   
@@ -148,7 +147,7 @@ export default function ParentPage({ navigation, route }) {
   function renderCards(Herd,data,type) {
     return(
       <FlatList
-        data={data}
+        data={type === "B"?data:Herd}
         // keyExtractor={item => `${item.key}`}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
@@ -208,7 +207,7 @@ export default function ParentPage({ navigation, route }) {
         backgroundColor: COLORS.white,
       }}>
       {renderheader()}
-      {renderCards(Herd,data,type)}
+      {renderCards(Data,data,type)}
       {/* {renderButtons()} */}
       
 

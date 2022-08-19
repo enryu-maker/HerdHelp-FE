@@ -278,6 +278,11 @@ export const ChildInfo = ({ navigation, route }) => {
                 ) : (
                     <>
                         <InfoItem
+                            label="Purchased Date"
+                            value={animal?.purchased_date}
+                            withDivider={false}
+                        />
+                        <InfoItem
                             label="Price"
                             value={`${formatter.format(animal?.price)}`}
                             withDivider={false}

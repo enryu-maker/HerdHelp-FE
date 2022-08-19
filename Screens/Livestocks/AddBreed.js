@@ -266,6 +266,7 @@ const Addanimals = ({ navigation, route }) => {
     formData.append('vaccination_date', vaccinateddatet);
     formData.append('price', price);
     formData.append('bought', bought);
+    formData.append('purchased_date', pdatet);
     formData.append('status', 'Alive');
     formData.append('animal_image', profile_pic);
     if (isEnableSignIn()) {

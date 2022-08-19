@@ -167,6 +167,7 @@ export default function FinanceInfo({navigation}) {
                 }}
                 onPress={() =>  {
                   dispatch(deleteFinance(data.item.id))
+                  dispatch(getFinance())
                 }}
             />
             </View>

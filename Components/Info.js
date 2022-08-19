@@ -279,6 +279,10 @@ export const Info = ({ navigation, route }) => {
           </View>
         ) : (
           <>
+          <InfoItem
+              label="Purchase Date"
+              value={animal?.purchased_date}
+            />
             <InfoItem
               label="Price"
               value={`${formatter.format(animal?.price)}`}

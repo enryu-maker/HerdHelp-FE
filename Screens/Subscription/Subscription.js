@@ -19,14 +19,14 @@ import { showMessage } from "react-native-flash-message";
 
 const itemSkus = Platform.select({
   ios: [
-    "T1699",
-    "T21199", // dooboolab
-    "T32599",
+    "T699",
+    // "T21199", // dooboolab
+    // "T32599",
   ],
   android: [
     "tier699",
-    "tier21199", // dooboolab
-    "tier32599",
+    // "tier21199", // dooboolab
+    // "tier32599",
   ],
 });
 export default function Subscription({ navigation, route }) {

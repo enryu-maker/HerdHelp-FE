@@ -32,7 +32,7 @@ const EditAnimal = ({navigation, route}) => {
   const [valueMS, setValueMS] = useState(route.params.animal?.species);
   const [valueBS, setValueBS] = useState(route.params.animal?.gender);
   const [valueBST, setValueBST] = useState(route.params.animal?.gender_name);
-  const [pdatet, setPdatet] = useState(route.params.animal?.purchase_date);
+  const [pdatet, setPdatet] = useState(route.params.animal?.purchased_date);
   const [pdate, setPdate] = useState('');
 
 
@@ -98,9 +98,6 @@ const EditAnimal = ({navigation, route}) => {
   };
   const gender = useSelector(state => state.Reducers.gender)
   const token = useSelector(state => state.Reducers.authToken)
-
-
-  
   function finder(list, value) {
     var dataValue;
     list?.map(a => {
@@ -123,106 +120,47 @@ const EditAnimal = ({navigation, route}) => {
   }
 
   const dispatch = useDispatch();
+  const data = JSON.stringify({
+    name: name,
+    registration: registration,
+    gender: valueBS,
+    gender_name: valueBST,
+    species: valueMS,
+    birth_date: dobt,
+    mother_supporttag: mother != '' ? mother : '',
+    mother_tagnumber: mother != '' ? `${id}${valueMS}${mother}` : '',
+    father_supporttag: father != '' ? father : '',
+    father_tagnumber: father != '' ? `${id}${valueMS}${father}` : '',
+    breed: Breed,
+    weight: unit == true ? weight : Math.round(weight / 0.45359237),
+    weight_kg: unit == false ? weight : Math.round(weight * 0.45359237),
+    weight_30: unit == true ? weight30 : Math.round(weight30 / 0.45359237),
+    weight_30_kg: unit == false ? weight30 : Math.round(weight30 * 0.45359237),
+    weight_60: unit == true ? weight60 : Math.round(weight60 / 0.45359237),
+    weight_60_kg: unit == false ? weight60 : Math.round(weight60 * 0.45359237),
+    weight_90: unit == true ? weight90 : Math.round(weight90 / 0.45359237),
+    weight_90_kg: unit == false ? weight90 : Math.round(weight90 * 0.45359237),
+    bred: bred,
+    age: age,
+    vaccinated: vaccinated,
+    vaccination_date: vaccinateddatet,
+    price: price,
+    bought: bought,
+    purchased_date: pdatet
+  });
+
+
   async function postAnimal() {
     setLoading(true);
-    // const data = JSON.stringify({
-    //   name: name,
-    //   registration: registration,
-    //   gender:valueBS,
-    //   gender_name:valueBST,
-    //   species: valueMS,
-    //   birth_date: dobt,
-    //   mother_supporttag: mother != '' ? mother : '',
-    //   mother_tagnumber: mother != '' ? `${id}${valueMS}${mother}` : '',
-    //   father_supporttag: father != '' ? father : '',
-    //   father_tagnumber: father != '' ? `${id}${valueMS}${father}` : '',
-    //   breed: Breed,
-    //   weight: weight != route.params.animal?.weight?unit == true ? weight : Math.round(weight / 0.45359237):weight,
-    //   weight_kg:weight != route.params.animal?.weight_kg? unit == false ? weight : Math.round(weight * 0.45359237):weight,
-    //   weight_30: unit == true ? weight30 : Math.round(weight30 / 0.45359237),
-    //   weight_30_kg: unit == false ? weight30 : Math.round(weight30 * 0.45359237),
-    //   weight_60: unit == true ? weight60 : Math.round(weight60 / 0.45359237),
-    //   weight_60_kg: unit == false ? weight60 : Math.round(weight60 * 0.45359237),
-    //   weight_90: unit == true ? weight90 : Math.round(weight90 / 0.45359237),
-    //   weight_90_kg: unit == false ? weight90 : Math.round(weight90 * 0.45359237),
-    //   bred: bred,
-    //   age: age,
-    //   vaccinated: vaccinated,
-    //   vaccination_date: vaccinateddatet,
-    //   price: price,
-    //   bought: bought,
-    //   purchased_date:pdatet
-    // });
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('registration', registration);
-    formData.append('gender', valueBS);
-    formData.append('gender_name', valueBST);
-    formData.append('species', valueMS);
-    {
-      bought?formData.append('purchased_date',pdatet):formData.append('birth_date',dobt);
-    }
-    // formData.append('leased', lease);
-    formData.append('mother_supporttag', mother != '' ? mother : '');
-    formData.append(
-      'mother_tagnumber',
-      mother != '' ? `${id}${valueMS}${mother}` : '',
-    );
-    formData.append('father_supporttag', father != '' ? father : '');
-    formData.append(
-      'father_tagnumber',
-      father != '' ? `${id}${valueMS}${father}` : '',
-    );
-    formData.append('breed', Breed);
-    formData.append(
-      'weight',
-      unit == true ? weight : Math.round(weight / 0.45359237),
-    );
-    formData.append(
-      'weight_kg',
-      unit == false ? weight : Math.round(weight * 0.45359237),
-    );
-    formData.append(
-      'weight_30',
-      unit == true ? weight30 : Math.round(weight30 / 0.45359237),
-    );
-    formData.append(
-      'weight_30_kg',
-      unit == false ? weight30 : Math.round(weight30 * 0.45359237),
-    );
-    formData.append(
-      'weight_60',
-      unit == true ? weight60 : Math.round(weight60 / 0.45359237),
-    );
-    formData.append(
-      'weight_60_kg',
-      unit == false ? weight60 : Math.round(weight60 * 0.45359237),
-    );
-    formData.append(
-      'weight_90',
-      unit == true ? weight90 : Math.round(weight90 / 0.45359237),
-    );
-    formData.append(
-      'weight_90_kg',
-      unit == false ? weight90 : Math.round(weight90 * 0.45359237),
-    );
-    formData.append('bred', bred);
-    formData.append('age', age);
-    formData.append('vaccinated', vaccinated);
-    formData.append('vaccination_date',vaccinated=="YES"? vaccinateddatet : '');
-    formData.append('price', price);
-    formData.append('bought', bought);
     if (isEnableSignIn()) {
-      fetch(baseURL + `/animals/${route.params.animal?.tag_number}`, {
-        method: 'PATCH',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      })
+      await axiosIns
+        .patch(`animals/${route.params.animal?.tag_number}`, data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
         .then(response => {
+          console.log(response)
           if (response.status == 200) {
             clear();
             setLoading(false);

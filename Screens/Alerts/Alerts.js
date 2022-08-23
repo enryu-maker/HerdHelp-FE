@@ -1,4 +1,4 @@
-import {View, TouchableOpacity, Image, Text,} from 'react-native';
+import {View, TouchableOpacity, Image, Text,ToastAndroid,Alert} from 'react-native';
 import React from 'react';
 import Header from '../../Components/Header';
 import {COLORS, FONTS, images, SIZES} from '../../Components/Constants';
@@ -193,6 +193,7 @@ export default function Alerts({navigation,route}) {
       />
     );
   }
+  
   function renderForm() {
     return (
       <View
@@ -366,11 +367,12 @@ export default function Alerts({navigation,route}) {
       </KeyboardAwareScrollView>
       <TextButton
       border={false}
-        onPress={() => {
-          // alert(id)
-          // postAlert();
-          addCalander()
-
+        onPress={()=>{
+          if (Platform.OS === 'android') {
+            ToastAndroid.show("hello", ToastAndroid.SHORT)
+          } else {
+           Alert.alert("hello")
+          }
         }}
         icon={images.bell}
         loading={loading}

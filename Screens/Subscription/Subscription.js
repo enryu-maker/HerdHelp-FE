@@ -13,20 +13,15 @@ import { images } from "../../Components/Constants";
 import Header from "../../Components/Header";
 import SubscriptionCard from "./SubscriptionCard";
 import RNIap, { initConnection } from "react-native-iap";
-
 import ActivityIndicatorExample from "../../Components/Loading";
 import { showMessage } from "react-native-flash-message";
 
 const itemSkus = Platform.select({
   ios: [
     "T699",
-    // "T21199", // dooboolab
-    // "T32599",
   ],
   android: [
-    "tier699",
-    // "tier21199", // dooboolab
-    // "tier32599",
+    "t699",
   ],
 });
 export default function Subscription({ navigation, route }) {
@@ -112,8 +107,6 @@ export default function Subscription({ navigation, route }) {
       }
     }
   
-  // https://api-nerdtech.herdhelp.com/subscriptions/activate/
-
   React.useEffect(() => {
     let { msg } = route.params;
     // setMsg(msg)

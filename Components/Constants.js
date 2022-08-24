@@ -123,9 +123,9 @@ export const SIZES = {
     width,
     height
 };
-const type = { base: (Platform.OS === "ios" ? "Helvetica Neue" : 'Roboto'), 
-bold: (Platform.OS === "ios" ? "HelveticaNeue-Bold" : "Roboto"), 
-emphasis: (Platform.OS === "ios" ? "HelveticaNeue-Italic" : "Roboto") }
+const type = { base: "monospace", 
+bold: "monospace.bold", 
+emphasis: "monospace.medium"}
 export const FONTS = {
     largeTitle: { fontFamily: type.bold, fontSize: SIZES.largeTitle },
     h1: { fontFamily: type.bold, fontSize: SIZES.h1, lineHeight: 36, fontWeight:'bold'},

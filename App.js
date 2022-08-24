@@ -14,7 +14,6 @@ import {COLORS} from './Components/Constants';
 import Homenav from './Screens/Nav/Homenav';
 import Rootnav from './Screens/Nav/Rootnav';
 import {enableScreens} from 'react-native-screens';
-import Toast from 'react-native-toast-message';
 
 const RootNavigation = () => {
   const token = useSelector(state => state.Reducers.authToken);
@@ -44,10 +43,7 @@ const RootNavigation = () => {
 
   return (
     <NavigationContainer>
-      <Toast
-        position="top"
-        bottomOffset={20}
-      />
+      <FlashMessage position="top" />
       {token === null ? <Rootnav /> : <Homenav />}
     </NavigationContainer>
   );

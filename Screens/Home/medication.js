@@ -229,6 +229,7 @@ export const Medication = ({navigation, route}) => {
             borderRadius: SIZES.radius,
           }}
           // enableAvatar
+          enableSearch
           animationIn="bounceInLeft"
           animationOut="bounceOutLeft"
           disableSelectionTick

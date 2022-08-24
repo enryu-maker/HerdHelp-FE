@@ -220,6 +220,7 @@ export default function Flag({
             margin: 5,
             borderRadius: SIZES.radius,
           }}
+          enableSearch
           // enableAvatar
           animationIn="bounceInLeft"
           animationOut="bounceOutLeft"

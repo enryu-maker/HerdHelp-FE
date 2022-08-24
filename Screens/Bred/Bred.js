@@ -237,6 +237,7 @@ export default function Bred({
             margin: 5,
             borderRadius: SIZES.radius,
           }}
+          
           // enableAvatar
           enableSearch
           animationIn="bounceInLeft"

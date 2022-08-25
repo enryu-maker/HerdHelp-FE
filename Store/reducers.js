@@ -15,7 +15,8 @@ const initialState = {
   fcat: [],
   overView: [],
   gender: [],
-  baby: []
+  baby: [],
+  subscribed:false
 };
 
 export default (state = initialState, action) => {
@@ -29,6 +30,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         parent: action.payload,
+      };
+      case 'PREMIUM':
+      return {
+        ...state,
+        subscribed: action.payload,
       };
     case 'UNIT':
       return {

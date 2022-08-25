@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View,StatusBar ,Image} from 'react-native'
+import { Text, StyleSheet, View,StatusBar ,Image, Platform} from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../Home/Home';
 import Add from '../Home/Add';
@@ -142,7 +142,7 @@ fetchprofile = async () => {
           return{
             detachPreviousScreen:!navigation.isFocused(),
             headerShown: false,
-            animation:"slide_from_right"
+            animation:Platform.OS=="ios"?"default":"slide_from_right"
           }
         }}
           initialRouteName={'DrawNav'}>

@@ -49,9 +49,7 @@ const TextButton = ({
                 width:'88%',
                 alignSelf:'center',
                 ...buttonContainerStyle,
-
             }}
-            
             disabled={disabled}
             onPress={onPress}
         >

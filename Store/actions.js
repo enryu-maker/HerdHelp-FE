@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axiosIns from "../helpers/helpers";
-
+import { Platform } from "react-native";
+import * as RNIap from 'react-native-iap';
 export const Init = () => {
   return async dispatch => {
     let token = await AsyncStorage.getItem('token');
@@ -13,7 +14,38 @@ export const Init = () => {
     }
   }
 }
+export const isSubscriptionActive  =  () => {
+  const itemSkus = Platform.select({
+    ios: [
+      'T699'
+    ],
+    android: [
+      't699'
+    ]
+  });
+  return async dispatch => {
+    RNIap.initConnection()
+    const purchases = await RNIap.getAvailablePurchases();
+    let active = false;
+    purchases.forEach(purchase => {
+      if (purchase.productId == itemSkus) {
+        active = true;
+      }
+    })
+    if (active == false) {
+      console.log("error done")
+      var sub = false
+    } else {
+      var sub = true
+      console.log("done")
 
+    }
+    dispatch({
+      type: 'PREMIUM',
+      payload: sub,
+    })
+  } 
+}
 export const Login = (token,id) => {
   return async dispatch => {
     if (token && id) {

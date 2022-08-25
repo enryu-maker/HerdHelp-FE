@@ -6,12 +6,16 @@ import ChildCard from './ChildCard';
 import { ActivityIndicator } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBabies } from '../../Store/actions';
+import moment from 'moment';
+import { VictoryLine, VictoryChart, VictoryTheme,VictoryAxis, VictoryLabel } from "victory-native";
 export default function ParentPage({ navigation, route }) {
   const [selected, setSelected] = React.useState('Herd');
   const [Sold, setSold] = React.useState([])
   const [active, setActive] = React.useState([])
   const [type, setType] = React.useState(0)
   const [cond, setCond] = React.useState(false)
+  const [show, setShow] = React.useState(false)
+
   const [Herd, setHerd] = React.useState([])
   const [Data, setData] = React.useState([])
   const data = useSelector(state=>state.Reducers.baby)
@@ -48,6 +52,17 @@ export default function ParentPage({ navigation, route }) {
   // return sum;
 
   // }
+  function DataGen(Data){
+    let finalData=[]
+    Data.map(a=>{
+        var dict = {};
+        var d = new Date(a.key);
+        dict['x'] =  moment(d).format("yyyy-MM-DD");
+        dict['y']=a.data.length
+        finalData.push(dict)
+      })
+    return finalData;
+}
   function renderheader() {
     return (
       <Header
@@ -84,6 +99,41 @@ export default function ParentPage({ navigation, route }) {
           </View>
         }
         title={'Childrens'}
+        titleStyle={{
+          marginLeft:80
+        }}
+        rightComponent={
+          <View
+            style={{
+              alignSelf:"center",
+              justifyContent: 'center',
+              // position: 'absolute',
+              // marginTop: 20,
+            }}>
+            <TouchableOpacity
+              style={{
+                marginRight: 25,
+                backgroundColor: COLORS.white,
+                height: 40,
+                width: 40,
+                justifyContent: 'center',
+                borderRadius: 40 / 2,
+              }}
+              onPress={() => {
+                setShow(!show)
+              }}>
+              <Image
+                source={images.graph}
+                style={{
+                  width: 25,
+                  height: 25,
+                  tintColor: COLORS.Primary,
+                  alignSelf: 'center',
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        }
       />
     );
   }
@@ -207,7 +257,50 @@ export default function ParentPage({ navigation, route }) {
         backgroundColor: COLORS.white,
       }}>
       {renderheader()}
-      {renderCards(Data,data,type)}
+      {
+        show?<View style={{
+          // flex: 1,
+          alignSelf:"center"
+          // alignItems: "center",
+          // justifyContent: "center",
+          // marginLeft:20
+        }}>
+          <VictoryChart
+            height={SIZES.height-150}
+            width={SIZES.width-20}
+            theme={VictoryTheme.material}
+            domainPadding={30}
+            // animate={{
+            //   duration: 2000,
+            //   easing: "polyIn"
+            // }}
+          >
+            <VictoryAxis label={"Date"}  style={{ tickLabels: { angle: -90, marginTop:10 },
+          axisLabel: {...FONTS.h3, padding: 30}
+          }}  />
+            <VictoryAxis label={"Babies"} dependentAxis style={{ tickLabels: { angle: 0 },axisLabel: {...FONTS.h3, padding: 30}, }}  />
+            
+
+            <VictoryLine
+              horizontal
+              labelComponent={<VictoryLabel dx={2} dy={10} />}
+              labels={({ datum }) => datum.y}
+              style={{
+                data: { stroke: COLORS.Primary },
+                parent: { border: "1px solid #000000" },
+                labels: {
+                  ...FONTS.body4,
+                }
+              }}
+              x="x"
+              y="y"
+              data={DataGen(type === "B" ? data : Data)}
+            />
+          </VictoryChart>
+        </View>:
+      
+      renderCards(Data,data,type)
+            }
       {/* {renderButtons()} */}
       
 

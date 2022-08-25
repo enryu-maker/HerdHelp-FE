@@ -88,7 +88,7 @@ export default function FinanceInfo({navigation}) {
     );
   }
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor:COLORS.white}}>
       {renderHeader()}
       <Text style={{
         ...FONTS.h3,

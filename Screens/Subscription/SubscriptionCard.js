@@ -21,11 +21,11 @@ const SubscriptionCard=({
         borderRadius:SIZES.radius,
         marginTop:10,
         marginBottom:10,
-        shadowColor: COLORS.black,
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 2,
+        // shadowColor: COLORS.black,
+        // shadowOffset: {width: 0, height: 0},
+        // shadowOpacity: 0.5,
+        // shadowRadius: 5,
+        // elevation: 2,
         ...buttonStyle
     }}
     onPress={onPress}

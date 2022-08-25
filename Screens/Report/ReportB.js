@@ -18,11 +18,11 @@ const  ReportB=({
         borderRadius:SIZES.radius,
         flexDirection:'row',
         // justifyContent:'space-evenly',
-        shadowColor: COLORS.black,
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 2,
+        // shadowColor: COLORS.black,
+        // shadowOffset: {width: 0, height: 0},
+        // shadowOpacity: 0.5,
+        // shadowRadius: 5,
+        // elevation: 2,
         width:'88%',
         alignSelf:'center'}}
         onPress={onPress}>

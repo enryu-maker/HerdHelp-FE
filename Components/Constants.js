@@ -123,16 +123,16 @@ export const SIZES = {
     width,
     height
 };
-const type = { base: "monospace", 
-bold: "monospace.bold", 
-emphasis: "monospace.medium"}
+const type = { base:Platform.OS=="ios"?"Poppins-Regular":"Poppins-Regular", 
+bold: Platform.OS=="ios"?"Poppins-Bold":"Poppins-Bold", 
+emphasis: Platform.OS=="ios"?"Poppins-Regular":"Poppins-Regular"}
 export const FONTS = {
     largeTitle: { fontFamily: type.bold, fontSize: SIZES.largeTitle },
-    h1: { fontFamily: type.bold, fontSize: SIZES.h1, lineHeight: 36, fontWeight:'bold'},
-    h2: { fontFamily: type.bold, fontSize: SIZES.h2, lineHeight: 30 , fontWeight:'bold'},
-    h3: { fontFamily: type.bold, fontSize: SIZES.h3, lineHeight: 22 , fontWeight:'bold'},
-    h4: { fontFamily: type.bold, fontSize: SIZES.h4, lineHeight: 20 , fontWeight:'bold'},
-    h5: { fontFamily: type.bold, fontSize: SIZES.h5, lineHeight: 18 , fontWeight:'bold'},
+    h1: { fontFamily: type.bold, fontSize: SIZES.h1, lineHeight: 36},
+    h2: { fontFamily: type.bold, fontSize: SIZES.h2, lineHeight: 30},
+    h3: { fontFamily: type.bold, fontSize: SIZES.h3, lineHeight: 22},
+    h4: { fontFamily: type.bold, fontSize: SIZES.h4, lineHeight: 20},
+    h5: { fontFamily: type.bold, fontSize: SIZES.h5, lineHeight: 18},
     body1: { fontFamily: type.base, fontSize: SIZES.body1, lineHeight: 36 },
     body2: { fontFamily:type.base, fontSize: SIZES.body2, lineHeight: 30 },
     body3: { fontFamily:type.base, fontSize: SIZES.body3, lineHeight: 22 },

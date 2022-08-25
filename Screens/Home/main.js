@@ -1,6 +1,7 @@
 import {
   View,
   Image,
+  Platform,
 } from 'react-native';
 import React from 'react';
 import Header from '../../Components/Header';
@@ -118,7 +119,7 @@ const Main = ({navigation}) => {
           fontWeight:iconweight
         },
         tabBarStyle: {
-          height:SIZES.height>700?90:75,
+          height:SIZES.height>700?Platform.OS=="ios"?120:90:75,
           backgroundColor: COLORS.Primary,
         },
         tabBarActiveTintColor: COLORS.transparentPrimary2,

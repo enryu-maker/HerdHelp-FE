@@ -48,7 +48,15 @@
   } else {
     rootView.backgroundColor = [UIColor whiteColor];
   }
-
+//  for (NSString* family in [UIFont familyNames])
+//  {
+//      NSLog(@"%@", family);
+//
+//      for (NSString* name in [UIFont fontNamesForFamilyName: family])
+//      {
+//          NSLog(@"  %@", name);
+//      }
+//  }
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
@@ -56,6 +64,7 @@
   [self.window makeKeyAndVisible];
   return YES;
 }
+
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {

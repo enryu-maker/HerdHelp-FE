@@ -4,9 +4,10 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  ActivityIndicator,
+
 } from 'react-native';
 import React, {Component} from 'react';
+import { ActivityIndicator } from 'react-native-paper';
 import axiosIns from '../../helpers/helpers';
 import Header from '../../Components/Header';
 import {COLORS, images, SIZES, FONTS} from '../../Components/Constants';
@@ -93,7 +94,7 @@ class Generate extends Component {
       })
       .catch(error => {
         if (error.response) {
-          // console.log(error)
+          console.log(error)
           this.setState({loader: false});
           showMessage({
             message: `${error.response.data.msg}`,
@@ -119,7 +120,8 @@ class Generate extends Component {
       dic[a.label] = true;
     });
     Object.keys(dic).length > 0
-      ? this.genReport(dic, this.props.route.params.label)
+      ? 
+      this.genReport(dic, this.props.route.params.label)
       : (this.setState({EmailError: 'Checkbox Not Selected'}),
         this.setState({Rang: COLORS.red}));
   }
@@ -212,6 +214,8 @@ class Generate extends Component {
             margin: 20,
           }}
           onPress={() => {
+            // console.log(dic)
+            // console.log(this.props.route.params.label)
             this.dataGen(this.state.selectedFruits);
           }}
         />

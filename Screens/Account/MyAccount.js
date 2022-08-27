@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, TouchableOpacity, Image, Text } from 'react-native';
 import Header from '../../Components/Header';
 import InfoItem from '../../Components/InfoItem';
-import { COLORS, SIZES, images, dummyData, FONTS } from '../../Components/Constants';
+import { COLORS, SIZES, images, FONTS } from '../../Components/Constants';
 import PickerType from '../Livestocks/PickerType';
 import Update from './Update';
 import { useDispatch, useSelector } from 'react-redux';

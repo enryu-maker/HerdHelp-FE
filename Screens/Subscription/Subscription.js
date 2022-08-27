@@ -34,7 +34,7 @@ export default function Subscription() {
   }
 
   React.useEffect(() => {
-    RNIap.initConnection()
+    RNIap.initConnection();
     getProduct(itemSkus)
     const updateSubscription = RNIap.purchaseUpdatedListener( (purchase) => {
       console.log(purchase)

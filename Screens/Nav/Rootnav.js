@@ -13,7 +13,8 @@ export default class Rootnav extends Component {
           return{
             detachPreviousScreen:!navigation.isFocused(),
             headerShown: false,
-            animation:Platform.OS=="ios"?"default":"slide_from_right"
+            animation:Platform.OS=="ios"?"default":"slide_from_right",
+            onTransitionStart: () => Keyboard.dismiss(),
           }
         }}
           initialRouteName={'Login'} >

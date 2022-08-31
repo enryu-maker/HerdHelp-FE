@@ -51,7 +51,7 @@ const RootNavigation = () => {
     <NavigationContainer>
       <FlashMessage position="top" />
       {/* {token === null ? <Rootnav /> : subscribed?<Homenav />:<Subscription/>} */}
-      {token === null ? <Rootnav /> :<Homenav />}
+      {token === null ? <Rootnav /> : <Homenav />}
 
     </NavigationContainer>
   );

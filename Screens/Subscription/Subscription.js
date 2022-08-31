@@ -12,7 +12,7 @@ export default function Subscription() {
       'T699'
     ],
     android: [
-      't699'
+      'hh_t699'
     ]
   });
   const [product, setProduct] = React.useState({})

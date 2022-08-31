@@ -212,6 +212,8 @@ const Status = ({show, setShow, animal}) => {
   }
         <Dropdown
           label="Flagged"
+          // paperTheme={COLORS.white}
+          
           borderRadius={SIZES.radius}
           data={Bred}
           textInputStyle={(FONTS.body2, {letterSpacing: 2})}
@@ -241,7 +243,7 @@ const Status = ({show, setShow, animal}) => {
             alignSelf: 'center',
             marginTop: SIZES.height > 800 ? SIZES.base : 10,
           }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
+          itemContainerStyle={{backgroundColor: COLORS.Primary, margin: 5}}
         />
         {
           Flagged?

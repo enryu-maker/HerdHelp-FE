@@ -6,7 +6,7 @@ import { baseURL } from '../../helpers/helpers';
 import { images } from '../../Components/Constants';
 import { useNavigation } from '@react-navigation/native';
 export default function ChildCard({
-    date = "26/11/2000",
+    date,
     data,
     type
 
@@ -78,6 +78,9 @@ export default function ChildCard({
                                         marginLeft: 20,
                                     }} />
                                 </> : null}
+                                {
+                                    console.log(item?.animal_image)
+                                }
                         <View style={{ justifyContent: 'center', marginRight: SIZES.padding, height: 80, width: 80, alignSelf: "center", marginLeft: 15 }}>
                             {item?.animal_image != null ? (
                                 <View style={{
@@ -95,7 +98,7 @@ export default function ChildCard({
                                     />
                                 </View>
                             ) : (
-                                <Image source={{ uri: item.image }} style={{ height: 80, width: 80, borderRadius: SIZES.padding }}
+                                <Image source={{ uri:baseURL + item?.image }} style={{ height: 80, width: 80, borderRadius: SIZES.padding }}
                                 />
                             )}
                         </View>

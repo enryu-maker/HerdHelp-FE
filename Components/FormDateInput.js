@@ -8,7 +8,7 @@ import {
 import DatePicker from 'react-native-date-picker'
 import moment from 'moment';
 
-import { FONTS, SIZES, COLORS,images } from "./Constants"
+import { FONTS, SIZES, COLORS,images, days } from "./Constants"
 
 const FormDateInput = ({
     containerStyle,
@@ -19,9 +19,10 @@ const FormDateInput = ({
     value,
     errorMsg = "",
     formatDate,
-    mode="date"
+    mode="date",
+    setDays
 }) => {
-
+    const today = new Date();
     const [open, setOpen] = useState(false)
     return (
         <View style={{ ...containerStyle }}>
@@ -73,6 +74,9 @@ const FormDateInput = ({
                 mode={mode}
                 title={label}
                 onConfirm={(date) => {
+                    let difference = date.getTime() - today.getTime();
+                    let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+                    setDays(parseInt(Math.abs(TotalDays)))
                     setOpen(false)
                     setDate(date)
                     formatDate(date.toJSON().slice(0,10))

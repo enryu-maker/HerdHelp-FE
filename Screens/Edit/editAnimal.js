@@ -15,6 +15,7 @@ import {
   images,
   Bred,
   Bought,
+  days,
 } from '../../Components/Constants';
 import FormInput from '../../Components/FormInput';
 import TextButton from '../../Components/TextButton';
@@ -50,6 +51,7 @@ const EditAnimal = ({navigation, route}) => {
   const [dobt, setDobt] = useState(route.params.animal?.birth_date);
   const [vaccinated, setVaccinated] = useState(route.params.animal?.vaccinated);
   const [vaccinateddate, setVaccinateddate] = useState('');
+  const [day, setDay] = useState(Math.abs(days(new Date(dobt),new Date())));
   const [vaccinateddatet, setVaccinateddatet] = useState(
     route.params.animal?.vaccination_date,
   );
@@ -97,7 +99,6 @@ const EditAnimal = ({navigation, route}) => {
     setName('');
   };
   const gender = useSelector(state => state.Reducers.gender)
-  const token = useSelector(state => state.Reducers.authToken)
   function finder(list, value) {
     var dataValue;
     list?.map(a => {
@@ -160,7 +161,6 @@ const EditAnimal = ({navigation, route}) => {
           },
         })
         .then(response => {
-          console.log(response)
           if (response.status == 200) {
             clear();
             setLoading(false);
@@ -402,9 +402,10 @@ const EditAnimal = ({navigation, route}) => {
             <FormDateInput
               label="Date of Birth"
               placeholder="YYYY-MM-DD"
-              value={dob}
+              value={new Date(dobt)}
               setDate={setDob}
               formatDate={setDobt}
+              setDays={setDay}
               returnKeyType={'next'}
               containerStyle={{
                 marginTop: SIZES.radius,
@@ -431,14 +432,28 @@ const EditAnimal = ({navigation, route}) => {
                   />
                 </View>
               }
-              label="Birth Weight"
+              label="Weight"
               placeholder={weight.toString()}
               returnKeyType={'next'}
               value={weight}
               keyboardType="numeric"
               onChange={value => {
                 value = parseInt(value.replace(/,/g, ''));
-                setWeight(value);
+                if (day<35 && day>25){
+                  setWeight30(value)
+                  setWeight(value);
+                }
+                else if(day<65 && day>55){
+                  setWeight60(value)
+                  setWeight(value)
+                }
+                else if(day<95 && day>85){
+                  setWeight90(value)
+                  setWeight(value)
+                }
+                else{
+                  setWeight(value);
+                }
               }}
               containerStyle={{
                 marginTop: SIZES.radius,
@@ -461,11 +476,17 @@ const EditAnimal = ({navigation, route}) => {
               placeholder={weight30.toString()}
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
-                  setWeight30(value);
+                  if (day<35 && day>25){
+                    setWeight30(value)
+                    setWeight(value);
+                  }
+                  else{
+                    setWeight30(value)
+                  }
                 }}
                 containerStyle={{
                   marginTop: SIZES.radius,
-                  width: 80,
+                  width: 90,
                 }}
                 inputContainerStyle={{
                   backgroundColor: COLORS.white,
@@ -481,11 +502,17 @@ const EditAnimal = ({navigation, route}) => {
 
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
-                  setWeight60(value);
+                  if (day<65 && day>55){
+                    setWeight60(value)
+                    setWeight(value);
+                  }
+                  else{
+                    setWeight60(value)
+                  }
                 }}
                 containerStyle={{
                   marginTop: SIZES.radius,
-                  width: 80,
+                  width: 90,
                 }}
                 inputContainerStyle={{
                   backgroundColor: COLORS.white,
@@ -500,11 +527,17 @@ const EditAnimal = ({navigation, route}) => {
                 keyboardType="numeric"
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
-                  setWeight90(value);
+                  if (day<95 && day>85){
+                    setWeight90(value)
+                    setWeight(value);
+                  }
+                  else{
+                    setWeight90(value)
+                  }
                 }}
                 containerStyle={{
                   marginTop: SIZES.radius,
-                  width: 80,
+                  width: 90,
                 }}
                 inputContainerStyle={{
                   backgroundColor: COLORS.white,
@@ -596,7 +629,7 @@ const EditAnimal = ({navigation, route}) => {
               <FormDateInput
                 label="Date of Vaccination"
                 placeholder="YYYY-MM-DD"
-                value={vaccinateddate}
+                value={new Date(vaccinateddatet)}
                 setDate={setVaccinateddate}
                 formatDate={setVaccinateddatet}
                 containerStyle={{
@@ -674,7 +707,7 @@ const EditAnimal = ({navigation, route}) => {
             <FormDateInput
                 label="Date of Purchase"
                 placeholder="YYYY-MM-DD"
-                value={pdate}
+                value={new Date(pdatet)}
                 setDate={setPdate}
                 formatDate={setPdatet}
                 containerStyle={{
@@ -856,7 +889,7 @@ const EditAnimal = ({navigation, route}) => {
               <FormDateInput
                 label="Date of Vaccination"
                 placeholder="YYYY-MM-DD"
-                value={vaccinateddate}
+                value={new Date(vaccinateddatet)}
                 setDate={setVaccinateddate}
                 formatDate={setVaccinateddatet}
                 containerStyle={{
@@ -959,9 +992,6 @@ const EditAnimal = ({navigation, route}) => {
         }}>
         {renderForm()}
       </KeyboardAwareScrollView>
-        {
-
-        }
       <TextButton
         onPress={() => {
           postAnimal();

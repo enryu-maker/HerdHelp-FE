@@ -98,7 +98,7 @@ export default function ParentPage({ navigation, route }) {
             </TouchableOpacity>
           </View>
         }
-        title={'Childrens'}
+        title={'Children'}
         titleStyle={{
           marginLeft:80
         }}
@@ -194,10 +194,17 @@ export default function ParentPage({ navigation, route }) {
       </View>
     );
   }
+  
   function renderCards(Herd,data,type) {
+    const arr1 = type === "B" ? data : Herd 
+    console.log(arr1)
+    const sortedDesc = arr1.sort(
+      (objA, objB) => Number(new Date(objB.key)) - Number(new Date(objA.key)),
+    );
+    console.log("sort=>",sortedDesc)
     return(
       <FlatList
-        data={type === "B"?data:Herd}
+        data={sortedDesc}
         // keyExtractor={item => `${item.key}`}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (

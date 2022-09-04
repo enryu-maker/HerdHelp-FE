@@ -23,6 +23,7 @@ import {
   images,
   Bred,
   Bought,
+  days,
 } from '../../Components/Constants';
 import FormInput from '../../Components/FormInput';
 import TextButton from '../../Components/TextButton';
@@ -66,6 +67,7 @@ const Addanimals = ({ navigation, route }) => {
   const [pdatet, setPdatet] = useState('');
   const [pdate, setPdate] = useState('');
   const [pic, setPic] = React.useState('');
+  const [day, setDay] = React.useState(0);
   const [profile_pic, setprofile_pic] = React.useState([]);
   const [picdata, setPicdata] = React.useState([]);
   const token = useSelector(state => state.Reducers.authToken);
@@ -621,6 +623,7 @@ const Addanimals = ({ navigation, route }) => {
               value={dob}
               setDate={setDob}
               formatDate={setDobt}
+              setDays={setDay}
               containerStyle={{
                 marginTop: SIZES.radius,
                 // marginLeft:20
@@ -638,7 +641,6 @@ const Addanimals = ({ navigation, route }) => {
                   style={{
                     alignSelf: 'center',
                     justifyContent: 'center',
-                    // marginLeft: 0,
                   }}>
                   <Image
                     source={unit === true ? images.kg : images.scale}
@@ -647,12 +649,26 @@ const Addanimals = ({ navigation, route }) => {
                 </View>
               }
               returnKeyType={'next'}
-              label="Birth Weight"
+              label="Weight"
               value={weight}
               keyboardType="numeric"
               onChange={(value) => {
                 value = parseInt(value.replace(/,/g, ""))
-                setWeight(value);
+                if (day<35 && day>25){
+                  setWeight30(value)
+                  setWeight(value);
+                }
+                else if(day<65 && day>55){
+                  setWeight60(value)
+                  setWeight(value)
+                }
+                else if(day<95 && day>85){
+                  setWeight90(value)
+                  setWeight(value)
+                }
+                else{
+                  setWeight(value);
+                }
               }}
               containerStyle={{
                 marginTop: SIZES.radius,
@@ -673,7 +689,13 @@ const Addanimals = ({ navigation, route }) => {
                 keyboardType="numeric"
                 onChange={(value) => {
                   value = parseInt(value.replace(/,/g, ""))
-                  setWeight30(value);
+                  if (day<35 && day>25){
+                    setWeight30(value)
+                    setWeight(value);
+                  }
+                  else{
+                    setWeight30(value)
+                  }
                 }}
                 containerStyle={{
                   marginTop: SIZES.radius,
@@ -691,7 +713,13 @@ const Addanimals = ({ navigation, route }) => {
                 keyboardType="numeric"
                 onChange={(value) => {
                   value = parseInt(value.replace(/,/g, ""))
-                  setWeight60(value);
+                  if (day<65 && day>55){
+                    setWeight60(value)
+                    setWeight(value);
+                  }
+                  else{
+                    setWeight60(value)
+                  }
                 }}
                 containerStyle={{
                   marginTop: SIZES.radius,
@@ -709,7 +737,13 @@ const Addanimals = ({ navigation, route }) => {
                 keyboardType="numeric"
                 onChange={(value) => {
                   value = parseInt(value.replace(/,/g, ""))
-                  setWeight90(value);
+                  if (day<95 && day>85){
+                    setWeight90(value)
+                    setWeight(value);
+                  }
+                  else{
+                    setWeight90(value)
+                  }
                 }}
                 containerStyle={{
                   marginTop: SIZES.radius,

@@ -21,30 +21,25 @@ export const isSubscriptionActive = () => {
       'T699'
     ],
     android: [
-      'hhb'
+      'hh_t699'
     ]
   });
   return async dispatch => {
-    RNIap.initConnection().then(() => {
-      const purchases = RNIap.getAvailablePurchases();
-      console.log(purchases)
-      let active = false;
-      purchases.forEach(purchase => {
-        if (purchase.productId == itemSkus) {
-          active = true;
-        }
-      })
-      if (active == false) {
-        console.log("error done")
-        sub = false
-      } else {
-        sub = true
-        console.log("done")
+    RNIap.initConnection();
+    const purchases = await RNIap.getAvailablePurchases();
+    let active = false;
+    purchases?.forEach(purchase => {
+      if (purchase?.productId == itemSkus) {
+        active = true;
       }
-    }).catch((err) => {
-      console.log("suberr=>", err)
     })
-
+    if (active == false) {
+      console.log("error done")
+      var sub = false
+    } else {
+      var sub = true
+      console.log("done")
+    }
     dispatch({
       type: 'PREMIUM',
       payload: sub,

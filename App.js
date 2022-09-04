@@ -22,7 +22,7 @@ const RootNavigation = () => {
   const dispatch = useDispatch();
   const init = async () => {
     await dispatch(Init());
-    // await dispatch(isSubscriptionActive())
+    await dispatch(isSubscriptionActive())
     setLoading(false);
   };
 
@@ -50,8 +50,8 @@ const RootNavigation = () => {
   return (
     <NavigationContainer>
       <FlashMessage position="top" />
-      {/* {token === null ? <Rootnav /> : subscribed?<Homenav />:<Subscription/>} */}
-      {token === null ? <Rootnav /> : <Homenav />}
+      {token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/>}
+      {/* {token === null ? <Rootnav /> : <Homenav />} */}
 
     </NavigationContainer>
   );

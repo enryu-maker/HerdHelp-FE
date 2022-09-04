@@ -19,7 +19,7 @@ export default function Subscription() {
   const [checked, setChecked] = React.useState(false);
   const getProduct = async (itemSkus) => {
     try {
-      const products = await RNIap.getSubscriptions(itemSkus);
+      const products = await RNIap.getProducts(itemSkus);
       setProduct(products[0])
     } catch (err) {
       console.warn(err);
@@ -34,8 +34,18 @@ export default function Subscription() {
   }
 
   React.useEffect(() => {
-    RNIap.initConnection();
-    getProduct(itemSkus)
+    RNIap.initConnection().catch(()=>{
+      console.log("Something went wrong")
+    }).then(()=>{
+      console.log("connection establised ")
+      RNIap.getSubscriptions(itemSkus).then((res)=>{
+        console.log('hi')
+        console.log(res)
+        setProduct(res[0]);
+      }).catch(()=>{
+        console.log('Something went wrong')
+      })
+    })
     const updateSubscription = RNIap.purchaseUpdatedListener( (purchase) => {
       console.log(purchase)
       const receiptBodyios = {

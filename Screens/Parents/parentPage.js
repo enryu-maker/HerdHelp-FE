@@ -197,11 +197,9 @@ export default function ParentPage({ navigation, route }) {
   
   function renderCards(Herd,data,type) {
     const arr1 = type === "B" ? data : Herd 
-    console.log(arr1)
     const sortedDesc = arr1.sort(
       (objA, objB) => Number(new Date(objB.key)) - Number(new Date(objA.key)),
     );
-    console.log("sort=>",sortedDesc)
     return(
       <FlatList
         data={sortedDesc}

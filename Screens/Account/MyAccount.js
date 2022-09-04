@@ -61,7 +61,7 @@ const MyAccount = ({ navigation, route }) => {
         </View>
       );
     } else {
-      console.log("in else")
+      // console.log("in else")
       return (
         <View style={{
           // backgroundColor:COLORS.lightGray1,

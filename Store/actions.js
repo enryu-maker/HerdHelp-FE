@@ -25,7 +25,9 @@ export const isSubscriptionActive = () => {
     ]
   });
   return async dispatch => {
-    await RNIap.initConnection()
+    
+    await RNIap.initConnection();
+    await RNIap.clearTransactionIOS();
     // .then(()=>{
     // })
     const purchases = await RNIap.getAvailablePurchases();

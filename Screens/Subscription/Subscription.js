@@ -44,6 +44,8 @@ export default function Subscription() {
       setLoading(false)
 
     }).then(() => {
+      RNIap.clearTransactionIOS();
+
       RNIap.getSubscriptions(itemSkus).then((res) => {
         setProduct(res[0]);
 
@@ -119,59 +121,59 @@ export default function Subscription() {
     }}>
       {renderHeader()}
       {
-        loading?<ActivityIndicator/>:
-      <View style={{
-        flex: 1,
-        justifyContent: "space-evenly",
-        alignSelf: "center"
-      }}>
-        {renderBody(product)}
-        <View style={{
-          width: "88%",
-          flexDirection: "row",
-          alignItems: "center",
-          alignSelf: "center"
-        }}>
-          <CheckBox
-            tintColor={COLORS.lightGray1}
-            onCheckColor={COLORS.Primary}
-            onTintColor={COLORS.Primary}
-            boxType={"square"}
-            disabled={false}
-            value={checked}
-            animationDuration={0.5}
-            onValueChange={(value) =>
-              setChecked(value)
-            }
-          />
-          <Text style={{
-            ...FONTS.h4,
-            marginLeft: 10
-          }}>I accept Terms & Condition</Text>
-        </View>
-        <TextButton
-          border={false}
-          buttonContainerStyle={{
-            width: 250,
-            borderWidth: 3,
-            borderColor: checked ? COLORS.Primary : COLORS.lightGray1,
-            backgroundColor: COLORS.white
-          }}
-          onPress={() => {
-            requestSubscription(product)
-          }}
-          label={"Start Trail"}
-          labelStyle={{
-            color: checked ? COLORS.Primary : COLORS.lightGray1
-          }}
-          icon={images.subs}
-          iconStyle={{
-            tintColor: checked ? COLORS.Primary : COLORS.lightGray1
-          }}
-          disabled={!checked}
-        />
-      </View>
-}
+        loading ? <ActivityIndicator /> :
+          <View style={{
+            flex: 1,
+            justifyContent: "space-evenly",
+            alignSelf: "center"
+          }}>
+            {renderBody(product)}
+            <View style={{
+              width: "88%",
+              flexDirection: "row",
+              alignItems: "center",
+              alignSelf: "center"
+            }}>
+              <CheckBox
+                tintColor={COLORS.lightGray1}
+                onCheckColor={COLORS.Primary}
+                onTintColor={COLORS.Primary}
+                boxType={"square"}
+                disabled={false}
+                value={checked}
+                animationDuration={0.5}
+                onValueChange={(value) =>
+                  setChecked(value)
+                }
+              />
+              <Text style={{
+                ...FONTS.h4,
+                marginLeft: 10
+              }}>I accept Terms & Condition</Text>
+            </View>
+            <TextButton
+              border={false}
+              buttonContainerStyle={{
+                width: 250,
+                borderWidth: 3,
+                borderColor: checked ? COLORS.Primary : COLORS.lightGray1,
+                backgroundColor: COLORS.white
+              }}
+              onPress={() => {
+                requestSubscription(product)
+              }}
+              label={"Start Trail"}
+              labelStyle={{
+                color: checked ? COLORS.Primary : COLORS.lightGray1
+              }}
+              icon={images.subs}
+              iconStyle={{
+                tintColor: checked ? COLORS.Primary : COLORS.lightGray1
+              }}
+              disabled={!checked}
+            />
+          </View>
+      }
     </View>
   )
 }

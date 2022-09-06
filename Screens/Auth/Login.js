@@ -21,6 +21,7 @@ import utils from '../../utils/Utils';
 import { baseURL } from '../../helpers/helpers';
 import { useDispatch } from 'react-redux'
 import { Login } from '../../Store/actions';
+import * as RNIap from 'react-native-iap';
 const LoginScreen = ({navigation,route}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -29,6 +30,8 @@ const LoginScreen = ({navigation,route}) => {
   const [EmailError, setEmailError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [EmailErr, setEmailErr] = React.useState('');
+  const [rec, setRec] = React.useState([]);
+
   const dispatch = useDispatch()
   function isEnableSignIn() {
     return email != '' && password != '';
@@ -226,7 +229,7 @@ const LoginScreen = ({navigation,route}) => {
                 ? COLORS.Primary
                 : COLORS.transparentPrimary2,
             }}
-            onPress={() => {
+            onPress={async() => {
               login();
             }}
             label={'Login'}

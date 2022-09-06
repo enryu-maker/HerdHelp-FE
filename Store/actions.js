@@ -25,7 +25,9 @@ export const isSubscriptionActive = () => {
     ]
   });
   return async dispatch => {
-    RNIap.initConnection();
+    await RNIap.initConnection()
+    // .then(()=>{
+    // })
     const purchases = await RNIap.getAvailablePurchases();
     let active = false;
     purchases?.forEach(purchase => {

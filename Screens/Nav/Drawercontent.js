@@ -169,6 +169,21 @@ export default function Drawercontent(props) {
                 }}
               />
           }
+          <DrawerItem
+            icon={({ color, size }) => (
+              <Image
+                source={images.qr}
+                style={[{ height: 25, width: 25, tintColor: COLORS.white }]}
+              />
+            )}
+            label="Link Device"
+            labelStyle={[FONTS.body3, { letterSpacing: 2, color: COLORS.white }]}
+            onPress={() => {
+              props.navigation.closeDrawer();
+              props.navigation.navigate('QR');
+            }}
+          />
+
         </Drawer.Section>
         <Drawer.Section style={[styles.drawerSection, { marginTop: 5 }]}>
           <DrawerItem

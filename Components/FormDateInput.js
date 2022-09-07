@@ -8,7 +8,7 @@ import {
 import DatePicker from 'react-native-date-picker'
 import moment from 'moment';
 
-import { FONTS, SIZES, COLORS,images, days } from "./Constants"
+import { FONTS, SIZES, COLORS, images, days } from "./Constants"
 
 const FormDateInput = ({
     containerStyle,
@@ -19,16 +19,23 @@ const FormDateInput = ({
     value,
     errorMsg = "",
     formatDate,
-    mode="date",
+    mode = "date",
     setDays
 }) => {
     const today = new Date();
+    function getDays(date,today){
+        let difference = date.getTime() - today.getTime();
+        let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+        return parseInt(Math.abs(TotalDays))
+    }
     const [open, setOpen] = useState(false)
     return (
         <View style={{ ...containerStyle }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={{ color: COLORS.gray, ...FONTS.body4,width:"88%",
-            marginLeft:18 }}>{label}</Text>
+                <Text style={{
+                    color: COLORS.gray, ...FONTS.body4, width: "88%",
+                    marginLeft: 18
+                }}>{label}</Text>
                 <Text style={{ color: COLORS.red, ...FONTS.body4 }}>{errorMsg}</Text>
             </View>
 
@@ -50,7 +57,7 @@ const FormDateInput = ({
                     style={{
                         width: 25,
                         height: 25,
-                        tintColor:COLORS.Primary
+                        tintColor: COLORS.Primary
                     }}
                 />
                 <Text
@@ -64,7 +71,7 @@ const FormDateInput = ({
                     {value ? moment(value).format("YYYY-MM-DD HH:MM:SS") : placeholder}
                 </Text>
 
-                
+
             </TouchableOpacity>
 
             <DatePicker
@@ -74,18 +81,16 @@ const FormDateInput = ({
                 mode={mode}
                 title={label}
                 onConfirm={(date) => {
-                    let difference = date.getTime() - today.getTime();
-                    let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-                    setDays(parseInt(Math.abs(TotalDays)))
+                    setDays?setDays(getDays(date,today)):null 
                     setOpen(false)
                     setDate(date)
-                    formatDate(date.toJSON().slice(0,10))
+                    formatDate(date.toJSON().slice(0, 10))
                 }}
                 onCancel={() => {
                     setOpen(false)
                 }}
-                
-                // style={{marginLeft: 20}}
+
+            // style={{marginLeft: 20}}
             />
         </View>
     )

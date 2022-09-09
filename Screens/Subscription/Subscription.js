@@ -6,8 +6,6 @@ import TextButton from '../../Components/TextButton'
 import * as RNIap from 'react-native-iap';
 import InfoItem from '../../Components/InfoItem'
 import CheckBox from '@react-native-community/checkbox';
-import Loader from '../../Components/Loader'
-import { ActivityIndicator } from 'react-native-paper'
 export default function Subscription() {
   const itemSkus = Platform.select({
     ios: [
@@ -19,8 +17,6 @@ export default function Subscription() {
   });
   const [product, setProduct] = React.useState({})
   const [checked, setChecked] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-
   const getProduct = async (itemSkus) => {
     try {
       const products = await RNIap.getProducts(itemSkus);
@@ -38,38 +34,32 @@ export default function Subscription() {
   }
 
   React.useEffect(async() => {
-    setLoading(true)
-    await RNIap.initConnection().catch(() => {
+    await RNIap.initConnection().catch(()=>{
       console.log("Something went wrong")
-      setLoading(false)
-
-    }).then(() => {
-      RNIap.clearTransactionIOS();
-
-      RNIap.getSubscriptions(itemSkus).then((res) => {
+    }).then(()=>{
+      console.log("connection establised ")
+      RNIap.getSubscriptions(itemSkus).then((res)=>{
+        console.log('hi')
         setProduct(res[0]);
-
-      }).catch(() => {
+      }).catch(()=>{
         console.log('Something went wrong')
       })
-      setLoading(false)
-
     })
-    const updateSubscription = RNIap.purchaseUpdatedListener((purchase) => {
+    const updateSubscription = RNIap.purchaseUpdatedListener( (purchase) => {
       console.log(purchase)
       const receiptBodyios = {
         'receipt-data': purchase.transactionReceipt,
         'password': '82b1481ce1844e5b87fbb8da408e7c4e'
       };
-      const results = Platform.OS === "ios" ?
-        RNIap.validateReceiptIos(receiptBodyios) :
-        RNIap.validateReceiptAndroid(
+       const results =  Platform.OS==="ios"? 
+         RNIap.validateReceiptIos(receiptBodyios):
+         RNIap.validateReceiptAndroid(
           purchase.packageNameAndroid,
           purchase.productId,
           purchase.purchaseToken,
           "verify@pc-api-4637307351252359025-733.iam.gserviceaccount.com",
           true,
-        )
+          )
       console.log(results.status)
     });
     return () => {
@@ -81,7 +71,7 @@ export default function Subscription() {
       <Header title={"Subscription"} />
     )
   }
-
+  
   function renderBody(product) {
     return (
       <View style={{
@@ -120,60 +110,57 @@ export default function Subscription() {
       backgroundColor: COLORS.white,
     }}>
       {renderHeader()}
-      {
-        loading ? <ActivityIndicator /> :
-          <View style={{
-            flex: 1,
-            justifyContent: "space-evenly",
-            alignSelf: "center"
-          }}>
-            {renderBody(product)}
-            <View style={{
-              width: "88%",
-              flexDirection: "row",
-              alignItems: "center",
-              alignSelf: "center"
-            }}>
-              <CheckBox
-                tintColor={COLORS.lightGray1}
-                onCheckColor={COLORS.Primary}
-                onTintColor={COLORS.Primary}
-                boxType={"square"}
-                disabled={false}
-                value={checked}
-                animationDuration={0.5}
-                onValueChange={(value) =>
-                  setChecked(value)
-                }
-              />
-              <Text style={{
-                ...FONTS.h4,
-                marginLeft: 10
-              }}>I accept Terms & Condition</Text>
-            </View>
-            <TextButton
-              border={false}
-              buttonContainerStyle={{
-                width: 250,
-                borderWidth: 3,
-                borderColor: checked ? COLORS.Primary : COLORS.lightGray1,
-                backgroundColor: COLORS.white
-              }}
-              onPress={() => {
-                requestSubscription(product)
-              }}
-              label={"Start Trail"}
-              labelStyle={{
-                color: checked ? COLORS.Primary : COLORS.lightGray1
-              }}
-              icon={images.subs}
-              iconStyle={{
-                tintColor: checked ? COLORS.Primary : COLORS.lightGray1
-              }}
-              disabled={!checked}
-            />
-          </View>
-      }
+      <View style={{
+        flex: 1,
+        justifyContent: "space-evenly",
+        alignSelf: "center"
+      }}>
+        {renderBody(product)}
+        <View style={{
+          width:"88%",
+          flexDirection:"row",
+          alignItems:"center",
+          alignSelf:"center"
+        }}>
+        <CheckBox
+          tintColor={COLORS.lightGray1}
+          onCheckColor={ COLORS.Primary}
+          onTintColor={COLORS.Primary}
+          boxType={"square"}
+          disabled={false}
+          value={checked}
+          animationDuration={0.5}
+          onValueChange={(value) =>
+            setChecked(value)
+          }
+        />
+        <Text style={{
+            ...FONTS.h4,
+            marginLeft:10
+          }}>I accept Terms & Condition</Text>
+        </View>
+        <TextButton
+          border={false}
+          buttonContainerStyle={{
+            width: 250,
+            borderWidth: 3,
+            borderColor:checked?COLORS.Primary:COLORS.lightGray1,
+            backgroundColor:COLORS.white
+          }}
+          onPress={()=>{
+            requestSubscription(product)
+          }}
+          label={"Start Trail"}
+          labelStyle={{
+            color: checked?COLORS.Primary:COLORS.lightGray1
+          }}
+          icon={images.subs}
+          iconStyle={{
+            tintColor: checked?COLORS.Primary:COLORS.lightGray1
+          }}
+          disabled={!checked}
+        />
+      </View>
     </View>
   )
 }

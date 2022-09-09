@@ -9,7 +9,6 @@ import TextButton from '../../Components/TextButton';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 export default function QRScanner(){
     const navigation = useNavigation()
-    console.log(navigation)
     function renderheader() {
         return (
             <Header

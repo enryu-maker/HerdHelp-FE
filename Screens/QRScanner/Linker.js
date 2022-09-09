@@ -10,7 +10,7 @@ export default function Linker({
 }) {
     const [flash,setFlash] = React.useState(false)
     const onSuccess = e => {
-       console.log(e.data)
+       alert(e.data)
       };
     function renderheader() {
         return (

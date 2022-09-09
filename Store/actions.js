@@ -25,25 +25,26 @@ export const isSubscriptionActive = () => {
     ]
   });
   return async dispatch => {
-    
-    await RNIap.initConnection();
-    await RNIap.clearTransactionIOS();
-    // .then(()=>{
-    // })
-    const purchases = await RNIap.getAvailablePurchases();
-    let active = false;
-    purchases?.forEach(purchase => {
-      if (purchase?.productId == itemSkus) {
-        active = true;
+    await RNIap.initConnection().then(async() => {
+      await RNIap.clearTransactionIOS()
+      const purchases = await RNIap.getAvailablePurchases();
+      console.log(purchases)
+      let active = false;
+      purchases.forEach(purchase => {
+        if (purchase.productId == itemSkus) {
+          active = true;
+        }
+      })
+      if (active == false) {
+        console.log("error done")
+        sub = false
+      } else {
+        sub = true
+        console.log("done")
       }
+    }).catch((err) => {
+      console.log("suberr=>", err)
     })
-    if (active == false) {
-      console.log("error done")
-      var sub = false
-    } else {
-      var sub = true
-      console.log("done")
-    }
     dispatch({
       type: 'PREMIUM',
       payload: sub,

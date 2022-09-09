@@ -141,8 +141,10 @@ android {
         versionCode 7
         versionName "1.6.1"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-        missingDimensionStrategy ('store', 'play')
+        missingDimensionStrategy "react-native-camera", "general"
+        missingDimensionStrategy 'store', 'play'
 
+        multiDexEnabled true
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
             externalNativeBuild {

@@ -40,15 +40,15 @@ import ParentPage from '../Parents/parentPage';
 import Bred from '../Bred/Bred';
 import { ChildInfo } from '../Parents/ChildInfo';
 import { EditFinance } from '../Finance/EditFinance';
-import qrScanner from '../QRScanner/qrScanner';
-import QRScanner from '../QRScanner/qrScanner';
+import QRScanner from '../QRScanner/QRScanner'
 import Linker from '../QRScanner/Linker';
 const Stack = createNativeStackNavigator()
 
 const DrawerNav = () => {
   return (
     <Drawer.Navigator initialRouteName='Home'
-      screenOptions={{
+      screenOptions={({navigation})=>{
+        return{
         headerShown: false, 
         drawerActiveBackgroundColor: COLORS.Primary,
         drawerActiveTintColor: COLORS.white,
@@ -58,8 +58,10 @@ const DrawerNav = () => {
         overlayColor:"#0d0d0d40",
         backBehavior:"history",  
         drawerStatusBarAnimation:"slide",
+        }
       }}
       drawerContent={props =><Drawercontent {...props}
+      n
       />
     }
     >
@@ -74,6 +76,13 @@ const DrawerNav = () => {
             drawerIcon: ({ focused, size }) => (
               <Image
                 source={images.file}
+                style={[{ height: 25, width: 25}]}
+              /> )       
+          }} />
+          <Drawer.Screen name='QR' component={QRScanner} options={{
+            drawerIcon: ({ focused, size }) => (
+              <Image
+                source={images.qr}
                 style={[{ height: 25, width: 25}]}
               /> )       
           }} />
@@ -133,9 +142,9 @@ fetchprofile = async () => {
           profile_pic:data[0].profile_picture
         })
       })
-      this.checkSubs().then(data=>{
-          global.isActive=data.isactive
-        })
+      // this.checkSubs().then(data=>{
+      //     global.isActive=data.isactive
+      //   })
   }
 
   render() {
@@ -147,7 +156,6 @@ fetchprofile = async () => {
             headerShown: false,
             animation:Platform.OS=="ios"?"default":"slide_from_right",
             onTransitionStart: () => Keyboard.dismiss(),
-
           }
         }}
           initialRouteName={'DrawNav'}>
@@ -186,12 +194,6 @@ fetchprofile = async () => {
           <Stack.Screen name='EditF' component={EditFinance}/>
           <Stack.Screen name='QR' component={QRScanner}/>
           <Stack.Screen name='Linker' component={Linker}/>
-
-
-
-
-
-
         </Stack.Navigator>
       </>
     )

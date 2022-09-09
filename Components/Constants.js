@@ -74,6 +74,11 @@ export const images ={
     qr:require("../assets/Logo/qr-code.png"),
     qrlogo:require("../assets/Logo/qr-logo.png"),
     link:require("../assets/Logo/link.png"),
+    flash:require("../assets/Logo/flash.png"),
+    noflash:require("../assets/Logo/flashoff.png"),
+    scan:require("../assets/Logo/qr-code-scan.png"),
+
+
 
 
 

@@ -37,9 +37,9 @@ export default function Subscription() {
     }
   }
 
-  React.useEffect(() => {
+  React.useEffect(async() => {
     setLoading(true)
-    RNIap.initConnection().catch(() => {
+    await RNIap.initConnection().catch(() => {
       console.log("Something went wrong")
       setLoading(false)
 

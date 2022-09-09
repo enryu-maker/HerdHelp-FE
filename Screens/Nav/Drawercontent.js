@@ -31,7 +31,7 @@ export default function Drawercontent(props) {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView
-
+        Scre
         showsVerticalScrollIndicator={false}
         {...props}
         style={{ borderBottomWidth: 0.8, borderBottomColor: COLORS.Primary }}>
@@ -183,8 +183,8 @@ export default function Drawercontent(props) {
               props.navigation.navigate('QR');
             }}
           />
-
         </Drawer.Section>
+
         <Drawer.Section style={[styles.drawerSection, { marginTop: 5 }]}>
           <DrawerItem
             icon={({ color, size }) => (

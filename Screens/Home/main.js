@@ -41,15 +41,6 @@ const Main = ({navigation}) => {
     dispatch(getFcat())
     dispatch(getGender())
     loadId();
-    checkSubs().then(data => {
-      global.isActive = data.isactive;
-      !data.isactive
-        ? navigation.navigate('Subscription', {
-            msg: 'No Active Subscription Please Purchase the Tier',
-            cond: true,
-          })
-        : null;
-    });
   }, []);
   var iconweight;
   return (

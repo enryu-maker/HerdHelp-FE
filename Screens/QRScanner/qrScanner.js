@@ -6,9 +6,10 @@ import React from 'react'
 import { images, COLORS, SIZES, FONTS } from '../../Components/Constants';
 import Header from '../../Components/Header';
 import TextButton from '../../Components/TextButton';
-export default function QRScanner({
-    navigation
-}) {
+import { useNavigation, DrawerActions } from '@react-navigation/native';
+export default function QRScanner(){
+    const navigation = useNavigation()
+    console.log(navigation)
     function renderheader() {
         return (
             <Header
@@ -31,7 +32,7 @@ export default function QRScanner({
                             }}
                             onPress={() => {
                                 navigation.openDrawer();
-                            }}>
+                              }}>
                             <Image
                                 source={images.menu}
                                 style={{ width: 25, height: 25, tintColor: COLORS.white, alignSelf: "center" }}
@@ -76,3 +77,4 @@ export default function QRScanner({
         </View>
     )
 }
+

@@ -26,9 +26,8 @@ export const isSubscriptionActive = () => {
   });
   return async dispatch => {
     await RNIap.initConnection().then(async() => {
-      await RNIap.clearTransactionIOS()
       const purchases = await RNIap.getAvailablePurchases();
-      console.log(purchases)
+      console.log("Purchase==>",purchases)
       let active = false;
       purchases.forEach(purchase => {
         if (purchase.productId == itemSkus) {
@@ -36,14 +35,14 @@ export const isSubscriptionActive = () => {
         }
       })
       if (active == false) {
-        console.log("error done")
+        // console.log("error done")
         sub = false
       } else {
         sub = true
-        console.log("done")
+        // console.log("done")
       }
     }).catch((err) => {
-      console.log("suberr=>", err)
+      // console.log("suberr=>", err)
     })
     dispatch({
       type: 'PREMIUM',

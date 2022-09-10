@@ -1,28 +1,28 @@
-import {baseURL} from './helpers/helpers';
-import {request, PERMISSIONS, requestMultiple} from 'react-native-permissions';
+import { baseURL } from './helpers/helpers';
+import { request, PERMISSIONS, requestMultiple } from 'react-native-permissions';
 
 import FlashMessage from 'react-native-flash-message';
 import SplashScreen from 'react-native-splash-screen';
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {StatusBar, View, Platform, Text} from 'react-native';
-import {Provider, useDispatch, useSelector} from 'react-redux';
-import {Init, isSubscriptionActive} from './Store/actions';
-import {store} from './Store';
-import {ActivityIndicator} from 'react-native-paper';
-import {COLORS, FONTS} from './Components/Constants';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar, View, Platform, Text } from 'react-native';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Init, isSubscriptionActive } from './Store/actions';
+import { store } from './Store';
+import { ActivityIndicator } from 'react-native-paper';
+import { COLORS, FONTS } from './Components/Constants';
 import Homenav from './Screens/Nav/Homenav';
 import Rootnav from './Screens/Nav/Rootnav';
-import {enableScreens} from 'react-native-screens';
+import { enableScreens } from 'react-native-screens';
 import Subscription from './Screens/Subscription/Subscription';
 const RootNavigation = () => {
   const token = useSelector(state => state.Reducers.authToken);
   const subscribed = useSelector(state => state.Reducers.subscribed);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const init = async () => {
+  const init = async() => {
     await dispatch(Init());
-    // await dispatch(isSubscriptionActive())
+    await dispatch(isSubscriptionActive())
     setLoading(false);
   };
 
@@ -36,12 +36,12 @@ const RootNavigation = () => {
 
   if (loading) {
     return (
-      <View style={{flex: 1, justifyContent: 'center'}}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         <ActivityIndicator size="large" color={COLORS.Primary} />
         <Text style={{
           ...FONTS.body3,
-          color:COLORS.Primary,
-          alignSelf:"center"
+          color: COLORS.Primary,
+          alignSelf: "center"
         }}>Loading...</Text>
       </View>
     );
@@ -71,13 +71,13 @@ const App = () => {
 
   return (
     <Provider store={store}>
-        <Permission.Provider value={PermissionResult}>
-          <StatusBar
-            barStyle={Platform.OS === 'android' ? 'default' : 'dark-content'}
-            backgroundColor={'black'}
-          />
-          <RootNavigation />
-        </Permission.Provider>
+      <Permission.Provider value={PermissionResult}>
+        <StatusBar
+          barStyle={Platform.OS === 'android' ? 'default' : 'dark-content'}
+          backgroundColor={'black'}
+        />
+        <RootNavigation />
+      </Permission.Provider>
     </Provider>
   );
 };

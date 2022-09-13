@@ -54,7 +54,10 @@ export default function ParentPage({ navigation, route }) {
   // }
   function DataGen(Data){
     let finalData=[]
-    Data.map(a=>{
+    const sortedDesc = Data.sort(
+      (objA, objB) => Number(new Date(objA.key)) - Number(new Date(objB.key)),
+    );
+    sortedDesc.map(a=>{
         var dict = {};
         var d = new Date(a.key);
         dict['x'] =  moment(d).format("yyyy-MM-DD");

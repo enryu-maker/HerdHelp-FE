@@ -138,13 +138,13 @@ android {
         applicationId "com.herdhelp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "1.7"
+        versionCode 5
+        versionName "1.5"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-        missingDimensionStrategy "react-native-camera", "general"
         missingDimensionStrategy 'store', 'play'
+        missingDimensionStrategy 'react-native-camera', 'general'
 
-        multiDexEnabled true
+
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
             externalNativeBuild {

@@ -97,7 +97,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false 
+def enableProguardInReleaseBuilds = true 
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -143,7 +143,7 @@ android {
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         missingDimensionStrategy 'store', 'play'
         missingDimensionStrategy 'react-native-camera', 'general'
-        missingDimensionStrategy 'react-native-camera', 'mlkit'
+        // missingDimensionStrategy 'react-native-camera', 'mlkit'
 
 
 

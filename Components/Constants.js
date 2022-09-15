@@ -77,11 +77,7 @@ export const images ={
     flash:require("../assets/Logo/flash.png"),
     noflash:require("../assets/Logo/flashoff.png"),
     scan:require("../assets/Logo/qr-code-scan.png"),
-
-
-
-
-
+    tutorial:require("../assets/Logo/tutorial.png"),
 }
 export const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',

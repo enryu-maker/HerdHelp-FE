@@ -274,6 +274,20 @@ export default function Drawercontent(props) {
 
 
       <Drawer.Section style={styles.bottomDrawerSection}>
+      <DrawerItem
+            icon={({ color, size }) => (
+              <Image
+                source={images.tutorial}
+                style={[{ height: 25, width: 25, tintColor: COLORS.white }]}
+              />
+            )}
+            label="Tutorial"
+            labelStyle={[FONTS.body3, { letterSpacing: 2, color: COLORS.white }]}
+            onPress={() => {
+              props.navigation.closeDrawer();
+              props.navigation.navigate('Tutorial');
+            }}
+          />
         <DrawerItem
           icon={({ color, size }) => (
             <Image

@@ -42,6 +42,7 @@ import { ChildInfo } from '../Parents/ChildInfo';
 import { EditFinance } from '../Finance/EditFinance';
 import QRScanner from '../QRScanner/QRScanner'
 import Linker from '../QRScanner/Linker';
+import Tutorial from '../Tutorial/Tutorial';
 const Stack = createNativeStackNavigator()
 
 const DrawerNav = () => {
@@ -111,6 +112,13 @@ const DrawerNav = () => {
             drawerIcon: ({ focused, size }) => (
               <Image
                 source={images.setting}
+                style={[{ height: 25, width: 25}]}
+              /> )       
+          }} />
+          <Drawer.Screen name='Tutorial' component={Tutorial} options={{
+            drawerIcon: ({ focused, size }) => (
+              <Image
+                source={images.tutorial}
                 style={[{ height: 25, width: 25}]}
               /> )       
           }} />
@@ -194,6 +202,8 @@ fetchprofile = async () => {
           <Stack.Screen name='EditF' component={EditFinance}/>
           <Stack.Screen name='QR' component={QRScanner}/>
           <Stack.Screen name='Linker' component={Linker}/>
+          <Stack.Screen name='Tutorial' component={Tutorial}/>
+
         </Stack.Navigator>
       </>
     )

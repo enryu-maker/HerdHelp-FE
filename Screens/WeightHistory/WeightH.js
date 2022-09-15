@@ -15,7 +15,6 @@ export default function WeightH({navigation}) {
   const [loading, setLoading] = React.useState(false);
   const animals = useSelector(state => state.Reducers.cat)
   const tagl = useSelector(state => state.Reducers.tags)
-  console.log(navigation)
   
   const updateWeight = async () => {
     if (tag != '') {

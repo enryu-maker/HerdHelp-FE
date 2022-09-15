@@ -12,7 +12,6 @@ export default function Linker({
 }) {
     const [flash, setFlash] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
-
     const onSuccess = e => {
         setLoading(true)
         axiosIns.get(e.data).then((Response) => {
@@ -103,19 +102,25 @@ export default function Linker({
                 visible={loading}
             >
                 <View style={{
-                    flex:1,
-                    height:"100%",
-                    width:"100%",
-                    justifyContent:"center",
-                    alignSelf:"center"
+                    flex: 1,
+                    height: "100%",
+                    width: "100%",
+                    justifyContent: "center",
+                    alignSelf: "center"
                 }}>
-                    <Loader/>
+                    <Loader />
                 </View>
             </Modal>
-            <QRCodeScanner
-                onRead={onSuccess}
-                flashMode={flash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
-            />
+            {
+                navigation.isFocused ?
+                    <QRCodeScanner
+                        ref={(node) => { this.scanner = node }}
+                        onRead={onSuccess}
+                        flashMode={flash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+                        reactivate={true}
+                        reactivateTimeout={5000}
+                    /> : null
+            }
         </View>
     )
 }

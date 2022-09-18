@@ -1,5 +1,6 @@
 import { Dimensions,Platform } from "react-native";
 const { width, height } = Dimensions.get("window");
+
 export const images ={
     logo:require("../assets/Logo/Logo01.png"),
     eye:require("../assets/Logo/eye.png"),

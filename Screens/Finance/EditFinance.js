@@ -1,7 +1,7 @@
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import TextButton from '../../Components/TextButton';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Header from '../../Components/Header';
 import axiosIns from '../../helpers/helpers';
 import {
@@ -13,13 +13,14 @@ import {
   images,
   Bred,
 } from '../../Components/Constants';
-import {Dropdown} from 'sharingan-rn-modal-dropdown';
+import { Dropdown } from 'sharingan-rn-modal-dropdown';
 import FormInput from '../../Components/FormInput';
-import { showMessage, hideMessage, } from "react-native-flash-message";
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 import CustomAlert from '../../Components/CustomAlert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFinance } from '../../Store/actions';
-export const EditFinance = ({navigation,route}) => {
+export const EditFinance = ({ navigation, route }) => {
 
   const [cat, setCat] = React.useState(route.params.data.category);
   const [Qty, setQty] = React.useState(route.params.data.quantity);
@@ -28,7 +29,7 @@ export const EditFinance = ({navigation,route}) => {
   const [show, setShow] = React.useState(false);
   const [validation, setValidation] = React.useState(false);
   const [dataText, setDataText] = React.useState('');
-  const animals = useSelector(state=>state.Reducers.fcat)
+  const animals = useSelector(state => state.Reducers.fcat)
   const clean = () => {
     setQty(''), setPrice('');
   };
@@ -51,62 +52,34 @@ export const EditFinance = ({navigation,route}) => {
           if (Response.status == 200) {
             setLoading(false)
             dispatch(getFinance())
-            showMessage({
-              message: "Finance update",
-              type: "default",
-              backgroundColor: COLORS.Primary,
-              color:COLORS.white,
-              titleStyle:{
-                alignSelf:"center",
-                ...FONTS.h3
-              },
-              animationDuration:250
+            Toast.show({
+              text1: "Finance update",
+              type: "success"
             });
             clean();
           } else {
             setLoading(false)
-            showMessage({
-              message: "Finance Not added",
-              type: "default",
-              backgroundColor: COLORS.red,
-              color:COLORS.white,
-              titleStyle:{
-                alignSelf:"center",
-                ...FONTS.h3
-              },
-              animationDuration:250
+            Toast.show({
+              text1: "Finance Not added",
+              type: "error",
             });
             // setLoading(false)
           }
         })
         .catch(err => {
-            console.log(err)
+          console.log(err)
           setLoading(false)
-          showMessage({
-            message: "Error",
-            type: "default",
-            backgroundColor: COLORS.red,
-            color:COLORS.white,
-            titleStyle:{
-              alignSelf:"center",
-              ...FONTS.h3
-            },
-            animationDuration:250
+          Toast.show({
+            text1: "Error",
+            type: "error",
           })
         })
-    } 
+    }
     else {
       setLoading(false)
-      showMessage({
-        message: "Invalid Input",
-        type: "default",
-        backgroundColor: COLORS.red,
-        color:COLORS.white,
-        titleStyle:{
-          alignSelf:"center",
-          ...FONTS.h3
-        },
-        animationDuration:250
+      Toast.show({
+        text1: "Invalid Input",
+        type: "error",
       })
     }
   }
@@ -126,18 +99,18 @@ export const EditFinance = ({navigation,route}) => {
             <TouchableOpacity
               style={{
                 marginLeft: 25,
-                backgroundColor:COLORS.Primary,
-                height:40,
-                width:40,
-                justifyContent:"center",
-                borderRadius:40/2,
-                }}
+                backgroundColor: COLORS.Primary,
+                height: 40,
+                width: 40,
+                justifyContent: "center",
+                borderRadius: 40 / 2,
+              }}
               onPress={() => {
                 navigation.goBack();
               }}>
               <Image
                 source={images.back}
-                style={{width: 25, height: 25, tintColor: COLORS.white,alignSelf:"center"}}
+                style={{ width: 25, height: 25, tintColor: COLORS.white, alignSelf: "center" }}
               />
             </TouchableOpacity>
           </View>
@@ -159,14 +132,14 @@ export const EditFinance = ({navigation,route}) => {
           label="Category"
           borderRadius={SIZES.radius}
           data={animals}
-          textInputStyle={{...FONTS.body3,letterSpacing: 2}}
-          selectedItemTextStyle={[FONTS.body3, {color: COLORS.white}]}
+          textInputStyle={{ ...FONTS.body3, letterSpacing: 2 }}
+          selectedItemTextStyle={[FONTS.body3, { color: COLORS.white }]}
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
             margin: 5,
             borderRadius: SIZES.radius,
           }}
-          
+
           // enableAvatar
           required
           disableSelectionTick
@@ -175,7 +148,7 @@ export const EditFinance = ({navigation,route}) => {
           primaryColor={COLORS.Primary}
           avatarSize={28}
           value={cat}
-          onChange={(value)=>{
+          onChange={(value) => {
             setCat(value)
           }}
           animationIn="bounceInLeft"
@@ -195,10 +168,10 @@ export const EditFinance = ({navigation,route}) => {
         />
         <FormInput
           prependComponent={
-            <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
               <Image
                 source={images.tag}
-                style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -216,14 +189,14 @@ export const EditFinance = ({navigation,route}) => {
           inputContainerStyle={{
             backgroundColor: COLORS.white,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <FormInput
           prependComponent={
-            <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
               <Image
                 source={images.coin}
-                style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -233,8 +206,8 @@ export const EditFinance = ({navigation,route}) => {
           label="Price*"
           value={price}
           onChange={value => {
-            value = value.replace(/,/g,"")
-            value=parseInt(value.replace(/$/g,""))
+            value = value.replace(/,/g, "")
+            value = parseInt(value.replace(/$/g, ""))
             setPrice(value);
           }}
           containerStyle={{
@@ -244,13 +217,13 @@ export const EditFinance = ({navigation,route}) => {
           inputContainerStyle={{
             backgroundColor: COLORS.white,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
       </View>
     );
   }
   return (
-    <View style={{flex: 1, backgroundColor:COLORS.white}}>
+    <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       {/* <Loader loading={loading}/> */}
       {show && (
         <CustomAlert
@@ -287,6 +260,8 @@ export const EditFinance = ({navigation,route}) => {
         }}
         label={'update Finance'}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
+
     </View>
   );
 };

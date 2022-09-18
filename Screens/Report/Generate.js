@@ -6,14 +6,15 @@ import {
   ScrollView,
 
 } from 'react-native';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native-paper';
 import axiosIns from '../../helpers/helpers';
 import Header from '../../Components/Header';
-import {COLORS, images, SIZES, FONTS} from '../../Components/Constants';
+import { COLORS, images, SIZES, FONTS } from '../../Components/Constants';
 import SelectMultiple from 'react-native-select-multiple';
 import TextButton from '../../Components/TextButton';
-import { showMessage } from 'react-native-flash-message';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 class Generate extends Component {
   state = {
     selectedFruits: [],
@@ -21,26 +22,26 @@ class Generate extends Component {
     EmailError: '',
     Rang: COLORS.Primary,
     fields: [],
-    loader:false
+    loader: false
   };
   onSelectionsChange = selectedFruits => {
-    this.setState({selectedFruits});
+    this.setState({ selectedFruits });
   };
   fetchprofile = async () => {
-    this.setState({loading: true});
-    const {data} = await axiosIns.get('getfields/');
+    this.setState({ loading: true });
+    const { data } = await axiosIns.get('getfields/');
     return data.reportdata;
   };
   componentDidMount() {
     {
       this.fetchprofile().then(data => {
-        this.setState({fields: data});
-        this.setState({loading: false});
+        this.setState({ fields: data });
+        this.setState({ loading: false });
       });
     }
   }
   genReport(dic, label) {
-    this.setState({loader: true});
+    this.setState({ loader: true });
     axiosIns
       .post(
         'reports/generate/',
@@ -56,60 +57,27 @@ class Generate extends Component {
       )
       .then(response => {
         if (response.status == 200) {
-          this.setState({loader: false});
-          showMessage({
-            message: 'Report send Check the registered mail',
-            type: 'default',
-            backgroundColor: COLORS.Primary,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: "success",
-            style:{
-              justifyContent:"center"
-            }
+          this.setState({ loader: false });
+          Toast.show({
+            text1: 'Report send Check the registered mail',
+            type: 'success'
           });
 
         } else {
-          this.setState({loader: false});
-          showMessage({
-            message: 'Something went wrong',
-            type: 'default',
-            backgroundColor: COLORS.red,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: "danger",
-            style:{
-              justifyContent:"center"
-            }
+          this.setState({ loader: false });
+          Toast.show({
+            text1: 'Something went wrong',
+            type: 'error'
           });
         }
       })
       .catch(error => {
         if (error.response) {
           console.log(error)
-          this.setState({loader: false});
-          showMessage({
-            message: `${error.response.data.msg}`,
-            type: 'default',
-            backgroundColor: COLORS.red,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: "danger",
-            style:{
-              justifyContent:"center"
-            }
+          this.setState({ loader: false });
+          Toast.show({
+            text1: `${error.response.data.msg}`,
+            type: 'error',
           });
         }
       });
@@ -120,10 +88,10 @@ class Generate extends Component {
       dic[a.label] = true;
     });
     Object.keys(dic).length > 0
-      ? 
+      ?
       this.genReport(dic, this.props.route.params.label)
-      : (this.setState({EmailError: 'Checkbox Not Selected'}),
-        this.setState({Rang: COLORS.red}));
+      : (this.setState({ EmailError: 'Checkbox Not Selected' }),
+        this.setState({ Rang: COLORS.red }));
   }
   renderHeader() {
     return (
@@ -143,7 +111,7 @@ class Generate extends Component {
                 height: 40,
                 width: 40,
                 justifyContent: 'center',
-                borderRadius:40/2,
+                borderRadius: 40 / 2,
               }}
               onPress={() => {
                 this.props.navigation.goBack();
@@ -170,7 +138,7 @@ class Generate extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: COLORS.white}}>
+      <View style={{ flex: 1, backgroundColor: COLORS.white }}>
         {this.renderHeader()}
         <Text
           style={{
@@ -219,6 +187,8 @@ class Generate extends Component {
             this.dataGen(this.state.selectedFruits);
           }}
         />
+        <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
+
       </View>
     );
   }

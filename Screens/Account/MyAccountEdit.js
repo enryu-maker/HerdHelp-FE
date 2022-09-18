@@ -1,112 +1,91 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity, Image, Text} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Image, Text } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Header from '../../Components/Header';
 import TextButton from '../../Components/TextButton';
 import FormInput from '../../Components/FormInput';
-import {COLORS, SIZES, images,FONTS} from '../../Components/Constants';
+import { COLORS, SIZES, images, FONTS } from '../../Components/Constants';
 import axiosIns from '../../helpers/helpers';
 import CustomAlert from '../../Components/CustomAlert';
-import { showMessage } from 'react-native-flash-message';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 import { useDispatch } from 'react-redux';
 import { UserData } from '../../Store/actions';
 
 
-const MyAccountEdit = ({navigation,route}) => {
+const MyAccountEdit = ({ navigation, route }) => {
   const [fullName, setFullName] = useState(route.params.user.fullname);
   const [phoneNo, setPhoneNo] = useState(route.params.user.phone);
   const [idCard, setIdCard] = useState(route.params.user.farm_name);
   const [addr, setAddr] = useState(route.params.user.address);
-  const [user,setUser]=React.useState([])
+  const [user, setUser] = React.useState([])
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch()
   const updateprofile = async () => {
     setLoading(true)
-      try {
-        await axiosIns.patch(`updateprofile/${global.id}`,
+    try {
+      await axiosIns.patch(`updateprofile/${global.id}`,
         {
           "fullname": fullName,
           "phone": phoneNo,
           "farm_name": idCard,
           "address": addr
-          }, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        ).then(()=>{
-          setLoading(false)
-          showMessage({
-            message: 'Details updated',
-            type: 'default',
-            backgroundColor: COLORS.Primary,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: "success",
-            style:{
-              justifyContent:"center"
-            }
-          });
-          dispatch(UserData())
-        })
-      } catch (e) {
-        setLoading(false)
-        showMessage({
-          message: `${e.response.data.msg}`,
-          type: 'default',
-          backgroundColor: COLORS.red,
-          color: COLORS.white,
-          titleStyle: {
-            alignSelf: 'center',
-            ...FONTS.h3,
-          },
-          animationDuration: 250,
-          icon:"danger",
-          style:{
-            justifyContent:"center"
-          }
-        });
+        }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
-    };
+      ).then(() => {
+        setLoading(false)
+        Toast.show({
+          text1: 'Details updated',
+          type: 'success',
+        });
+        dispatch(UserData())
+      })
+    } catch (e) {
+      setLoading(false)
+      Toast.show({
+        text1: `${e.response.data.msg}`,
+        type: 'error'
+      });
+    }
+  };
   React.useEffect(() => {
     let { user } = route.params
     setUser(user)
-  },[]);
+  }, []);
   function renderHeader() {
     return (
       <Header
         leftComponent={
           <View
-          style={{
-            justifyContent: 'center',
-            position: 'absolute',
-            marginTop: 20,
-            zIndex: 1,
-          }}>
-          <TouchableOpacity
             style={{
-              marginLeft: 25,
-              backgroundColor:COLORS.Primary,
-              height:40,
-              width:40,
-              justifyContent:"center",
-              borderRadius:40/2,
-              }}
-            onPress={() => {
-              navigation.goBack()
-
+              justifyContent: 'center',
+              position: 'absolute',
+              marginTop: 20,
+              zIndex: 1,
             }}>
-            <Image
-              source={images.back}
-              style={{width: 25, height: 25, tintColor: COLORS.white,alignSelf:"center"}}
-            />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={{
+                marginLeft: 25,
+                backgroundColor: COLORS.Primary,
+                height: 40,
+                width: 40,
+                justifyContent: "center",
+                borderRadius: 40 / 2,
+              }}
+              onPress={() => {
+                navigation.goBack()
+
+              }}>
+              <Image
+                source={images.back}
+                style={{ width: 25, height: 25, tintColor: COLORS.white, alignSelf: "center" }}
+              />
+            </TouchableOpacity>
+          </View>
         }
         title={'Edit Account'}
         titleStyle={{
@@ -133,7 +112,7 @@ const MyAccountEdit = ({navigation,route}) => {
           borderRadius: SIZES.radius,
           backgroundColor: COLORS.lightGray2,
         }}>
-        
+
         {/* Name */}
         <FormInput
           label="Full Name"
@@ -209,7 +188,9 @@ const MyAccountEdit = ({navigation,route}) => {
         flex: 1,
         backgroundColor: COLORS.white,
       }}>
+
       {renderHeader()}
+
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="on-drag"
@@ -222,22 +203,23 @@ const MyAccountEdit = ({navigation,route}) => {
       </KeyboardAwareScrollView>
 
       <TextButton
-      loading={loading}
-      icon={images.update}
+        loading={loading}
+        icon={images.update}
         buttonContainerStyle={{
           // height: 60,
           marginTop: SIZES.padding,
-            marginHorizontal: SIZES.padding,
-            marginBottom: SIZES.padding,
-            borderTopLeftRadius: SIZES.radius,
-            borderTopRightRadius: SIZES.radius,
-            backgroundColor: COLORS.Primary,
+          marginHorizontal: SIZES.padding,
+          marginBottom: SIZES.padding,
+          borderTopLeftRadius: SIZES.radius,
+          borderTopRightRadius: SIZES.radius,
+          backgroundColor: COLORS.Primary,
         }}
         label="Save"
         onPress={() => {
           updateprofile();
         }}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
     </View>
   );
 };

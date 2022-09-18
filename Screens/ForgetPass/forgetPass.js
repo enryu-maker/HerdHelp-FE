@@ -16,7 +16,8 @@ import TextButton from '../../Components/TextButton';
 import axios from 'axios';
 import {baseURL} from '../../helpers/helpers';
 import {ActivityIndicator} from 'react-native-paper';
-import {showMessage} from 'react-native-flash-message';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 
 export default function ForgetPass({navigation}) {
   const [email, setEmail] = React.useState('');
@@ -87,57 +88,24 @@ export default function ForgetPass({navigation}) {
       .then(response => {
         if (response.status == 200) {
           setLoading(false);
-          showMessage({
-            message:`Password Updated`,
-            type: 'default',
-            backgroundColor: COLORS.Primary,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: 'success',
-            style: {
-              justifyContent: 'center',
-            },
+          Toast.show({
+            text1:`Password Updated`,
+            type: 'success',
           });
         
         } else {
           setLoading(false);
-          showMessage({
-            message:`${response.data.msg}`,
-            type:"danger",
-            backgroundColor: COLORS.red,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: "danger",
-            style: {
-              justifyContent: 'center',
-            },
+          Toast.show({
+            text1:`${response.data.msg}`,
+            type:"error",
           });
         }
       })
       .catch(e => {
         setLoading(false)
-        showMessage({
-          message: 'Something Went Wrong',
-          type:"danger",
-          backgroundColor: COLORS.red,
-          color: COLORS.white,
-          titleStyle: {
-            alignSelf: 'center',
-            ...FONTS.h3,
-          },
-          animationDuration: 250,
-          icon: "danger",
-          style: {
-            justifyContent: 'center',
-          },
+        Toast.show({
+          text1: 'Something Went Wrong',
+          type:"error",
         });
       });
   }
@@ -443,7 +411,7 @@ export default function ForgetPass({navigation}) {
         {isEmailvalid ? hiddenContent1() : null}
         {isTokenvalid ? hiddenContent2() : null}
       </KeyboardAwareScrollView>
-      
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
     </View>
   );
 }

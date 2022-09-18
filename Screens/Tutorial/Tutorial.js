@@ -6,30 +6,41 @@ import TutorialCard from './TutorialCard';
 import axiosIns from '../../helpers/helpers';
 import Loader from '../../Components/Loader';
 import { ActivityIndicator } from 'react-native-paper';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
+
 
 export default function Tutorial({
     navigation
 }) {
     const [videos, setVideo] = React.useState([])
     const [loading, setLoading] = React.useState(false)
-    React.useEffect(async () => {
+    const getVideos = async () => {
         setLoading(true)
         await axiosIns.get("/gettutorials").then((Response) => {
             if (Response.status == 200) {
                 setVideo(Response.data)
                 setLoading(false)
-
             }
             else {
-                console.log("error")
+                Toast.show({
+                    text1:"error",
+                    type:"error"
+                })
                 setLoading(false)
 
             }
         }).catch((e) => {
-            console.log(e)
+            Toast.show({
+                text1:"error",
+                type:"error"
+            })
             setLoading(false)
 
         })
+    }
+    React.useEffect(() => {
+        getVideos()
     }, [])
     function renderheader() {
         return (
@@ -72,7 +83,11 @@ export default function Tutorial({
         }}>
             {renderheader()}
             {
-                loading ? <ActivityIndicator/> :
+                loading ? <ActivityIndicator color={COLORS.Primary} style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignSelf: "center"
+                }} /> :
 
                     <FlatList
                         data={videos}
@@ -80,6 +95,7 @@ export default function Tutorial({
                             <TutorialCard key={index} link={item.link} image={item.image} title={item.title} />
                         )} />
             }
+            <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
         </View>
     )
 }

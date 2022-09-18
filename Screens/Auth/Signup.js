@@ -17,7 +17,8 @@ import LoaderOp from '../../Components/LoaderOp';
 import { baseURL } from '../../helpers/helpers';
 import utils from '../../utils/Utils';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { showMessage } from 'react-native-flash-message';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 export const Signup = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -59,64 +60,31 @@ export const Signup = ({navigation}) => {
         .then(response => {
           if (response.status === 201) {
             setLoading(false)
-            showMessage({
-              message: 'User created',
-              type: 'default',
-              backgroundColor: COLORS.Primary,
-              color: COLORS.white,
-              titleStyle: {
-                alignSelf: 'center',
-                ...FONTS.h3,
-              },
-              animationDuration: 250,
-              icon: 'success',
-              style:{
-                justifyContent:"center"
-              }
+            Toast.show({
+              text1: 'User created',
+              type: 'success',
             });
           } else {
             setLoading(false);
-            showMessage({
-              message: 'User Registered',
-              type: 'default',
-              backgroundColor: COLORS.red,
-              color: COLORS.white,
-              titleStyle: {
-                alignSelf: 'center',
-                ...FONTS.h3,
-              },
-              animationDuration: 250,
-              icon: "danger",
-              style:{
-                justifyContent:"center"
-              }
+            Toast.show({
+              text1: 'User Registered',
+              type: 'error'
             });
           }
         })
         .catch(error => {
           if (error.response) {
             setLoading(false);
-            showMessage({
-              message: `${error.response.data.msg}`,
-              type: 'default',
-              backgroundColor: COLORS.red,
-              color: COLORS.white,
-              titleStyle: {
-                alignSelf: 'center',
-                ...FONTS.h3,
-              },
-              animationDuration: 250,
-              icon: "danger",
-              style:{
-                justifyContent:"center"
-              }
+            Toast.show({
+              text1: `${error.response.data.msg}`,
+              type: 'error'
             });
             
           }
         });
     } else {
       setLoading(false);
-      showMessage({
+      Toast.show({
         message: `Invalid Input`,
         type: 'default',
         backgroundColor: COLORS.red,
@@ -419,6 +387,7 @@ export const Signup = ({navigation}) => {
         </View>
       </View>
     </KeyboardAwareScrollView>
+    <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
     </View>
   );
 };

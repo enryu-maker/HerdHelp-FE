@@ -9,7 +9,8 @@ import {
 import {COLORS, SIZES, FONTS, images, Bred} from '../../Components/Constants';
 import { ActivityIndicator } from 'react-native-paper';
 import { baseURL } from '../../helpers/helpers';
-import {showMessage} from 'react-native-flash-message';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHerds, UserData } from '../../Store/actions';
@@ -33,20 +34,9 @@ const dispatch = useDispatch()
       .then(response => {
         if (response.status == 200) {
           setLoading(false);
-          showMessage({
-            message: 'Profile Pic updated',
-            type: 'default',
-            backgroundColor: COLORS.Primary,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: 'success',
-            style: {
-              justifyContent: 'center',
-            },
+          Toast.show({
+            text1: 'Profile Pic updated',
+            type: 'success',
           });
           dispatch(UserData())
           setshowu(false)
@@ -54,21 +44,9 @@ const dispatch = useDispatch()
       })
       .catch((err) => {
         setLoading(false);
-        // console.log(err)
-        showMessage({
-          message: `${err.response.data.msg}`,
-          type: 'default',
-          backgroundColor: COLORS.red,
-          color: COLORS.white,
-          titleStyle: {
-            alignSelf: 'center',
-            ...FONTS.h3,
-          },
-          animationDuration: 250,
-          icon: 'danger',
-          style: {
-            justifyContent: 'center',
-          },
+        Toast.show({
+          text1: `${err.response.data.msg}`,
+          type: 'error',
         });
         setshowu(false)
       });
@@ -89,7 +67,7 @@ const dispatch = useDispatch()
       .then(response => {
         if (response.status == 200) {
           setLoading(false);
-          showMessage({
+          Toast.show({
             message: "Profile updated",
             type: 'default',
             backgroundColor: COLORS.Primary,
@@ -110,7 +88,7 @@ const dispatch = useDispatch()
       })
       .catch((err) => {
         setLoading(false);
-        showMessage({
+        Toast.show({
           message: `${err.response.data.msg}`,
           type: 'default',
           backgroundColor: COLORS.red,
@@ -206,6 +184,7 @@ const dispatch = useDispatch()
           </TouchableOpacity>
         </View>
       </View>
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
     </Modal>
   );
 }

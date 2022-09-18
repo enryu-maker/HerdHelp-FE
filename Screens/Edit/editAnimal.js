@@ -1,9 +1,9 @@
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import Header from '../../Components/Header';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Dropdown} from 'sharingan-rn-modal-dropdown';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Dropdown } from 'sharingan-rn-modal-dropdown';
 import axiosIns from '../../helpers/helpers';
 import PickerType from '../Livestocks/PickerType';
 import {
@@ -20,11 +20,12 @@ import {
 import FormInput from '../../Components/FormInput';
 import TextButton from '../../Components/TextButton';
 import FormDateInput from '../../Components/FormDateInput';
-import {showMessage, hideMessage} from 'react-native-flash-message';
-import {useDispatch, useSelector} from 'react-redux';
-import {getAnimal, getHerds} from '../../Store/actions';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAnimal, getHerds } from '../../Store/actions';
 import { baseURL } from '../../helpers/helpers';
-const EditAnimal = ({navigation, route}) => {
+const EditAnimal = ({ navigation, route }) => {
   const unit = JSON.parse(useSelector(state => state.Reducers.unit));
   React.useEffect(() => {
     setId(global.id);
@@ -51,7 +52,7 @@ const EditAnimal = ({navigation, route}) => {
   const [dobt, setDobt] = useState(route.params.animal?.birth_date);
   const [vaccinated, setVaccinated] = useState(route.params.animal?.vaccinated);
   const [vaccinateddate, setVaccinateddate] = useState('');
-  const [day, setDay] = useState(Math.abs(days(new Date(dobt),new Date())));
+  const [day, setDay] = useState(Math.abs(days(new Date(dobt), new Date())));
   const [vaccinateddatet, setVaccinateddatet] = useState(
     route.params.animal?.vaccination_date,
   );
@@ -65,7 +66,7 @@ const EditAnimal = ({navigation, route}) => {
   const [showc, setshowc] = React.useState(false);
   const [pic, setPic] = React.useState('');
   const [picdata, setPicdata] = React.useState('');
-  const [weight30, setWeight30] = useState( unit ? route.params.animal?.weight_30 : route.params.animal?.weight_30_kg);
+  const [weight30, setWeight30] = useState(unit ? route.params.animal?.weight_30 : route.params.animal?.weight_30_kg);
   const [weight60, setWeight60] = useState(unit ? route.params.animal?.weight_60 : route.params.animal?.weight_60_kg);
   const [weight90, setWeight90] = useState(unit ? route.params.animal?.weight_90 : route.params.animal?.weight_90_kg);
 
@@ -108,14 +109,14 @@ const EditAnimal = ({navigation, route}) => {
     });
     return dataValue;
   }
-  function findertype(list, value, type,setValue) {
+  function findertype(list, value, type, setValue) {
     list?.map(a => {
       if (value == a.label) {
         a.data.map(a => {
-      if (type == a.label) {
-        setValue(a.type)
-      }
-    });
+          if (type == a.label) {
+            setValue(a.type)
+          }
+        });
       }
     });
   }
@@ -164,20 +165,9 @@ const EditAnimal = ({navigation, route}) => {
           if (response.status == 200) {
             clear();
             setLoading(false);
-            showMessage({
-              message: 'Animal Updated',
-              type: 'default',
-              backgroundColor: COLORS.Primary,
-              color: COLORS.white,
-              titleStyle: {
-                alignSelf: 'center',
-                ...FONTS.h3,
-              },
-              animationDuration: 250,
-              icon: 'success',
-              style: {
-                justifyContent: 'center',
-              },
+            Toast.show({
+              text1: 'Animal Updated',
+              type: 'success',
             });
             dispatch(getAnimal(route.params.animal?.tag_number))
             dispatch(getHerds());
@@ -186,38 +176,16 @@ const EditAnimal = ({navigation, route}) => {
         .catch(err => {
           setLoading(false);
           console.log(err);
-          showMessage({
-            message: `${err.response.data.msg}`,
-            type: 'default',
-            backgroundColor: COLORS.red,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: 'danger',
-            style: {
-              justifyContent: 'center',
-            },
+          Toast.show({
+            text1: `${err.response.data.msg}`,
+            type: 'error'
           });
         });
     } else {
       setLoading(false);
-      showMessage({
-        message: `Required Fields cannot be empty`,
-        type: 'default',
-        backgroundColor: COLORS.red,
-        color: COLORS.white,
-        titleStyle: {
-          alignSelf: 'center',
-          ...FONTS.h3,
-        },
-        icon: 'danger',
-        animationDuration: 250,
-        style: {
-          justifyContent: 'center',
-        },
+      Toast.show({
+        text1: `Required Fields cannot be empty`,
+        type: 'error',
       });
     }
   }
@@ -273,10 +241,10 @@ const EditAnimal = ({navigation, route}) => {
         }}>
         <FormInput
           prependComponent={
-            <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
               <Image
                 source={images.name}
-                style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -292,7 +260,7 @@ const EditAnimal = ({navigation, route}) => {
           containerStyle={{
             marginTop: SIZES.radius,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <Dropdown
           label="Species"
@@ -301,10 +269,10 @@ const EditAnimal = ({navigation, route}) => {
           borderRadius={SIZES.radius}
           data={animals}
           returnKeyType={'next'}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
           selectedItemTextStyle={
             (FONTS.body3,
-            {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
+              { color: COLORS.white, letterSpacing: 2, alignSelf: 'center' })
           }
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
@@ -324,18 +292,18 @@ const EditAnimal = ({navigation, route}) => {
             alignSelf: 'center',
             marginTop: SIZES.height > 800 ? SIZES.base : 10,
           }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
+          itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
         <Dropdown
           label="Gender"
           dropdownIcon={images.down}
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
-          data={finder(gender,valueMS)}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
+          data={finder(gender, valueMS)}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
           selectedItemTextStyle={
             (FONTS.body3,
-            {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
+              { color: COLORS.white, letterSpacing: 2, alignSelf: 'center' })
           }
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
@@ -350,7 +318,7 @@ const EditAnimal = ({navigation, route}) => {
           value={valueBST}
           onChange={(value) => {
             setValueBST(value)
-            findertype(gender,valueMS,value,setValueBS)
+            findertype(gender, valueMS, value, setValueBS)
           }}
           animationIn="bounceInLeft"
           animationOut="bounceOutLeft"
@@ -360,7 +328,7 @@ const EditAnimal = ({navigation, route}) => {
             alignSelf: 'center',
             marginTop: SIZES.height > 800 ? SIZES.base : 10,
           }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
+          itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
         <Dropdown
           label="Purchased?"
@@ -368,10 +336,10 @@ const EditAnimal = ({navigation, route}) => {
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
           data={Bought}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
           selectedItemTextStyle={
             (FONTS.body3,
-            {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
+              { color: COLORS.white, letterSpacing: 2, alignSelf: 'center' })
           }
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
@@ -395,7 +363,7 @@ const EditAnimal = ({navigation, route}) => {
             alignSelf: 'center',
             marginTop: SIZES.height > 800 ? SIZES.base : 10,
           }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
+          itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
         {bought != true ? (
           <View>
@@ -416,7 +384,7 @@ const EditAnimal = ({navigation, route}) => {
                 width: '88%',
                 alignSelf: 'center',
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
@@ -428,7 +396,7 @@ const EditAnimal = ({navigation, route}) => {
                   }}>
                   <Image
                     source={unit === true ? images.kg : images.scale}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -439,19 +407,19 @@ const EditAnimal = ({navigation, route}) => {
               keyboardType="numeric"
               onChange={value => {
                 value = parseInt(value.replace(/,/g, ''));
-                if (day<35 && day>25){
+                if (day < 35 && day > 25) {
                   setWeight30(value)
                   setWeight(value);
                 }
-                else if(day<65 && day>55){
+                else if (day < 65 && day > 55) {
                   setWeight60(value)
                   setWeight(value)
                 }
-                else if(day<95 && day>85){
+                else if (day < 95 && day > 85) {
                   setWeight90(value)
                   setWeight(value)
                 }
-                else{
+                else {
                   setWeight(value);
                 }
               }}
@@ -461,7 +429,7 @@ const EditAnimal = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <View
               style={{
@@ -473,14 +441,14 @@ const EditAnimal = ({navigation, route}) => {
                 label="30 Day"
                 value={weight30}
                 keyboardType="numeric"
-              placeholder={weight30.toString()}
+                placeholder={weight30.toString()}
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
-                  if (day<35 && day>25){
+                  if (day < 35 && day > 25) {
                     setWeight30(value)
                     setWeight(value);
                   }
-                  else{
+                  else {
                     setWeight30(value)
                   }
                 }}
@@ -491,22 +459,22 @@ const EditAnimal = ({navigation, route}) => {
                 inputContainerStyle={{
                   backgroundColor: COLORS.white,
                 }}
-                inputStyle={{fontSize: 16}}
+                inputStyle={{ fontSize: 16 }}
               />
               <FormInput
                 returnKeyType={'next'}
                 label="60 Day"
                 value={weight60}
                 keyboardType="numeric"
-              placeholder={weight60.toString()}
+                placeholder={weight60.toString()}
 
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
-                  if (day<65 && day>55){
+                  if (day < 65 && day > 55) {
                     setWeight60(value)
                     setWeight(value);
                   }
-                  else{
+                  else {
                     setWeight60(value)
                   }
                 }}
@@ -517,7 +485,7 @@ const EditAnimal = ({navigation, route}) => {
                 inputContainerStyle={{
                   backgroundColor: COLORS.white,
                 }}
-                inputStyle={{fontSize: 16}}
+                inputStyle={{ fontSize: 16 }}
               />
               <FormInput
                 returnKeyType={'next'}
@@ -527,11 +495,11 @@ const EditAnimal = ({navigation, route}) => {
                 keyboardType="numeric"
                 onChange={value => {
                   value = parseInt(value.replace(/,/g, ''));
-                  if (day<95 && day>85){
+                  if (day < 95 && day > 85) {
                     setWeight90(value)
                     setWeight(value);
                   }
-                  else{
+                  else {
                     setWeight90(value)
                   }
                 }}
@@ -542,15 +510,15 @@ const EditAnimal = ({navigation, route}) => {
                 inputContainerStyle={{
                   backgroundColor: COLORS.white,
                 }}
-                inputStyle={{fontSize: 16}}
+                inputStyle={{ fontSize: 16 }}
               />
             </View>
             <FormInput
               prependComponent={
-                <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+                <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
                   <Image
                     source={images.tag}
-                    style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                    style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -568,14 +536,14 @@ const EditAnimal = ({navigation, route}) => {
               containerStyle={{
                 marginTop: SIZES.radius,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
-                <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+                <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
                   <Image
                     source={images.tag}
-                    style={{width: 26, height: 26, tintColor: COLORS.Primary}}
+                    style={{ width: 26, height: 26, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -591,7 +559,7 @@ const EditAnimal = ({navigation, route}) => {
               containerStyle={{
                 marginTop: SIZES.radius,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <Dropdown
               label="Vaccinated"
@@ -599,8 +567,8 @@ const EditAnimal = ({navigation, route}) => {
               dropdownIconSize={22}
               borderRadius={SIZES.radius}
               data={Bred}
-              textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-              selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
+              textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+              selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
               selectedItemViewStyle={{
                 backgroundColor: COLORS.Primary,
                 margin: 5,
@@ -641,7 +609,7 @@ const EditAnimal = ({navigation, route}) => {
                   width: '88%',
                   alignSelf: 'center',
                 }}
-                inputStyle={{marginLeft: 20, fontSize: 16}}
+                inputStyle={{ marginLeft: 20, fontSize: 16 }}
               />
             ) : (
               <View></View>
@@ -656,7 +624,7 @@ const EditAnimal = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.dog}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -672,7 +640,7 @@ const EditAnimal = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
@@ -684,7 +652,7 @@ const EditAnimal = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.name}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -699,27 +667,27 @@ const EditAnimal = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
           </View>
         ) : (
           <View>
             <FormDateInput
-                label="Date of Purchase"
-                placeholder="YYYY-MM-DD"
-                value={new Date(pdatet)}
-                setDate={setPdate}
-                formatDate={setPdatet}
-                containerStyle={{
-                  marginTop: SIZES.radius,
-                }}
-                inputContainerStyle={{
-                  backgroundColor: COLORS.white,
-                  width: '88%',
-                  alignSelf: 'center',
-                }}
-                inputStyle={{marginLeft: 20, fontSize: 16}}
-              />
+              label="Date of Purchase"
+              placeholder="YYYY-MM-DD"
+              value={new Date(pdatet)}
+              setDate={setPdate}
+              formatDate={setPdatet}
+              containerStyle={{
+                marginTop: SIZES.radius,
+              }}
+              inputContainerStyle={{
+                backgroundColor: COLORS.white,
+                width: '88%',
+                alignSelf: 'center',
+              }}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
+            />
             <FormInput
               prependComponent={
                 <View
@@ -730,7 +698,7 @@ const EditAnimal = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.coin}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -751,7 +719,7 @@ const EditAnimal = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
@@ -763,7 +731,7 @@ const EditAnimal = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.age}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -779,7 +747,7 @@ const EditAnimal = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
@@ -791,7 +759,7 @@ const EditAnimal = ({navigation, route}) => {
                   }}>
                   <Image
                     source={unit === true ? images.kg : images.scale}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -810,7 +778,7 @@ const EditAnimal = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             {valueBS != 'Male' ? (
               <Dropdown
@@ -819,8 +787,8 @@ const EditAnimal = ({navigation, route}) => {
                 dropdownIconSize={22}
                 borderRadius={SIZES.radius}
                 data={Bred}
-                textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-                selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
+                textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+                selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
                 selectedItemViewStyle={{
                   backgroundColor: COLORS.Primary,
                   margin: 5,
@@ -834,7 +802,7 @@ const EditAnimal = ({navigation, route}) => {
                 value={bred}
                 onChange={onChangeB}
                 animationIn="bounceInLeft"
-          animationOut="bounceOutLeft"
+                animationOut="bounceOutLeft"
                 // mode="outlined"
                 mainContainerStyle={{
                   borderRadius: SIZES.padding,
@@ -857,8 +825,8 @@ const EditAnimal = ({navigation, route}) => {
               dropdownIconSize={22}
               borderRadius={SIZES.radius}
               data={Bred}
-              textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-              selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
+              textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+              selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
               selectedItemViewStyle={{
                 backgroundColor: COLORS.Primary,
                 margin: 5,
@@ -868,7 +836,7 @@ const EditAnimal = ({navigation, route}) => {
               // required
               disableSelectionTick
               animationIn="bounceInLeft"
-          animationOut="bounceOutLeft"
+              animationOut="bounceOutLeft"
               primaryColor={COLORS.Primary}
               avatarSize={28}
               value={vaccinated}
@@ -901,7 +869,7 @@ const EditAnimal = ({navigation, route}) => {
                   width: '88%',
                   alignSelf: 'center',
                 }}
-                inputStyle={{marginLeft: 20, fontSize: 16}}
+                inputStyle={{ marginLeft: 20, fontSize: 16 }}
               />
             ) : (
               <View></View>
@@ -916,7 +884,7 @@ const EditAnimal = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.dog}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -932,7 +900,7 @@ const EditAnimal = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
             <FormInput
               prependComponent={
@@ -944,7 +912,7 @@ const EditAnimal = ({navigation, route}) => {
                   }}>
                   <Image
                     source={images.name}
-                    style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                    style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
                   />
                 </View>
               }
@@ -960,7 +928,7 @@ const EditAnimal = ({navigation, route}) => {
               inputContainerStyle={{
                 backgroundColor: COLORS.white,
               }}
-              inputStyle={{marginLeft: 20, fontSize: 16}}
+              inputStyle={{ marginLeft: 20, fontSize: 16 }}
             />
           </View>
         )}
@@ -1010,6 +978,8 @@ const EditAnimal = ({navigation, route}) => {
         label={'Update Animals'}
         loading={loading}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
+
     </View>
   );
 };

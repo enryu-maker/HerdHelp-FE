@@ -15,7 +15,8 @@ import {
 } from '../../Components/Constants';
 import {Dropdown} from 'sharingan-rn-modal-dropdown';
 import FormInput from '../../Components/FormInput';
-import { showMessage, hideMessage, } from "react-native-flash-message";
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 import CustomAlert from '../../Components/CustomAlert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFinance } from '../../Store/actions';
@@ -51,61 +52,33 @@ export const Finance = ({navigation}) => {
           if (Response.status == 201) {
             setLoading(false)
             dispatch(getFinance())
-            showMessage({
-              message: "Finance added",
-              type: "default",
-              backgroundColor: COLORS.Primary,
-              color:COLORS.white,
-              titleStyle:{
-                alignSelf:"center",
-                ...FONTS.h3
-              },
-              animationDuration:250
+            Toast.show({
+              text1: "Finance added",
+              type: "success",
             });
             clean();
           } else {
             setLoading(false)
-            showMessage({
-              message: "Finance Not added",
-              type: "default",
-              backgroundColor: COLORS.red,
-              color:COLORS.white,
-              titleStyle:{
-                alignSelf:"center",
-                ...FONTS.h3
-              },
-              animationDuration:250
+            Toast.show({
+              text1: "Finance Not added",
+              type: "error",
             });
             // setLoading(false)
           }
         })
         .catch(err => {
           setLoading(false)
-          showMessage({
-            message: "Error",
-            type: "default",
-            backgroundColor: COLORS.red,
-            color:COLORS.white,
-            titleStyle:{
-              alignSelf:"center",
-              ...FONTS.h3
-            },
-            animationDuration:250
+          Toast.show({
+            text1: "Error",
+            type: "error",
           })
         })
     } 
     else {
       setLoading(false)
-      showMessage({
-        message: "Invalid Input",
-        type: "default",
-        backgroundColor: COLORS.red,
-        color:COLORS.white,
-        titleStyle:{
-          alignSelf:"center",
-          ...FONTS.h3
-        },
-        animationDuration:250
+      Toast.show({
+        text1: "Invalid Input",
+        type: "error",
       })
     }
   }
@@ -283,6 +256,9 @@ export const Finance = ({navigation}) => {
         }}
         label={'Add Finance'}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
+
+
     </View>
   );
 };

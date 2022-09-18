@@ -1,6 +1,6 @@
 import { baseURL } from './helpers/helpers';
 import { request, PERMISSIONS, requestMultiple } from 'react-native-permissions';
-
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import FlashMessage from 'react-native-flash-message';
 import SplashScreen from 'react-native-splash-screen';
 import React, { useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 import { Init, isSubscriptionActive } from './Store/actions';
 import { store } from './Store';
 import { ActivityIndicator } from 'react-native-paper';
-import { COLORS, FONTS } from './Components/Constants';
+import { COLORS, FONTS, SIZES } from './Components/Constants';
 import Homenav from './Screens/Nav/Homenav';
 import Rootnav from './Screens/Nav/Rootnav';
 import { enableScreens } from 'react-native-screens';
@@ -22,7 +22,7 @@ const RootNavigation = () => {
   const dispatch = useDispatch();
   const init = async() => {
     await dispatch(Init());
-    await dispatch(isSubscriptionActive())
+    // await dispatch(isSubscriptionActive())
     setLoading(false);
   };
 
@@ -58,6 +58,29 @@ const RootNavigation = () => {
 };
 export const Permission = React.createContext();
 export const Access = React.createContext();
+export const toastConfig = {
+  success: (props) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: COLORS.Primary }}
+      contentContainerStyle={{ paddingHorizontal: SIZES.padding }}
+      text1Style={{
+        ...FONTS.body3,
+        color:COLORS.Primary
+      }}
+    />
+  ),
+  error: (props) => (
+    <ErrorToast
+      {...props}
+      style={{ borderLeftColor: COLORS.red }}
+      text1Style={{
+        ...FONTS.body3,
+        color:COLORS.red
+      }}
+    />
+  )
+};
 const App = () => {
   const [PermissionResult, setPermissionResult] = React.useState(null);
   requestMultiple(

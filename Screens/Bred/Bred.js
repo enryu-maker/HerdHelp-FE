@@ -2,10 +2,11 @@ import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import React from 'react'
 import Header from '../../Components/Header'
 import { COLORS, images, SIZES, FONTS } from '../../Components/Constants';
-import { showMessage } from "react-native-flash-message";
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHerds } from '../../Store/actions';
-import { Dropdown ,GroupDropdown, MultiselectDropdown } from 'sharingan-rn-modal-dropdown';
+import { Dropdown, GroupDropdown, MultiselectDropdown } from 'sharingan-rn-modal-dropdown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextButton from '../../Components/TextButton';
 import FormDateInput from '../../Components/FormDateInput';
@@ -50,13 +51,13 @@ export default function Bred({
     setTag([])
   }
   // console.log(tag)
-   function axiosRequest(tag){
+  function axiosRequest(tag) {
     var ls = []
-    tag.map((a,index)=>{
-      const v =   `animals/${id}${species}${a}`
+    tag.map((a, index) => {
+      const v = `animals/${id}${species}${a}`
       ls.push(v)
     })
-    return(ls)
+    return (ls)
   }
 
   async function updateBred() {
@@ -75,78 +76,34 @@ export default function Bred({
           if (Response.status == 200) {
             dispatch(getHerds())
             setLoading(false)
-            showMessage({
-              message: "Bred added sucessfully",
+            Toast.show({
+              text1: "Bred added sucessfully",
               type: "success",
-              backgroundColor: COLORS.Primary,
-              color: COLORS.white,
-              titleStyle: {
-                alignSelf: "center",
-                ...FONTS.h3
-              },
-              animationDuration: 250,
-              icon: "success",
-              style: {
-                justifyContent: "center"
-              }
             });
             clear()
           }
           else {
             setLoading(false)
-            showMessage({
-              message: `Animal with tag ${tag} not found here`,
-              type: "danger",
-              backgroundColor: COLORS.red,
-              color: COLORS.white,
-              titleStyle: {
-                alignSelf: "center",
-                ...FONTS.h3
-              },
-              animationDuration: 250,
-              icon: "danger",
-              style: {
-                justifyContent: "center"
-              }
+            Toast.show({
+              text1: `Animal with tag ${tag} not found here`,
+              type: "error",
             });
           }
         }))
       } catch (err) {
         console.log(err)
         setLoading(false)
-        showMessage({
-          // message: `${err.response.data.msg}`,
-          type: "danger",
-          backgroundColor: COLORS.red,
-          color: COLORS.white,
-          titleStyle: {
-            alignSelf: "center",
-            ...FONTS.h3
-          },
-          animationDuration: 250,
-          icon: "danger",
-          style: {
-            justifyContent: "center"
-          }
+        Toast.show({
+          text1: `${err.response.data.msg}`,
+          type: "error",
         });
       }
     }
     else {
       setLoading(false)
-      showMessage({
-        message: `Please Enter valid Data`,
-        type: "danger",
-        backgroundColor: COLORS.red,
-        color: COLORS.white,
-        titleStyle: {
-          alignSelf: "center",
-          ...FONTS.h3
-        },
-        animationDuration: 250,
-        icon: "danger",
-        style: {
-          justifyContent: "center"
-        }
+      Toast.show({
+        text1: `Please Enter valid Data`,
+        type: "error"
       });
     }
   }
@@ -237,7 +194,7 @@ export default function Bred({
             margin: 5,
             borderRadius: SIZES.radius,
           }}
-          
+
           // enableAvatar
           enableSearch
           animationIn="bounceInLeft"
@@ -316,6 +273,7 @@ export default function Bred({
         label={'Update Bred'}
         disabled={breddobt === "" ? true : false}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
     </View>
   )
 }

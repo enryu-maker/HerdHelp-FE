@@ -1,18 +1,19 @@
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import React from 'react';
 import Header from '../../Components/Header';
 import FormInput from '../../Components/FormInput';
 import TextButton from '../../Components/TextButton';
-import {images, COLORS, SIZES, FONTS, Bred} from '../../Components/Constants';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { images, COLORS, SIZES, FONTS, Bred } from '../../Components/Constants';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FormDateInput from '../../Components/FormDateInput';
 import axiosIns from '../../helpers/helpers';
-import {Dropdown} from 'sharingan-rn-modal-dropdown';
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { Dropdown } from 'sharingan-rn-modal-dropdown';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 import CustomAlert from '../../Components/CustomAlert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMedical } from '../../Store/actions';
-export const Medication = ({navigation, route}) => {
+export const Medication = ({ navigation, route }) => {
   const [tag, setTag] = React.useState('');
   const [treat, setTreat] = React.useState('');
   const [treatt, setTreatt] = React.useState('');
@@ -25,11 +26,11 @@ export const Medication = ({navigation, route}) => {
   const [species, setSpcies] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [id, setId] = React.useState('');
-  const [dataT,setDataT] = React.useState("");
-  const [dataS,setDataS] = React.useState("");
+  const [dataT, setDataT] = React.useState("");
+  const [dataS, setDataS] = React.useState("");
   const tagl = useSelector(state => state.Reducers.tags)
 
-  const [cond,setCond] = React.useState(false);
+  const [cond, setCond] = React.useState(false);
   const clear = () => {
     setMed("");
     setWithdraw("");
@@ -49,90 +50,57 @@ export const Medication = ({navigation, route}) => {
   const dispatch = useDispatch()
   function addMedical() {
     setLoading(true),
-    axiosIns
-      .post(
-        'medication/',
-        {
-          tag_number:!cond?`${global.id}${dataS}${dataT}` : `${global.id}${species}${tag}`,
-          medication_name: med,
-          medication_date: treatt,
-          dosage: dos,
-          disease: Dis,
-          withdrawal: withdraw,
-          withdrawal_date: datet!=""? datet:null,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      axiosIns
+        .post(
+          'medication/',
+          {
+            tag_number: !cond ? `${global.id}${dataS}${dataT}` : `${global.id}${species}${tag}`,
+            medication_name: med,
+            medication_date: treatt,
+            dosage: dos,
+            disease: Dis,
+            withdrawal: withdraw,
+            withdrawal_date: datet != "" ? datet : null,
           },
-        },
-      )
-      .then(response => {
-        if (response.status == 201) {
-          setLoading(false)
-          !cond?dispatch(getMedical(`${global.id}${dataS}${dataT}`)):null
-          showMessage({
-            message: "Medication Added",
-            type: "default",
-            backgroundColor: COLORS.Primary,
-            color:COLORS.white,
-            titleStyle:{
-              alignSelf:"center",
-              ...FONTS.h3
+          {
+            headers: {
+              'Content-Type': 'application/json',
             },
-            animationDuration:250,
-            icon:"success",
-            style:{
-              justifyContent:"center"
-            }
-          });
-          clear()
-        } else {
-          setLoading(false),
-          showMessage({
-            message: "Animal Not Added",
-            type: "default",
-            backgroundColor: COLORS.red,
-            color:COLORS.white,
-            titleStyle:{
-              alignSelf:"center",
-              ...FONTS.h3
-            },
-            animationDuration:250,
-            icon:"danger",
-            style:{
-              justifyContent:"center"
-            }
-          });
-        }
-      })
-      .catch(err => {
-        setLoading(false)
-        showMessage({
-          message: `${err.response.data.msg}`,
-          type: "default",
-          backgroundColor: COLORS.red,
-          color:COLORS.white,
-          titleStyle:{
-            alignSelf:"center",
-            ...FONTS.h3
           },
-          animationDuration:250,
-          icon:"danger",
-          style:{
-            justifyContent:"center"
+        )
+        .then(response => {
+          if (response.status == 201) {
+            setLoading(false)
+            !cond ? dispatch(getMedical(`${global.id}${dataS}${dataT}`)) : null
+            Toast.show({
+              text1: "Medication Added",
+              type: "success",
+            });
+            clear()
+          } else {
+            setLoading(false),
+              Toast.show({
+                text1: "Animal Not Added",
+                type: "error",
+              });
           }
+        })
+        .catch(err => {
+          setLoading(false)
+          Toast.show({
+            text1: `${err.response.data.msg}`,
+            type: "error",
+          });
         });
-      });
   }
   React.useEffect(() => {
     setId(global.id);
-    let {cond} = route.params
+    let { cond } = route.params
     setCond(cond)
-    if (!cond){
-      let {tag} = route.params
+    if (!cond) {
+      let { tag } = route.params
       setDataT(tag)
-      let{species} = route.params
+      let { species } = route.params
       setDataS(species)
     }
   }, []);
@@ -152,18 +120,18 @@ export const Medication = ({navigation, route}) => {
             <TouchableOpacity
               style={{
                 marginLeft: 25,
-                backgroundColor:COLORS.Primary,
-                height:40,
-                width:40,
-                justifyContent:"center",
-                borderRadius:40/2,
-                }}
+                backgroundColor: COLORS.Primary,
+                height: 40,
+                width: 40,
+                justifyContent: "center",
+                borderRadius: 40 / 2,
+              }}
               onPress={() => {
-                navigation.goBack() 
+                navigation.goBack()
               }}>
               <Image
                 source={images.back}
-                style={{width: 25, height: 25, tintColor: COLORS.white,alignSelf:"center"}}
+                style={{ width: 25, height: 25, tintColor: COLORS.white, alignSelf: "center" }}
               />
             </TouchableOpacity>
           </View>
@@ -182,83 +150,83 @@ export const Medication = ({navigation, route}) => {
           backgroundColor: COLORS.lightGray2,
         }}>
         {
-          cond?
-          <><Dropdown
-          label="Species"
-          dropdownIcon={images.down}
-          dropdownIconSize={22}
-          borderRadius={SIZES.radius}
-          data={animals}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-          selectedItemTextStyle={
-            (FONTS.body3,
-            {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
-          }
-          selectedItemViewStyle={{
-            backgroundColor: COLORS.Primary,
-            margin: 5,
-            borderRadius: SIZES.radius,
-          }}
-          disableSelectionTick
-          animationIn="bounceInLeft"
-          animationOut="bounceOutLeft"
-          primaryColor={COLORS.Primary}
-          value={species}
-          onChange={(value)=>{
-            setSpcies(value)
-          }}
-          mainContainerStyle={{
-            borderRadius: SIZES.padding,
-            width: '88%',
-            alignSelf: 'center',
-            marginTop: SIZES.height > 800 ? SIZES.base : 10,
-          }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
-        />
-        <Dropdown
-          label="Tags"
-          dropdownIcon={images.down}
-          dropdownIconSize={22}
-          borderRadius={SIZES.radius}
-          data={finder(tagl,species)}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-          selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
-          selectedItemViewStyle={{
-            backgroundColor: COLORS.Primary,
-            margin: 5,
-            borderRadius: SIZES.radius,
-          }}
-          // enableAvatar
-          enableSearch
-          animationIn="bounceInLeft"
-          animationOut="bounceOutLeft"
-          disableSelectionTick
-          primaryColor={COLORS.Primary}
-          avatarSize={28}
-          value={tag}
-          onChange={(value) => {
-            setTag(value);
-          }}
-          mainContainerStyle={{
-            borderRadius: SIZES.padding,
-            width: '88%',
-            alignSelf: 'center',
-            marginTop: SIZES.height > 800 ? SIZES.base : 10,
-          }}
-          itemContainerStyle={{
-            backgroundColor: COLORS.white,
-            margin: 5,
-            borderRadius: SIZES.radius,
-          }}
-        />
-        </>:<View></View>
+          cond ?
+            <><Dropdown
+              label="Species"
+              dropdownIcon={images.down}
+              dropdownIconSize={22}
+              borderRadius={SIZES.radius}
+              data={animals}
+              textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+              selectedItemTextStyle={
+                (FONTS.body3,
+                  { color: COLORS.white, letterSpacing: 2, alignSelf: 'center' })
+              }
+              selectedItemViewStyle={{
+                backgroundColor: COLORS.Primary,
+                margin: 5,
+                borderRadius: SIZES.radius,
+              }}
+              disableSelectionTick
+              animationIn="bounceInLeft"
+              animationOut="bounceOutLeft"
+              primaryColor={COLORS.Primary}
+              value={species}
+              onChange={(value) => {
+                setSpcies(value)
+              }}
+              mainContainerStyle={{
+                borderRadius: SIZES.padding,
+                width: '88%',
+                alignSelf: 'center',
+                marginTop: SIZES.height > 800 ? SIZES.base : 10,
+              }}
+              itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
+            />
+              <Dropdown
+                label="Tags"
+                dropdownIcon={images.down}
+                dropdownIconSize={22}
+                borderRadius={SIZES.radius}
+                data={finder(tagl, species)}
+                textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+                selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
+                selectedItemViewStyle={{
+                  backgroundColor: COLORS.Primary,
+                  margin: 5,
+                  borderRadius: SIZES.radius,
+                }}
+                // enableAvatar
+                enableSearch
+                animationIn="bounceInLeft"
+                animationOut="bounceOutLeft"
+                disableSelectionTick
+                primaryColor={COLORS.Primary}
+                avatarSize={28}
+                value={tag}
+                onChange={(value) => {
+                  setTag(value);
+                }}
+                mainContainerStyle={{
+                  borderRadius: SIZES.padding,
+                  width: '88%',
+                  alignSelf: 'center',
+                  marginTop: SIZES.height > 800 ? SIZES.base : 10,
+                }}
+                itemContainerStyle={{
+                  backgroundColor: COLORS.white,
+                  margin: 5,
+                  borderRadius: SIZES.radius,
+                }}
+              />
+            </> : <View></View>
         }
         <FormInput
           prependComponent={
-            <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
               <Image
                 source={images.disease}
-                style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -274,15 +242,15 @@ export const Medication = ({navigation, route}) => {
           containerStyle={{
             marginTop: SIZES.radius,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <FormInput
-        returnKeyType={"next"}
+          returnKeyType={"next"}
           prependComponent={
-            <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
               <Image
                 source={images.medicines}
-                style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -297,10 +265,10 @@ export const Medication = ({navigation, route}) => {
           inputContainerStyle={{
             backgroundColor: COLORS.white,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <FormDateInput
-        returnKeyType={"next"}
+          returnKeyType={"next"}
           label="Medication Date"
           placeholder="YYYY-MM-DD"
           value={treat}
@@ -314,15 +282,15 @@ export const Medication = ({navigation, route}) => {
             width: '88%',
             alignSelf: 'center',
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <FormInput
-        returnKeyType={"next"}
+          returnKeyType={"next"}
           prependComponent={
-            <View style={{alignSelf: 'center', justifyContent: 'center'}}>
+            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
               <Image
                 source={images.dropper}
-                style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -337,7 +305,7 @@ export const Medication = ({navigation, route}) => {
           inputContainerStyle={{
             backgroundColor: COLORS.white,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <Dropdown
           label="Withdrawal"
@@ -345,8 +313,8 @@ export const Medication = ({navigation, route}) => {
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
           data={Bred}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-          selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+          selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
             margin: 5,
@@ -390,7 +358,7 @@ export const Medication = ({navigation, route}) => {
               width: '88%',
               alignSelf: 'center',
             }}
-            inputStyle={{marginLeft: 20, fontSize: 16}}
+            inputStyle={{ marginLeft: 20, fontSize: 16 }}
           />
         ) : (
           <View></View>
@@ -423,14 +391,16 @@ export const Medication = ({navigation, route}) => {
         loading={loading}
         buttonContainerStyle={{
           marginTop: SIZES.padding,
-            marginHorizontal: SIZES.padding,
-            marginBottom: SIZES.padding,
-            borderTopLeftRadius: SIZES.radius,
-            borderTopRightRadius: SIZES.radius,
-            backgroundColor: COLORS.Primary,
+          marginHorizontal: SIZES.padding,
+          marginBottom: SIZES.padding,
+          borderTopLeftRadius: SIZES.radius,
+          borderTopRightRadius: SIZES.radius,
+          backgroundColor: COLORS.Primary,
         }}
         label={'Add Medication'}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
+
     </View>
   );
 };

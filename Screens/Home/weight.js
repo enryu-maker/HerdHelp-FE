@@ -1,17 +1,18 @@
-import {View, Text, TouchableOpacity, Image,Alert} from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import React from 'react';
 import Header from '../../Components/Header';
 import FormInput from '../../Components/FormInput';
 import TextButton from '../../Components/TextButton';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axiosIns from '../../helpers/helpers';
-import {COLORS, images, SIZES, FONTS} from '../../Components/Constants';
-import {Dropdown} from 'sharingan-rn-modal-dropdown';
+import { COLORS, images, SIZES, FONTS } from '../../Components/Constants';
+import { Dropdown } from 'sharingan-rn-modal-dropdown';
 import CustomAlert from '../../Components/CustomAlert';
-import { showMessage } from "react-native-flash-message";
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHerds } from '../../Store/actions';
-export const Weight =({ navigation,route})=> {
+export const Weight = ({ navigation, route }) => {
   const [tag, setTag] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [weight, setWeight] = React.useState(0);
@@ -19,14 +20,14 @@ export const Weight =({ navigation,route})=> {
   const [id, setId] = React.useState("");
   const [show, setShow] = React.useState(false);
   const [validation, setValidation] = React.useState(false);
-  const [dataText,setDataText] = React.useState("")
+  const [dataText, setDataText] = React.useState("")
   const unit = JSON.parse(useSelector(state => state.Reducers.unit))
   const animals = useSelector(state => state.Reducers.cat)
   const tagl = useSelector(state => state.Reducers.tags)
 
   React.useEffect(() => {
-      setId(global.id)
-  },[]);
+    setId(global.id)
+  }, []);
   function finder(list, value) {
     var dataValue;
     list?.map(a => {
@@ -37,97 +38,53 @@ export const Weight =({ navigation,route})=> {
     return dataValue;
   }
   const dispatch = useDispatch()
-  const clear=()=>{
+  const clear = () => {
     setSpcies([])
     setWeight("")
     setTag([])
   }
-  async function updateWeight(){
-    if (tag!="",weight!=0){
+  async function updateWeight() {
+    if (tag != "", weight != 0) {
       setLoading(true)
-      try{
-        await axiosIns.patch(`animals/${id}${species}${tag}`,{
-          'weight': unit==true?weight: Math.round(weight/0.45359237),
-          'weight_kg':unit==false?weight: Math.round(weight*0.45359237),
+      try {
+        await axiosIns.patch(`animals/${id}${species}${tag}`, {
+          'weight': unit == true ? weight : Math.round(weight / 0.45359237),
+          'weight_kg': unit == false ? weight : Math.round(weight * 0.45359237),
         }, {
           headers: {
             'Content-Type': 'application/json',
           },
-        }).then((Response)=>{
-          if (Response.status==200){
+        }).then((Response) => {
+          if (Response.status == 200) {
             dispatch(getHerds())
             setLoading(false)
-            showMessage({
-              message: "Weight Updated",
-              type: "default",
-              backgroundColor: COLORS.Primary,
-              color:COLORS.white,
-              titleStyle:{
-                alignSelf:"center",
-                ...FONTS.h3
-              },
-              animationDuration:250,
-              icon:"success",
-              style:{
-                justifyContent:"center"
-              }
+            Toast.show({
+              text1: "Weight Updated",
+              type: "success",
             });
             clear()
           }
-          else{
-          setLoading(false)
-          showMessage({
-            message: `Animal with tag ${tag} not found here`,
-            type: "default",
-            backgroundColor: COLORS.red,
-            color:COLORS.white,
-            titleStyle:{
-              alignSelf:"center",
-              ...FONTS.h3
-            },
-            animationDuration:250,
-            icon:"danger",
-            style:{
-              justifyContent:"center"
-            }
-          });
+          else {
+            setLoading(false)
+            Toast.show({
+              text1: `Animal with tag ${tag} not found here`,
+              type: "error"
+            });
           }
         })
-      }catch(err){
+      } catch (err) {
         setLoading(false)
-        showMessage({
-          message: `${err.response.data.msg}`,
-          type: "default",
-          backgroundColor: COLORS.red,
-          color:COLORS.white,
-          titleStyle:{
-            alignSelf:"center",
-            ...FONTS.h3
-          },
-          animationDuration:250,
-          icon:"danger",
-          style:{
-            justifyContent:"center"
-          }
+        Toast.show({
+          text1: `${err.response.data.msg}`,
+          type: "error",
         });
       }
     }
-    else{
+    else {
       setLoading(false)
-      showMessage({
-        message: `Please Enter valid Data`,
-        type: "default",
-        backgroundColor: COLORS.red,
-        color:COLORS.white,
-        titleStyle:{
-          alignSelf:"center",
-          ...FONTS.h3
-        },
-        animationDuration:250,
-        icon:"danger",
-        style:{
-          justifyContent:"center"
-        }
+      Toast.show({
+        text1: `Please Enter valid Data`,
+        type: "error",
       });
     }
   }
@@ -145,18 +102,18 @@ export const Weight =({ navigation,route})=> {
             <TouchableOpacity
               style={{
                 marginLeft: 25,
-                backgroundColor:COLORS.Primary,
-                height:40,
-                width:40,
-                justifyContent:"center",
-                borderRadius:40/2,
-                }}
+                backgroundColor: COLORS.Primary,
+                height: 40,
+                width: 40,
+                justifyContent: "center",
+                borderRadius: 40 / 2,
+              }}
               onPress={() => {
                 navigation.goBack();
               }}>
               <Image
                 source={images.back}
-                style={{width: 25, height: 25, tintColor: COLORS.white,alignSelf:"center"}}
+                style={{ width: 25, height: 25, tintColor: COLORS.white, alignSelf: "center" }}
               />
             </TouchableOpacity>
           </View>
@@ -175,15 +132,15 @@ export const Weight =({ navigation,route})=> {
           backgroundColor: COLORS.lightGray2,
         }}>
         <Dropdown
-        dropdownIcon={images.down}
-        dropdownIconSize={22}
+          dropdownIcon={images.down}
+          dropdownIconSize={22}
           label="Species"
           borderRadius={SIZES.radius}
           data={animals}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
           selectedItemTextStyle={
             (FONTS.body3,
-            {color: COLORS.white, letterSpacing: 2, alignSelf: 'center'})
+              { color: COLORS.white, letterSpacing: 2, alignSelf: 'center' })
           }
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
@@ -195,7 +152,7 @@ export const Weight =({ navigation,route})=> {
           disableSelectionTick
           primaryColor={COLORS.Primary}
           value={species}
-          onChange={(value)=>{
+          onChange={(value) => {
             setSpcies(value)
           }}
           mainContainerStyle={{
@@ -203,16 +160,16 @@ export const Weight =({ navigation,route})=> {
             width: '88%',
             alignSelf: 'center'
           }}
-          itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
+          itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
         <Dropdown
           label="Tags"
           dropdownIcon={images.down}
           dropdownIconSize={22}
           borderRadius={SIZES.radius}
-          data={finder(tagl,species)}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-          selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
+          data={finder(tagl, species)}
+          textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
+          selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
           selectedItemViewStyle={{
             backgroundColor: COLORS.Primary,
             margin: 5,
@@ -241,7 +198,7 @@ export const Weight =({ navigation,route})=> {
           }}
         />
         <FormInput
-        returnKeyType={"go"}
+          returnKeyType={"go"}
           prependComponent={
             <View
               style={{
@@ -250,8 +207,8 @@ export const Weight =({ navigation,route})=> {
                 marginLeft: 0,
               }}>
               <Image
-                source={unit==true?images.kg:images.scale}
-                style={{width: 28, height: 28, tintColor: COLORS.Primary}}
+                source={unit == true ? images.kg : images.scale}
+                style={{ width: 28, height: 28, tintColor: COLORS.Primary }}
               />
             </View>
           }
@@ -259,7 +216,7 @@ export const Weight =({ navigation,route})=> {
           label="Weight"
           value={weight}
           onChange={value => {
-            value=parseInt(value.replace(/,/g,""))
+            value = parseInt(value.replace(/,/g, ""))
             setWeight(value);
           }}
           containerStyle={{
@@ -268,7 +225,7 @@ export const Weight =({ navigation,route})=> {
           inputContainerStyle={{
             backgroundColor: COLORS.white,
           }}
-          inputStyle={{marginLeft: 20, fontSize: 16}}
+          inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
       </View>
     );
@@ -279,9 +236,9 @@ export const Weight =({ navigation,route})=> {
         flex: 1,
         backgroundColor: COLORS.white,
       }}>
-        {show &&
-        <CustomAlert show={show} setShow={setShow} validation={validation} label={dataText}/>
-        } 
+      {show &&
+        <CustomAlert show={show} setShow={setShow} validation={validation} label={dataText} />
+      }
       {renderHeader()}
       <KeyboardAwareScrollView
         keyboardDismissMode="interactive"
@@ -295,20 +252,22 @@ export const Weight =({ navigation,route})=> {
 
       <TextButton
         onPress={() => {
-          updateWeight()         
+          updateWeight()
         }}
         icon={images.weight}
         loading={loading}
         buttonContainerStyle={{
           marginTop: SIZES.padding,
-            marginHorizontal: SIZES.padding,
-            marginBottom: SIZES.padding,
-            borderTopLeftRadius: SIZES.radius,
-            borderTopRightRadius: SIZES.radius,
-            backgroundColor: COLORS.Primary,
+          marginHorizontal: SIZES.padding,
+          marginBottom: SIZES.padding,
+          borderTopLeftRadius: SIZES.radius,
+          borderTopRightRadius: SIZES.radius,
+          backgroundColor: COLORS.Primary,
         }}
         label={'Update Weight'}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
+
     </View>
   );
 }

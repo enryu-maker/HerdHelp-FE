@@ -29,7 +29,8 @@ import FormInput from '../../Components/FormInput';
 import TextButton from '../../Components/TextButton';
 import FormDateInput from '../../Components/FormDateInput';
 import PickerType from './PickerType';
-import { showMessage } from 'react-native-flash-message';
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../../App';
 import { baseURL } from '../../helpers/helpers';
 import { Username } from '../Nav/Homenav';
 import { getHerds, getOverview, getTags } from '../../Store/actions';
@@ -271,6 +272,7 @@ const Addanimals = ({ navigation, route }) => {
     formData.append('purchased_date', pdatet);
     formData.append('status', 'Alive');
     formData.append('animal_image', profile_pic);
+    console.log(formData)
     if (isEnableSignIn()) {
       fetch(baseURL + `/animals/`, {
         method: 'POST',
@@ -282,82 +284,40 @@ const Addanimals = ({ navigation, route }) => {
         body: formData,
       })
         .then(response => {
+          console.log(response)
           if (response.status == 201) {
             setLoading(false);
             dispatch(getHerds())
             dispatch(getTags())
             dispatch(getOverview())
             clear();
-            showMessage({
-              message: 'Animal Added',
-              type: 'default',
-              backgroundColor: COLORS.Primary,
-              color: COLORS.white,
-              titleStyle: {
-                alignSelf: 'center',
-                ...FONTS.h3,
-              },
-              animationDuration: 250,
-              icon: 'success',
-              style: {
-                justifyContent: 'center',
-              },
+            Toast.show({
+              text1: 'Animal Added',
+              type: 'success',
             });
           }
           else {
             setLoading(false);
-            console.log(response);
-            showMessage({
-              message: `${response.msg}`,
-              type: 'default',
-              backgroundColor: COLORS.red,
-              color: COLORS.white,
-              titleStyle: {
-                alignSelf: 'center',
-                ...FONTS.h3,
-              },
-              animationDuration: 250,
-              icon: 'danger',
-              style: {
-                justifyContent: 'center',
-              },
+            // console.log(response);
+            Toast.show({
+              text1: `${response.msg}`,
+              type: 'error',
             });
           }
         })
         .catch(err => {
+          console.log(err)
           setLoading(false);
-          showMessage({
-            message: `Something went Wrong`,
-            type: 'default',
-            backgroundColor: COLORS.red,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: 'danger',
-            style: {
-              justifyContent: 'center',
-            },
+          Toast.show({
+            text1: `Something went Wrong`,
+            type: 'error',
           });
         });
     } else {
       setLoading(false);
-      showMessage({
-        message: `Required Fields cannot be empty`,
-        type: 'default',
-        backgroundColor: COLORS.red,
-        color: COLORS.white,
-        titleStyle: {
-          alignSelf: 'center',
-          ...FONTS.h3,
-        },
-        animationDuration: 250,
-        icon: 'danger',
-        style: {
-          justifyContent: 'center',
-        },
+      Toast.show({
+        text1: `Required Fields cannot be empty`,
+        type: 'error',
       });
     }
   }
@@ -1241,6 +1201,7 @@ const Addanimals = ({ navigation, route }) => {
         label={'Add Animal'}
         loading={loading}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
     </View>
   );
 };

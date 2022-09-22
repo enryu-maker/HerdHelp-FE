@@ -100,17 +100,16 @@ const Addanimals = ({ navigation, route }) => {
     return tag != '' && valueMS != '' && valueBS != '';
   }
   const clear = () => {
-    setWeight('');
-    setTag('');
-    setRegistration('');
-    setAge('');
-    setBreed('');
-    setMother('');
-    setFather('');
-    setPrice('');
-    setName('');
-    setPic('');
-    setValueMS("");
+    setWeight(' ');
+    setTag(' ');
+    setRegistration(' ');
+    setAge(' ');
+    setBreed(' ');
+    setMother(' ');
+    setFather(' ');
+    setPrice(' ');
+    setName(' ');
+    setPic(' ');
   };
   const username = global.User
   function renderFileUri() {
@@ -458,6 +457,7 @@ const Addanimals = ({ navigation, route }) => {
             borderRadius: SIZES.radius,
           }}
           required
+          
           disableSelectionTick
           primaryColor={COLORS.Primary}
           value={valueMS}
@@ -474,6 +474,9 @@ const Addanimals = ({ navigation, route }) => {
           }}
           itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
+        {
+          console.log(valueMS)
+        }
         <Dropdown
           label="Gender"
           dropdownIcon={images.down}
@@ -1187,7 +1190,8 @@ const Addanimals = ({ navigation, route }) => {
 
       <TextButton
         onPress={() => {
-          postAnimal();
+          // postAnimal();
+          clear()
         }}
         icon={images.add}
         buttonContainerStyle={{

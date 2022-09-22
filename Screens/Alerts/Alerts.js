@@ -358,11 +358,7 @@ export default function Alerts({ navigation, route }) {
       <TextButton
         border={false}
         onPress={() => {
-          if (Platform.OS === 'android') {
-            ToastAndroid.show("hello", ToastAndroid.SHORT)
-          } else {
-            Alert.alert("hello")
-          }
+          addCalander()
         }}
         icon={images.bell}
         loading={loading}

@@ -1190,8 +1190,8 @@ const Addanimals = ({ navigation, route }) => {
 
       <TextButton
         onPress={() => {
-          // postAnimal();
-          clear()
+          postAnimal();
+          // clear()
         }}
         icon={images.add}
         buttonContainerStyle={{

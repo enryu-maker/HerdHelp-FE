@@ -58,7 +58,10 @@ export default function Alerts({ navigation, route }) {
     await AddCalendarEvent.presentEventCreatingDialog(eventConfig)
       .then((response) => {
         if (response.action == "SAVED") {
-          postAlert()
+          Toast.show({
+            text1: "Alert Added",
+            type: "success",
+          });
         }
       })
       .catch((error) => {

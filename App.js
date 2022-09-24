@@ -22,7 +22,7 @@ const RootNavigation = () => {
   const dispatch = useDispatch();
   const init = async() => {
     await dispatch(Init());
-    // await dispatch(isSubscriptionActive())
+    await dispatch(isSubscriptionActive())
     setLoading(false);
   };
 

@@ -19,6 +19,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import AddModel from './AddModel';
 import Setting from '../Setting/Setting';
+import LoadAlert from '../Alerts/LoadAlert';
 const Main = ({navigation}) => {
   const alerts = useSelector(state=>state.Reducers.alerts)
   async function loadId() {
@@ -119,7 +120,7 @@ const Main = ({navigation}) => {
       <BottomTab.Screen name="Herds" component={Home}/>
       <BottomTab.Screen name="Finance" component={FinanceInfo} />
       <BottomTab.Screen name="Add" component={AddModel} />
-      <BottomTab.Screen name="Alerts" component={Alerts}/>
+      <BottomTab.Screen name="Alerts" component={LoadAlert}/>
       <BottomTab.Screen name="Settings" component={Setting} />
     </BottomTab.Navigator>
     </>

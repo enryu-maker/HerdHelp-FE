@@ -6,7 +6,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.VIBRATE"/>
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
       android:name=".MainApplication"
@@ -15,7 +16,11 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-      
+      <meta-data android:name="com.supersami.foregroundservice.notification_channel_name" android:value="supersami Service"/> 
+      <meta-data android:name="com.supersami.foregroundservice.notification_channel_description" android:value="supersami Service."/> 
+      <meta-data android:name="com.supersami.foregroundservice.notification_color" android:resource="@color/orange"/>
+      <service android:name="com.supersami.foregroundservice.ForegroundService"></service>
+      <service android:name="com.supersami.foregroundservice.ForegroundServiceTask"></service>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

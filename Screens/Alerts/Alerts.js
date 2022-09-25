@@ -77,8 +77,7 @@ export default function Alerts({ navigation, route }) {
       "content": content,
       "tag_number": tag ? `${id}${animals}${tag}` : "",
       "support_tag": tag,
-      "alert_date": datet,
-      "alert_time": timet,
+      "start_date": moment(date).format('YYYY-MM-DD'),
     },
   )
   const dispatch = useDispatch()
@@ -96,19 +95,7 @@ export default function Alerts({ navigation, route }) {
           dispatch(getAlerts())
           Toast.show({
             message: "Alerts added",
-            type: "default",
-            backgroundColor: COLORS.Primary,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: "center",
-              ...FONTS.h3
-            },
-            animationDuration: 250,
-            icon: "success",
-            style: {
-              justifyContent: "center"
-            }
-
+            type: "success",
           });
         }
 
@@ -116,36 +103,14 @@ export default function Alerts({ navigation, route }) {
         setLoading(false)
         Toast.show({
           message: `${err.response.data.msg}`,
-          type: "default",
-          backgroundColor: COLORS.red,
-          color: COLORS.white,
-          titleStyle: {
-            alignSelf: "center",
-            ...FONTS.h3
-          },
-          animationDuration: 250,
-          icon: "danger",
-          style: {
-            justifyContent: "center"
-          }
+          type: "error",
         });
       })
     }
     catch {
       Toast.show({
         message: `Something went wrong`,
-        type: "default",
-        backgroundColor: COLORS.red,
-        color: COLORS.white,
-        titleStyle: {
-          alignSelf: "center",
-          ...FONTS.h3
-        },
-        animationDuration: 250,
-        icon: "danger",
-        style: {
-          justifyContent: "center"
-        }
+        type: "error",
       });
     }
   }
@@ -173,10 +138,10 @@ export default function Alerts({ navigation, route }) {
                 borderRadius: 40 / 2,
               }}
               onPress={() => {
-                navigation.openDrawer();
+                navigation.goBack();
               }}>
               <Image
-                source={images.menu}
+                source={images.back}
                 style={{ width: 25, height: 25, tintColor: COLORS.white, alignSelf: "center" }}
               />
             </TouchableOpacity>
@@ -309,7 +274,7 @@ export default function Alerts({ navigation, route }) {
           inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
         <FormDateInput
-          label="Start of Alert*"
+          label="Alert Date*"
           // placeholder="YYYY/MM/DD"
           value={date}
           mode={"datetime"}
@@ -325,7 +290,7 @@ export default function Alerts({ navigation, route }) {
           }}
           inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
-        <FormDateInput
+        {/* <FormDateInput
           label="End of Alert*"
           value={Edate}
           mode={"datetime"}
@@ -340,7 +305,7 @@ export default function Alerts({ navigation, route }) {
             alignSelf: 'center',
           }}
           inputStyle={{ marginLeft: 20, fontSize: 16 }}
-        />
+        /> */}
       </View>
     );
   }
@@ -361,7 +326,8 @@ export default function Alerts({ navigation, route }) {
       <TextButton
         border={false}
         onPress={() => {
-          addCalander()
+          // addCalander()
+          postAlert()
         }}
         icon={images.bell}
         loading={loading}
@@ -378,7 +344,6 @@ export default function Alerts({ navigation, route }) {
         label={'Add Alert'}
       />
       <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
-
     </View>
   );
 }

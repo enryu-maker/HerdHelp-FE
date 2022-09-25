@@ -20,12 +20,13 @@ export default function LoadAlert({navigation}) {
   const [id, setId] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const alert = useSelector(state=>state.Reducers.alerts)
-
   React.useEffect(() => {
     setId(global.id);
   }, []);
   function delAlert(id){
-    axiosIns.delete(`alerts/${id}`).then(()=>{alert("Alert deleted sucessfully")})
+    axiosIns.delete(`alerts/${id}`).then(()=>{alert("Alert deleted sucessfully")}).catch((err)=>{
+      console.log(err)
+    })
    }
   function renderHeader() {
     return (
@@ -125,17 +126,17 @@ export default function LoadAlert({navigation}) {
               style={{
                 backgroundColor: COLORS.lightGray2,
                 flex:1,
-                height: data.item.support_tag != "" ? 120:100,
+                height: data.item.support_tag != "" ? 100:80,
                 margin: SIZES.base2,
                 borderRadius: SIZES.radius,
                 width: '88%',
                 alignSelf: 'center',
-                padding:8
+                paddingHorizontal:20
               }}>
               <View style={{flexDirection:"row",justifyContent:"space-between"}}>
             <View style={{flexDirection:"column",padding:4}}>
             <Text style={
-              Platform.OS=="android"?{...FONTS.h2}:{...FONTS.h2}
+              {...FONTS.h3}
                 }>{`Issue: ${data.item.title}`}</Text>
             <Text style={
                 Platform.OS=="android"?{...FONTS.body3}:{...FONTS.body3}
@@ -143,17 +144,17 @@ export default function LoadAlert({navigation}) {
             {
               data.item.support_tag != "" ?
               (<Text style={
-                {...FONTS.h3}
+                {...FONTS.body3}
             }>{`Tag: ${data.item.support_tag}`}</Text>):
               (<View></View>)
             }
-            <View style={{flexDirection:"row",justifyContent:"space-between",width:"55%"}}>
+            <View style={{}}>
             <Text style={
                 Platform.OS=="android"?{...FONTS.h4,color:COLORS.Primary}:{...FONTS.h3,color:COLORS.Primary}
-            }>{`Date: ${data.item.alert_date}`}</Text>
-            <Text style={
+            }>{`Date: ${data.item.start_date}`}</Text>
+            {/* <Text style={
                 Platform.OS=="android"?{...FONTS.h4}:{...FONTS.h3}
-            }>    {`Time: ${data.item.alert_time}`}</Text>
+            }>    {`Time: ${data.item.alert_time}`}</Text> */}
             </View>
             </View></View>
             </View>
@@ -163,7 +164,7 @@ export default function LoadAlert({navigation}) {
             key={rowMap}
               buttonContainerStyle={{
                 // flex: 1,
-                height:data.item.support_tag != "" ? 120:100,
+                height:data.item.support_tag != "" ? 100:80,
                 justifyContent: 'flex-end',
                 marginTop: 5,
                 // marginBottom: 10,

@@ -28,6 +28,7 @@
     "react-native-dropdownalert": "^4.5.1",
     "react-native-easy-toast": "^2.0.0",
     "react-native-flash-message": "^0.2.1",
+    "react-native-foreground-service": "^1.0.0",
     "react-native-gesture-handler": "^2.4.2",
     "react-native-iap": "^8.0.10",
     "react-native-image-crop-picker": "^0.37.3",

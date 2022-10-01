@@ -94,7 +94,7 @@ export default function Alerts({ navigation, route }) {
           clear();
           dispatch(getAlerts())
           Toast.show({
-            message: "Alerts added",
+            text1: "Alerts added",
             type: "success",
           });
         }
@@ -102,14 +102,14 @@ export default function Alerts({ navigation, route }) {
       }).catch(err => {
         setLoading(false)
         Toast.show({
-          message: `${err.response.data.msg}`,
+          text1: `${err.response.data.msg}`,
           type: "error",
         });
       })
     }
     catch {
       Toast.show({
-        message: `Something went wrong`,
+        text1: `Something went wrong`,
         type: "error",
       });
     }

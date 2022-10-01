@@ -68,19 +68,8 @@ const dispatch = useDispatch()
         if (response.status == 200) {
           setLoading(false);
           Toast.show({
-            message: "Profile updated",
-            type: 'default',
-            backgroundColor: COLORS.Primary,
-            color: COLORS.white,
-            titleStyle: {
-              alignSelf: 'center',
-              ...FONTS.h3,
-            },
-            animationDuration: 250,
-            icon: 'success',
-            style: {
-              justifyContent: 'center',
-            },
+            text1: "Profile updated",
+            type: 'success',
           });
           setshowu(false)
           dispatch(getHerds())
@@ -89,19 +78,8 @@ const dispatch = useDispatch()
       .catch((err) => {
         setLoading(false);
         Toast.show({
-          message: `${err.response.data.msg}`,
-          type: 'default',
-          backgroundColor: COLORS.red,
-          color: COLORS.white,
-          titleStyle: {
-            alignSelf: 'center',
-            ...FONTS.h3,
-          },
-          animationDuration: 250,
-          icon: 'danger',
-          style: {
-            justifyContent: 'center',
-          },
+          text1: `${err.response.data.msg}`,
+          type: 'error',
         });
         setshowu(false)
       });

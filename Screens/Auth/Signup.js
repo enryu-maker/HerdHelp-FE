@@ -85,19 +85,8 @@ export const Signup = ({navigation}) => {
     } else {
       setLoading(false);
       Toast.show({
-        message: `Invalid Input`,
-        type: 'default',
-        backgroundColor: COLORS.red,
-        color: COLORS.white,
-        titleStyle: {
-          alignSelf: 'center',
-          ...FONTS.h3,
-        },
-        animationDuration: 250,
-        icon: "danger",
-        style:{
-          justifyContent:"center"
-        }
+        text1: `Invalid Input`,
+        type: 'error',
       });
     }
   }

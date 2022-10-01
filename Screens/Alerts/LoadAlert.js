@@ -24,7 +24,7 @@ export default function LoadAlert({navigation}) {
     setId(global.id);
   }, []);
   function delAlert(id){
-    axiosIns.delete(`alerts/${id}`).then(()=>{alert("Alert deleted sucessfully")}).catch((err)=>{
+    axiosIns.delete(`alerts?id=${id}`).then(()=>{alert("Alert deleted sucessfully")}).catch((err)=>{
       console.log(err)
     })
    }

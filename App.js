@@ -22,7 +22,7 @@ const RootNavigation = () => {
   const dispatch = useDispatch();
   const init = async() => {
     await dispatch(Init());
-    // await dispatch(isSubscriptionActive())
+    await dispatch(isSubscriptionActive())
     setLoading(false);
   };
 
@@ -36,7 +36,7 @@ const RootNavigation = () => {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', height:'100%' }}>
         <ActivityIndicator size="large" color={COLORS.Primary} />
         <Text style={{
           ...FONTS.body3,
@@ -48,10 +48,16 @@ const RootNavigation = () => {
   }
 
   return (
-    <NavigationContainer>
-      <FlashMessage position="top" />
-      {/* { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> } */}
+    <NavigationContainer >
+      <View style={{
+        flex:1,
+        height:'100%',
+        width:'100%'
+      }}>
       {token === null ? <Rootnav /> : <Homenav />}
+      {/* { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> } */}
+
+      </View>
 
     </NavigationContainer>
   );
@@ -87,14 +93,12 @@ const App = () => {
     Platform.OS === 'ios'
       ? [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.PHOTO_LIBRARY]
       : [PERMISSIONS.ANDROID.CAMERA, PERMISSIONS.ANDROID.ACCESS_MEDIA_LOCATION],
-  ).then(result => {
-    setPermissionResult(result);
-  });
+  );
   // console.log(pub)
 
   return (
     <Provider store={store}>
-      <Permission.Provider value={PermissionResult}>
+      <Permission.Provider>
         <StatusBar
           barStyle={Platform.OS === 'android' ? 'default' : 'dark-content'}
           backgroundColor={'black'}

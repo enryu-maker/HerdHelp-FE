@@ -275,9 +275,9 @@ export default function Alerts({ navigation, route }) {
         />
         <FormDateInput
           label="Alert Date*"
-          // placeholder="YYYY/MM/DD"
+          placeholder="YYYY/MM/DD"
           value={date}
-          mode={"datetime"}
+          mode={"date"}
           setDate={setDate}
           formatDate={setDatet}
           containerStyle={{
@@ -290,22 +290,6 @@ export default function Alerts({ navigation, route }) {
           }}
           inputStyle={{ marginLeft: 20, fontSize: 16 }}
         />
-        {/* <FormDateInput
-          label="End of Alert*"
-          value={Edate}
-          mode={"datetime"}
-          setDate={setEdate}
-          formatDate={setEdatet}
-          containerStyle={{
-            marginTop: SIZES.radius,
-          }}
-          inputContainerStyle={{
-            backgroundColor: COLORS.white,
-            width: '88%',
-            alignSelf: 'center',
-          }}
-          inputStyle={{ marginLeft: 20, fontSize: 16 }}
-        /> */}
       </View>
     );
   }

@@ -40,11 +40,11 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>$(PRODUCT_NAME) user your calendar.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera.</string>
+	<string>This app requires access to the camera. For the purpose of Profile Picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>This app requires access to the photo library. For Uploading Images </string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -100,6 +100,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Your message to user when the microsphone is accessed for the first time</string>
+	<string>Microphone usage is used while the recording of video</string>
 </dict>
 </plist>

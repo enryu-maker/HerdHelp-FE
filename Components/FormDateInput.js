@@ -68,7 +68,7 @@ const FormDateInput = ({
                         marginLeft: 20
                     }}
                 >
-                    {value ? moment(value).format("YYYY-MM-DD HH:MM:SS") : placeholder}
+                    {value ? moment(value).format("YYYY-MM-DD") : placeholder}
                 </Text>
 
 

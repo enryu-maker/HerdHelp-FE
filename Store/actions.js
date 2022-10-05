@@ -27,6 +27,7 @@ export const isSubscriptionActive = () => {
   return async dispatch => {
     await RNIap.initConnection().then(async() => {
       const purchases = await RNIap.getAvailablePurchases();
+      console.log(purchases)
       let active = false;
       purchases.forEach(purchase => {
         if (purchase.productId == itemSkus) {

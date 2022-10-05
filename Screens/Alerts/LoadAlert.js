@@ -126,7 +126,7 @@ export default function LoadAlert({navigation}) {
               style={{
                 backgroundColor: COLORS.lightGray2,
                 flex:1,
-                height: data.item.support_tag != "" ? 100:80,
+                // height: data.item.support_tag != "" ? 100:80,
                 margin: SIZES.base2,
                 borderRadius: SIZES.radius,
                 width: '88%',
@@ -163,11 +163,9 @@ export default function LoadAlert({navigation}) {
             <TextButton
             key={rowMap}
               buttonContainerStyle={{
-                // flex: 1,
-                height:data.item.support_tag != "" ? 100:80,
+                height:data.item.support_tag != "" ? 90:80,
                 justifyContent: 'flex-end',
                 marginTop: 5,
-                // marginBottom: 10,
                 backgroundColor:"#ff5b5b"
               }}
               

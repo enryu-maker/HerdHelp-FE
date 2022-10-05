@@ -3,7 +3,7 @@ import React from 'react'
 import Header from '../../Components/Header'
 import { COLORS, FONTS, images, SIZES } from '../../Components/Constants'
 import TextButton from '../../Components/TextButton'
-import * as RNIap from 'react-native-iap';
+import IAP from 'react-native-iap';
 import InfoItem from '../../Components/InfoItem'
 import CheckBox from '@react-native-community/checkbox';
 export default function Subscription() {
@@ -17,54 +17,66 @@ export default function Subscription() {
   });
   const [product, setProduct] = React.useState({})
   const [checked, setChecked] = React.useState(false);
-  const getProduct = async (itemSkus) => {
-    try {
-      const products = await RNIap.getProducts(itemSkus);
-      setProduct(products[0])
-    } catch (err) {
-      console.warn(err);
-    }
-  }
-  const requestSubscription = async (product) => {
-    try {
-      await RNIap.requestSubscription(product.productId);
-    } catch (err) {
-      console.warn(err.code, err.message);
-    }
+  const [loading, setLoading] = React.useState(false);
+  const getSubscriptionplan=()=>{
+    const planId = Platform.select({
+      ios:['T699'],
+      android:['hh_t699']
+    })
+    IAP.getSubscriptions(planId)
+    .then(res=>{
+      console.log(res)
+      setProduct(res[0])
+    })
+    .catch(e=>{
+      console.log(e)
+    })
   }
 
+  const buySelectedPlan= async (plan) =>{
+    try{
+       await IAP.requestSubscription({sku:plan.productId});
+    }
+    catch(err){
+      console.log(err)
+      console.log("error")
+    }
+  }
+  
+
   React.useEffect(async() => {
-    await RNIap.initConnection().catch(()=>{
-      console.log("Something went wrong")
-    }).then(()=>{
-      console.log("connection establised ")
-      RNIap.getSubscriptions(itemSkus).then((res)=>{
-        console.log('hi')
-        setProduct(res[0]);
-      }).catch(()=>{
-        console.log('Something went wrong')
-      })
+    await IAP.initConnection().then((result)=>{
+      console.log(result)
+      getSubscriptionplan()
+    }).catch((err)=>{
+      console.log(err)
     })
-    const updateSubscription = RNIap.purchaseUpdatedListener( (purchase) => {
-      console.log(purchase)
-      const receiptBodyios = {
-        'receipt-data': purchase.transactionReceipt,
-        'password': '82b1481ce1844e5b87fbb8da408e7c4e'
-      };
-       const results =  Platform.OS==="ios"? 
-         RNIap.validateReceiptIos(receiptBodyios):
-         RNIap.validateReceiptAndroid(
-          purchase.packageNameAndroid,
-          purchase.productId,
-          purchase.purchaseToken,
-          "verify@pc-api-4637307351252359025-733.iam.gserviceaccount.com",
-          true,
-          )
-      console.log(results.status)
-    });
-    return () => {
-      updateSubscription.remove();
-    };
+    const updatePurchaseListner = IAP.purchaseUpdatedListener(purchase=>{
+      try{
+        if(purchase){
+          const receipt = purchase?.transactionReceipt
+          ? purchase?.transactionReceipt
+          : purchase?.originalJson
+
+          if(receipt){
+            const ackResult = IAP.finishTransaction(purchase)
+            console.log(ackResult)
+          }
+        }
+        
+      }
+      catch(err){
+        console(err)
+      }
+    })
+    const purchaseErrorListner = IAP.purchaseErrorListener(errror=>{
+      console.log(errror)
+    })
+
+    return ()=>{
+      updatePurchaseListner.remove();
+      purchaseErrorListner.remove();
+    }
   }, [])
   function renderHeader() {
     return (
@@ -87,20 +99,26 @@ export default function Subscription() {
           alignSelf: "center",
           marginTop: 20
         }}>
-          {"HerdHelp Premium"}
+          {"HerdHelp Free Trial"}
         </Text>
         <Text style={{
           ...FONTS.body3,
           alignSelf: "center",
           marginTop: 10
         }}>
-          {` When you choose to purchase Herd Help Premium, payment will be charged to your iTunes/Playstore account, and your account will be charged for renewal 24 hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the iTunes Store after purchase. Current price for the Herd Help Premium is `}
+          {`When you choose to purchase Herd Help Premium, payment will be charged to your iTunes/Playstore account, and your account will be charged for renewal 24 hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the iTunes Store after purchase. Current price for the Herd Help Premium is `}
           <Text style={{
             ...FONTS.h3,
             alignSelf: "center",
-          }}>{product.localizedPrice}</Text> per month ​and may vary by country.
+          }}>{product?.localizedPrice}</Text> per month ​and may vary by country.
         </Text>
-        <InfoItem label={"Price"} value={`${product.localizedPrice}/Month`} />
+        <Text style={{
+            ...FONTS.h3,
+            alignSelf: "center",
+          }}> One Month Free Trial After that  </Text>
+        <InfoItem buttonStyle={{
+          marginTop:-10
+        }} label={"Price"} value={`${product?.localizedPrice}/Month`} />
       </View>
     )
   }
@@ -139,6 +157,7 @@ export default function Subscription() {
             marginLeft:10
           }}>I accept Terms & Condition</Text>
         </View>
+       
         <TextButton
           border={false}
           buttonContainerStyle={{
@@ -147,10 +166,9 @@ export default function Subscription() {
             borderColor:checked?COLORS.Primary:COLORS.lightGray1,
             backgroundColor:COLORS.white
           }}
-          onPress={()=>{
-            requestSubscription(product)
-          }}
-          label={"Start Trail"}
+          onPress={()=>{buySelectedPlan(product)}} 
+          loading={loading}
+          label={"Start Trial"}
           labelStyle={{
             color: checked?COLORS.Primary:COLORS.lightGray1
           }}

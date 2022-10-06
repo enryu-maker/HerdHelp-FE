@@ -54,8 +54,8 @@ const RootNavigation = () => {
         height:'100%',
         width:'100%'
       }}>
-      {token === null ? <Rootnav /> : <Homenav />}
-      {/* { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> } */}
+      {/* {token === null ? <Rootnav /> : <Homenav />} */}
+      { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> }
 
       </View>
 

@@ -50,6 +50,14 @@ export const isSubscriptionActive = () => {
     })
   }
 }
+export const updateSubs = (sub) => {
+  return async dispatch => {
+    dispatch({
+      type: 'PREMIUM',
+      payload: sub,
+    })
+  }
+}
 export const Login = (token, id) => {
   return async dispatch => {
     if (token && id) {

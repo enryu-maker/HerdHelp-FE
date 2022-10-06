@@ -40,11 +40,11 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>$(PRODUCT_NAME) user your calendar.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera. For the purpose of Profile Picture</string>
+	<string>HerdHelp needs to access camera to load images of your animals</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library. For Uploading Images </string>
+	<string>HerdHelp needs to access Photos to load images of your animals</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

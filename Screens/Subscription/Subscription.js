@@ -6,6 +6,8 @@ import TextButton from '../../Components/TextButton'
 import IAP from 'react-native-iap';
 import InfoItem from '../../Components/InfoItem'
 import CheckBox from '@react-native-community/checkbox';
+import { useDispatch } from 'react-redux'
+import { updateSubs } from '../../Store/actions'
 export default function Subscription() {
   const itemSkus = Platform.select({
     ios: [
@@ -43,7 +45,7 @@ export default function Subscription() {
     }
   }
   
-
+  const dispatch = useDispatch()
   React.useEffect(async() => {
     await IAP.initConnection().then((result)=>{
       console.log(result)
@@ -60,6 +62,7 @@ export default function Subscription() {
 
           if(receipt){
             const ackResult = IAP.finishTransaction(purchase)
+            dispatch(updateSubs(receipt?true:false))
             console.log(ackResult)
           }
         }

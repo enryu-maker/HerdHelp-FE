@@ -8,11 +8,44 @@ import {COLORS, SIZES, images,FONTS} from '../../Components/Constants';
 import ActivityIndicatorExample from '../../Components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { deleteFinance, getFinance } from '../../Store/actions';
-
+import {getFinance } from '../../Store/actions';
+import { ActivityIndicator } from 'react-native-paper';
+import { toastConfig } from '../../App';
+import Toast from 'react-native-toast-message'
 export default function FinanceInfo({navigation}) {
   const dispatch = useDispatch()
   const finance = useSelector(state=>state.Reducers.finance)
+  const [loading, setLoading] = React.useState(false)
+  function delFin(id) {
+    setLoading(true)
+    axiosIns.delete(`finance/${id}`).
+      then((res) => {
+        if (res.status == 204) {
+          dispatch(getFinance())
+          setLoading(false)
+          Toast.show({
+            text1: "Finance Deleted Succesfully",
+            type: "success",
+          })
+        }
+        else {
+          console.log(res)
+          setLoading(false)
+          Toast.show({
+            text1: "Something Went Wrong",
+            type: "error",
+          })
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+        Toast.show({
+          text1: "Something Went Wrong",
+          type: "error",
+        })
+      })
+  }
   function renderHeader() {
     return (
       <Header
@@ -90,20 +123,24 @@ export default function FinanceInfo({navigation}) {
   return (
     <View style={{flex: 1, backgroundColor:COLORS.white}}>
       {renderHeader()}
-      <Text style={{
-        ...FONTS.h3,
-        color:COLORS.Primary,
-        alignSelf:"center"
-      }}>
-        Swipe Right to <Text style={{
-        ...FONTS.h3,
-        color:COLORS.red,
-        alignSelf:"center"
-      }}>Delete</Text>
-      </Text>
-      <SafeAreaView style={{
-        flex:1
-      }}>
+      <SafeAreaView>
+      {
+        loading ? <ActivityIndicator style={{
+          padding:10,
+         
+        }} 
+        size={"small"}
+        color={COLORS.Primary}
+        /> :
+          <>
+            <Text style={{ ...FONTS.h4, color: COLORS.Primary, alignSelf: "center" }}>
+              Swipe Left To{" "}
+              <Text style={{ ...FONTS.h4, color: COLORS.red, marginLeft: 10 }}>
+                Delete
+              </Text>
+            </Text>
+          </>
+      }
       {
         finance?.length<0?<ActivityIndicatorExample />:
         <SwipeListView
@@ -166,8 +203,7 @@ export default function FinanceInfo({navigation}) {
                   marginRight:15
                 }}
                 onPress={() =>  {
-                  dispatch(deleteFinance(data.item.id))
-                  dispatch(getFinance())
+                  delFin(data.item.id)
                 }}
             />
             </View>
@@ -177,6 +213,7 @@ export default function FinanceInfo({navigation}) {
           />
         }
         </SafeAreaView>
+      <Toast ref={(ref) => { Toast.setRef(ref) }} config={toastConfig} />
     </View>
   );
 }

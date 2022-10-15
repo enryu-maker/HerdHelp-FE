@@ -14,7 +14,13 @@ export const Home = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const animals = useSelector(state=>state.Reducers.herds)
   const User = useSelector(state=>state.Reducers.userData)
-  
+  function removeDuplicates(arr) {
+    // console.log(arr)
+    let jsonObject = arr.map(JSON.stringify);
+    let uniqueSet = new Set(jsonObject);
+    let uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+    return uniqueArray
+  }
   function renderHeader() {
     return (
       <Header
@@ -108,7 +114,7 @@ export const Home = ({navigation}) => {
                 icon={{uri: baseURL + item.data[0]?.image}}
                 key={index}
                 label={item.label=="Sheep"?`My ${item.label}`:`My ${item.label}s`} 
-                label2={`${item.data?.length}`}
+                label2={`${removeDuplicates(item.data)?.length}`}
                 onPress={() => {
                   navigation.navigate('add', {
                     label: item.label,

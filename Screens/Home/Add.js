@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Image, TextInput, FlatList } from 'react-
 import React from 'react'
 import Header from '../../Components/Header';
 import Card from '../../Components/Card';
-
+import natsort from 'natsort';
 import {
   COLORS,
   FONTS,
@@ -17,13 +17,15 @@ export default function Add({ navigation, route }) {
   const [show, setShow] = React.useState(false)
   const [showFilter, setShowFilter] = React.useState(false)
   const [showFilterModal, setShowFilterModal] = React.useState(false);
-  const [data, setData] = React.useState([])
+  // const [data, setData] = React.useState([])
   const [searched, setSearched] = React.useState("")
   const [sep, setSpec] = React.useState('')
   const [vacc, setVacc] = React.useState('')
   const [med, setMed] = React.useState('')
   const [Bred, setBred] = React.useState('')
-
+  const [Animal, setAnimal] = React.useState([])
+  var sorter = natsort();
+  
   React.useEffect(() => {
 
     let { label } = route.params
@@ -32,9 +34,21 @@ export default function Add({ navigation, route }) {
     setCond(cond)
     if (!loading) {
       setLabel(label)
-      setData(data)
+      setAnimal(data)
+      // data.sort((function(a, b) {
+      //   return sorter(a.support_tag, b.support_tag)
+      // }));
+      // console.log(data)
     }
   }, [])
+  
+  // function removeDuplicates(arr) {
+  //   // console.log(arr)
+  //   let jsonObject = arr.map(JSON.stringify);
+  //   let uniqueSet = new Set(jsonObject);
+  //   let uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+  //   return uniqueArray
+  // }
   function filterList(list) {
     return list.filter(
       (listItem) =>
@@ -124,7 +138,7 @@ export default function Add({ navigation, route }) {
                 color: COLORS.white,
                 ...FONTS.h2,
                 alignSelf: "center"
-              }}>{data.length}</Text>
+              }}>{Animal.length}</Text>
             </View>
             <TouchableOpacity
               style={{
@@ -230,12 +244,11 @@ export default function Add({ navigation, route }) {
         />
       }
       <FlatList
-        data={filterList(data)}
-        keyExtractor={item => `${item.support_tag}`}
+        data={filterList(Animal)}
+        // keyExtractor={item => `${item.support_tag}`}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <Card
-            key={index}
             Flagged={item?.flagged}
             cond={cond}
             Name={item.name}

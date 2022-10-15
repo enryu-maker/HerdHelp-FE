@@ -271,7 +271,6 @@ const Addanimals = ({ navigation, route }) => {
     formData.append('purchased_date', pdatet);
     formData.append('status', 'Alive');
     formData.append('animal_image', profile_pic);
-    console.log(formData)
     if (isEnableSignIn()) {
       fetch(baseURL + `/animals/`, {
         method: 'POST',
@@ -474,9 +473,6 @@ const Addanimals = ({ navigation, route }) => {
           }}
           itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
-        {
-          console.log(valueMS)
-        }
         <Dropdown
           label="Gender"
           dropdownIcon={images.down}

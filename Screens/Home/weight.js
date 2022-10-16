@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message'
 import { toastConfig } from '../../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHerds } from '../../Store/actions';
+import TagDropdown from '../../Components/TagDropdown';
 export const Weight = ({ navigation, route }) => {
   const [tag, setTag] = React.useState('');
   const [loading, setLoading] = React.useState(false);
@@ -39,7 +40,7 @@ export const Weight = ({ navigation, route }) => {
   }
   const dispatch = useDispatch()
   const clear = () => {
-    setSpcies([])
+    // setSpcies([])
     setWeight("")
     setTag([])
   }
@@ -162,7 +163,7 @@ export const Weight = ({ navigation, route }) => {
           }}
           itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
-        <Dropdown
+        {/* <Dropdown
           label="Tags"
           dropdownIcon={images.down}
           dropdownIconSize={22}
@@ -196,7 +197,12 @@ export const Weight = ({ navigation, route }) => {
             margin: 5,
             borderRadius: SIZES.radius,
           }}
-        />
+        /> */}
+        <TagDropdown 
+              value={tag}
+              setValue={setTag}
+              data={finder(tagl,species)}
+              />
         <FormInput
           returnKeyType={"go"}
           prependComponent={

@@ -13,8 +13,9 @@ import { toastConfig } from '../../App';
 import CustomAlert from '../../Components/CustomAlert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMedical } from '../../Store/actions';
+import TagDropdown from '../../Components/TagDropdown';
 export const Medication = ({ navigation, route }) => {
-  const [tag, setTag] = React.useState('');
+  const [tag, setTag] = React.useState(null);
   const [treat, setTreat] = React.useState('');
   const [treatt, setTreatt] = React.useState('');
   const [Dis, setDis] = React.useState('');
@@ -26,6 +27,8 @@ export const Medication = ({ navigation, route }) => {
   const [species, setSpcies] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [id, setId] = React.useState('');
+  const [stag, setStag] = React.useState([]);
+
   const [dataT, setDataT] = React.useState("");
   const [dataS, setDataS] = React.useState("");
   const tagl = useSelector(state => state.Reducers.tags)
@@ -38,15 +41,17 @@ export const Medication = ({ navigation, route }) => {
     setTag("");
     setDos("");
   };
+  let controller;
   function finder(list, value) {
     var dataValue;
     list?.map(a => {
       if (value == a.label) {
-        dataValue = a.data;
+        dataValue = a?.data;
       }
     });
-    return dataValue;
+    return dataValue
   }
+
   const dispatch = useDispatch()
   function addMedical() {
     setLoading(true),
@@ -151,7 +156,8 @@ export const Medication = ({ navigation, route }) => {
         }}>
         {
           cond ?
-            <><Dropdown
+            <>
+            <Dropdown
               label="Species"
               dropdownIcon={images.down}
               dropdownIconSize={22}
@@ -174,6 +180,7 @@ export const Medication = ({ navigation, route }) => {
               value={species}
               onChange={(value) => {
                 setSpcies(value)
+                setStag(finder(tagl, value))
               }}
               mainContainerStyle={{
                 borderRadius: SIZES.padding,
@@ -183,12 +190,12 @@ export const Medication = ({ navigation, route }) => {
               }}
               itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
             />
-              <Dropdown
+              {/* <Dropdown
                 label="Tags"
                 dropdownIcon={images.down}
                 dropdownIconSize={22}
                 borderRadius={SIZES.radius}
-                data={finder(tagl, species)}
+                data={stag}
                 textInputStyle={(FONTS.body2, { letterSpacing: 2 })}
                 selectedItemTextStyle={(FONTS.body3, { color: COLORS.white })}
                 selectedItemViewStyle={{
@@ -218,7 +225,13 @@ export const Medication = ({ navigation, route }) => {
                   margin: 5,
                   borderRadius: SIZES.radius,
                 }}
+              /> */}
+              <TagDropdown 
+              value={tag}
+              setValue={setTag}
+              data={finder(tagl,species)}
               />
+
             </> : <View></View>
         }
         <FormInput

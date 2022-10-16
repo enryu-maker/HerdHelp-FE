@@ -11,6 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import TextButton from '../../Components/TextButton';
 import FormInput from '../../Components/FormInput';
 import axiosIns from '../../helpers/helpers';
+import TagDropdown from '../../Components/TagDropdown';
 export default function Flag({
   navigation
 }) {
@@ -39,7 +40,7 @@ export default function Flag({
   }, []);
   const dispatch = useDispatch()
   const clear = () => {
-    setSpcies([])
+    // setSpcies([])
     setbredDobt("")
     setbredDob("")
     setTag([])
@@ -164,7 +165,7 @@ export default function Flag({
           }}
           itemContainerStyle={{ backgroundColor: COLORS.white, margin: 5 }}
         />
-        <Dropdown
+        {/* <Dropdown
           label="Tags"
           dropdownIcon={images.down}
           dropdownIconSize={22}
@@ -199,6 +200,11 @@ export default function Flag({
             margin: 5,
             borderRadius: SIZES.radius,
           }}
+        /> */}
+        <TagDropdown
+          value={tag}
+          setValue={setTag}
+          data={finder(tagl, species)}
         />
         <FormInput
           prependComponent={

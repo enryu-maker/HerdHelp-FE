@@ -20,8 +20,7 @@ import Loader from '../../Components/Loader';
 import utils from '../../utils/Utils';
 import { baseURL } from '../../helpers/helpers';
 import { useDispatch } from 'react-redux'
-import { Login } from '../../Store/actions';
-import * as RNIap from 'react-native-iap';
+import { isSubscriptionActive, Login } from '../../Store/actions';
 const LoginScreen = ({navigation,route}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -64,6 +63,7 @@ const LoginScreen = ({navigation,route}) => {
         .then(response => {
           if (response.status == 200) {
               dispatch(Login(response.data.access,response.data.userid.toString()))
+              dispatch(isSubscriptionActive())
               setLoading(false)            
           } else {
             setEmailError('User Not Registered');

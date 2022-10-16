@@ -9,13 +9,15 @@ import FormDateInput from '../../Components/FormDateInput';
 import axiosIns from '../../helpers/helpers';
 import { Dropdown } from 'sharingan-rn-modal-dropdown';
 import Toast from 'react-native-toast-message'
+import { MultiSelect } from 'react-native-element-dropdown';
 import { toastConfig } from '../../App';
 import CustomAlert from '../../Components/CustomAlert';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMedical } from '../../Store/actions';
+import { getHerds, getMedical } from '../../Store/actions';
+import axios from 'axios';
 import TagDropdown from '../../Components/TagDropdown';
 export const Medication = ({ navigation, route }) => {
-  const [tag, setTag] = React.useState(null);
+  const [tag, setTag] = React.useState([]);
   const [treat, setTreat] = React.useState('');
   const [treatt, setTreatt] = React.useState('');
   const [Dis, setDis] = React.useState('');
@@ -41,7 +43,14 @@ export const Medication = ({ navigation, route }) => {
     setTag("");
     setDos("");
   };
-  let controller;
+  const renderItem = (item) => {
+    return (
+      <View style={styles.item}>
+        <Text style={styles.selectedTextStyle}>{item.label}</Text>
+      </View>
+    );
+  };
+
   function finder(list, value) {
     var dataValue;
     list?.map(a => {
@@ -51,7 +60,68 @@ export const Medication = ({ navigation, route }) => {
     });
     return dataValue
   }
+  function axiosRequest(tag) {
+    var ls = []
+    tag.map((a, index) => {
+      const v = `${id}${species}${a}`
+      ls.push(v)
+    })
+    return (ls)
+  }
 
+  async function updateMed() {
+    var final_list = axiosRequest(tag)
+    if (tag != "", species != '') {
+      setLoading(true)
+      try {
+        await Promise.all(final_list.map((endpoint) => axiosIns.post('medication/', 
+          {
+          tag_number:endpoint,
+          medication_name: med,
+          medication_date: treatt,
+          dosage: dos,
+          disease: Dis,
+          withdrawal: withdraw,
+          withdrawal_date: datet != "" ? datet : null,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }))).then(axios.spread((Response) => {
+          if (Response.status == 201) {
+            dispatch(getHerds())
+            setLoading(false)
+            Toast.show({
+              text1: "Medication Added",
+              type: "success",
+            });
+            clear()
+          }
+          else {
+            setLoading(false)
+            Toast.show({
+              text1: "Animal Not Added",
+                type: "error",
+            });
+          }
+        }))
+      } catch (err) {
+        console.log(err)
+        setLoading(false)
+        Toast.show({
+          text1: `${err.response.data.msg}`,
+          type: "error",
+        });
+      }
+    }
+    else {
+      setLoading(false)
+      Toast.show({
+        text1: `Please Enter valid Data`,
+        type: "error"
+      });
+    }
+  }
   const dispatch = useDispatch()
   function addMedical() {
     setLoading(true),
@@ -59,7 +129,7 @@ export const Medication = ({ navigation, route }) => {
         .post(
           'medication/',
           {
-            tag_number: !cond ? `${global.id}${dataS}${dataT}` : `${global.id}${species}${tag}`,
+            tag_number:`${global.id}${dataS}${dataT}`,
             medication_name: med,
             medication_date: treatt,
             dosage: dos,
@@ -76,7 +146,7 @@ export const Medication = ({ navigation, route }) => {
         .then(response => {
           if (response.status == 201) {
             setLoading(false)
-            !cond ? dispatch(getMedical(`${global.id}${dataS}${dataT}`)) : null
+            dispatch(getMedical(`${global.id}${dataS}${dataT}`)) 
             Toast.show({
               text1: "Medication Added",
               type: "success",
@@ -180,7 +250,7 @@ export const Medication = ({ navigation, route }) => {
               value={species}
               onChange={(value) => {
                 setSpcies(value)
-                setStag(finder(tagl, value))
+                // setStag(finder(tagl, value))
               }}
               mainContainerStyle={{
                 borderRadius: SIZES.padding,
@@ -226,11 +296,45 @@ export const Medication = ({ navigation, route }) => {
                   borderRadius: SIZES.radius,
                 }}
               /> */}
-              <TagDropdown 
-              value={tag}
-              setValue={setTag}
-              data={finder(tagl,species)}
-              />
+          <MultiSelect
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={finder(tagl,species)}
+          labelField="label"
+          valueField="value"
+          placeholder="Select Tag"
+          value={tag}
+          search
+          searchPlaceholder="Search..."
+          onChange={item => {
+            setTag(item);
+          }}
+          renderLeftIcon={() => (
+            <Image source={images.paw} style={{
+              height:20,
+              width:20,
+              marginHorizontal:10,
+              tintColor:COLORS.Primary
+             }}/>
+          )}
+          selectedStyle={styles.selectedStyle}
+          renderItem={renderItem}
+          renderSelectedItem={(item, unSelect) => (
+            <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+              <View style={styles.selectedStyle}>
+                <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                <Image source={images.x} style={{
+                  height:15,
+                  width:15,
+                  tintColor:COLORS.red
+                }}/>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
 
             </> : <View></View>
         }
@@ -398,7 +502,7 @@ export const Medication = ({ navigation, route }) => {
       </KeyboardAwareScrollView>
       <TextButton
         onPress={() => {
-          addMedical();
+          !cond ?addMedical():updateMed()
         }}
         icon={images.med}
         loading={loading}
@@ -417,3 +521,75 @@ export const Medication = ({ navigation, route }) => {
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: { 
+    width:"88%",
+    padding: 16,
+    marginTop:20 },
+  dropdown: {
+    width:"88%",
+    height: 50,
+    marginTop:20,
+    alignSelf:"center",
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    justifyContent:"center",
+    alignItems:"center",
+    elevation: 2,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 14,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  selectedStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 14,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    marginTop: 8,
+    marginRight: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
+  },
+  textSelectedStyle: {
+    marginRight: 5,
+    fontSize: 16,
+  },
+});

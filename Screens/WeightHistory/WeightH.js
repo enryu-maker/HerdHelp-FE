@@ -7,6 +7,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Dropdown} from 'sharingan-rn-modal-dropdown';
 import { useSelector } from 'react-redux';
 import axiosIns from '../../helpers/helpers';
+import TagDropdown from '../../Components/TagDropdown';
 export default function WeightH({navigation}) {
   const [id, setId] = React.useState('');
   const [species, setSpcies] = React.useState('');
@@ -134,40 +135,10 @@ export default function WeightH({navigation}) {
           }}
           itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
         />
-        <Dropdown
-          label="Tags"
-          dropdownIcon={images.down}
-          dropdownIconSize={22}
-          borderRadius={SIZES.radius}
-          data={finder(tagl,species)}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-          selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
-          selectedItemViewStyle={{
-            backgroundColor: COLORS.Primary,
-            margin: 5,
-            borderRadius: SIZES.radius,
-          }}
-          // enableAvatar
-          animationIn="bounceInLeft"
-          animationOut="bounceOutLeft"
-          disableSelectionTick
-          primaryColor={COLORS.Primary}
-          avatarSize={28}
-          value={tag}
-          onChange={(value) => {
-            setTag(value);
-          }}
-          mainContainerStyle={{
-            borderRadius: SIZES.padding,
-            width: '88%',
-            alignSelf: 'center',
-            marginTop: SIZES.height > 800 ? SIZES.base : 10,
-          }}
-          itemContainerStyle={{
-            backgroundColor: COLORS.white,
-            margin: 5,
-            borderRadius: SIZES.radius,
-          }}
+        <TagDropdown
+        data={finder(tagl,species)}
+        value={tag}
+        setValue={setTag}
         />
       </View>
     );

@@ -8,6 +8,7 @@ import TextButton from '../../Components/TextButton';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import axiosIns from '../../helpers/helpers';
 import Card from '../../Components/Card';
+import TagDropdown from '../../Components/TagDropdown';
 export default function Parents({navigation}) {
   const [tag, setTag] = React.useState('');
   const [id, setId] = React.useState('');
@@ -138,39 +139,10 @@ export default function Parents({navigation}) {
           }}
           itemContainerStyle={{backgroundColor: COLORS.white, margin: 5}}
         />
-        <Dropdown
-          label="Tags"
-          dropdownIcon={images.down}
-          dropdownIconSize={22}
-          borderRadius={SIZES.radius}
-          data={finder(tagl,animal)}
-          textInputStyle={(FONTS.body2, {letterSpacing: 2})}
-          selectedItemTextStyle={(FONTS.body3, {color: COLORS.white})}
-          selectedItemViewStyle={{
-            backgroundColor: COLORS.Primary,
-            margin: 5,
-            borderRadius: SIZES.radius,
-          }}
-          animationIn="bounceInLeft"
-          animationOut="bounceOutLeft"
-          disableSelectionTick
-          primaryColor={COLORS.Primary}
-          avatarSize={28}
-          value={tag}
-          onChange={(value) => {
-            setTag(value);
-          }}
-          mainContainerStyle={{
-            borderRadius: SIZES.padding,
-            width: '88%',
-            alignSelf: 'center',
-            marginTop: SIZES.height > 800 ? SIZES.base : 10,
-          }}
-          itemContainerStyle={{
-            backgroundColor: COLORS.white,
-            margin: 5,
-            borderRadius: SIZES.radius,
-          }}
+        <TagDropdown
+        data={finder(tagl,animal)}
+        value={tag}
+        setValue={setTag}
         />
       </View>
     );

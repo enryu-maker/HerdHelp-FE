@@ -20,7 +20,6 @@ export default function TagDropdown({
         }
         return null;
     };
-    console.log(data)
     return (
         <View style={styles.container}>
             {renderLabel()}

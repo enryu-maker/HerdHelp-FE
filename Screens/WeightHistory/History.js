@@ -147,8 +147,8 @@ export default function History({ navigation, route }) {
             {
               whist.map((a, index) => (
                 unit ?
-                  (<HistoryCard key={index} date={a.date_to.slice(0, 10)} weight={a.weight} />) :
-                  (<HistoryCard key={index} date={a.date_to.slice(0, 10)} weight={a.weight_kg} />)
+                  (<HistoryCard key={index} date={a.date_from.slice(0, 10)} weight={a.weight} />) :
+                  (<HistoryCard key={index} date={a.date_from.slice(0, 10)} weight={a.weight_kg} />)
 
               ))
             }

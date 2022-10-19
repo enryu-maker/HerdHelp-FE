@@ -25,8 +25,7 @@ export default function WeightH({navigation}) {
           `getweighthistory/${id}${species}${tag}`,
         );
         if (data.length > 0 && data != undefined) {
-          setTag('')
-          setSpcies('')
+          setTag([])
           setLoading(false)
           return data;
         } else {

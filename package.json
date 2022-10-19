@@ -41,6 +41,7 @@
     "react-native-permissions": "^3.3.1",
     "react-native-qrcode-scanner": "^1.5.5",
     "react-native-reanimated": "^2.8.0",
+    "react-native-restart": "^0.0.24",
     "react-native-safe-area-context": "^4.2.5",
     "react-native-screens": "^3.13.1",
     "react-native-select-multiple": "^2.1.0",

@@ -25,7 +25,7 @@ export default function Parents({navigation}) {
     setId(global.id);
   }, []);
   function clear(){
-    setTag('');
+    setTag([]);
     setAnimal('');
   }
   
@@ -37,11 +37,11 @@ export default function Parents({navigation}) {
         );
        
         if (data.length != 0 && data!=undefined) {
-          clear();
             navigation.navigate('ParentPage',{
               data:data,
             })
           setLoading(false);
+          clear();
           return data;
         } else {
           setLoading(false);

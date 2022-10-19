@@ -56,7 +56,10 @@ export const Finance = ({navigation}) => {
               text1: "Finance added",
               type: "success",
             });
-            clean();
+            setTimeout(() => {
+              navigation.pop()
+              navigation.navigate("Finance")
+            }, 500);
           } else {
             setLoading(false)
             Toast.show({

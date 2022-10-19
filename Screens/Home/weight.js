@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, DevSettings } from 'react-native';
 import React from 'react';
 import Header from '../../Components/Header';
 import FormInput from '../../Components/FormInput';
@@ -13,6 +13,7 @@ import { toastConfig } from '../../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHerds } from '../../Store/actions';
 import TagDropdown from '../../Components/TagDropdown';
+import RNRestart from 'react-native-restart';
 export const Weight = ({ navigation, route }) => {
   const [tag, setTag] = React.useState('');
   const [loading, setLoading] = React.useState(false);
@@ -25,7 +26,6 @@ export const Weight = ({ navigation, route }) => {
   const unit = JSON.parse(useSelector(state => state.Reducers.unit))
   const animals = useSelector(state => state.Reducers.cat)
   const tagl = useSelector(state => state.Reducers.tags)
-
   React.useEffect(() => {
     setId(global.id)
   }, []);
@@ -44,6 +44,9 @@ export const Weight = ({ navigation, route }) => {
     setWeight("")
     setTag([])
   }
+  const onButtonClick = () => {
+    RNRestart.Restart()
+  };
   async function updateWeight() {
     if (tag != "", weight != 0) {
       setLoading(true)
@@ -63,7 +66,11 @@ export const Weight = ({ navigation, route }) => {
               text1: "Weight Updated",
               type: "success",
             });
-            clear()
+            setTimeout(() => {
+              navigation.pop()
+              navigation.navigate("weight")
+            }, 500);
+
           }
           else {
             setLoading(false)
@@ -74,6 +81,7 @@ export const Weight = ({ navigation, route }) => {
           }
         })
       } catch (err) {
+        console.log(err)
         setLoading(false)
         Toast.show({
           text1: `${err.response.data.msg}`,
@@ -198,11 +206,11 @@ export const Weight = ({ navigation, route }) => {
             borderRadius: SIZES.radius,
           }}
         /> */}
-        <TagDropdown 
-              value={tag}
-              setValue={setTag}
-              data={finder(tagl,species)}
-              />
+        <TagDropdown
+          value={tag}
+          setValue={setTag}
+          data={finder(tagl, species)}
+        />
         <FormInput
           returnKeyType={"go"}
           prependComponent={

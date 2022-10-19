@@ -92,12 +92,15 @@ export default function Alerts({ navigation, route }) {
       }).then(response => {
         if (response.status == 201) {
           setLoading(false)
-          clear();
           dispatch(getAlerts())
           Toast.show({
             text1: "Alerts added",
             type: "success",
           });
+          setTimeout(() => {
+            navigation.pop()
+            navigation.navigate("Alerts")
+          }, 500);
         }
 
       }).catch(err => {

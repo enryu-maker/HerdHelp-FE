@@ -88,7 +88,10 @@ export default function Bred({
               text1: "Bred added sucessfully",
               type: "success",
             });
-            clear()
+            setTimeout(() => {
+              navigation.pop()
+              navigation.navigate("Bred")
+            }, 500);
           }
           else {
             setLoading(false)

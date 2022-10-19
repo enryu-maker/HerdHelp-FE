@@ -95,7 +95,10 @@ export const Medication = ({ navigation, route }) => {
               text1: "Medication Added",
               type: "success",
             });
-            clear()
+            setTimeout(() => {
+              navigation.pop()
+              navigation.navigate("medication")
+            }, 500);
           }
           else {
             setLoading(false)

@@ -64,7 +64,10 @@ export default function Flag({
               text1: "FLag Updated sucessfully",
               type: "success",
             });
-            clear()
+            setTimeout(() => {
+              navigation.pop()
+              navigation.navigate("Flag")
+            }, 500);
           }
           else {
             setLoading(false)

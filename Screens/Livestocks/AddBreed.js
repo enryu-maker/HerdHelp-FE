@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   Modal,
 } from 'react-native';
-
 import React, { useState, useRef } from 'react';
 import Header from '../../Components/Header';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -41,7 +40,6 @@ const Addanimals = ({ navigation, route }) => {
   const [valueMS, setValueMS] = useState('');
   const [valueBS, setValueBS] = useState('');
   const [valueBST, setValueBST] = useState('');
-
   const [age, setAge] = useState(0);
   const [Breed, setBreed] = useState('');
   const [tag, setTag] = useState('');
@@ -293,6 +291,10 @@ const Addanimals = ({ navigation, route }) => {
               text1: 'Animal Added',
               type: 'success',
             });
+            setTimeout(() => {
+              navigation.pop()
+              navigation.navigate("Animals")
+            }, 500);
           }
           else {
             setLoading(false);

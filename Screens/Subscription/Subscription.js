@@ -118,6 +118,7 @@ export default function Subscription() {
         <Text style={{
             ...FONTS.h3,
             alignSelf: "center",
+            fontWeight:"bold"
           }}> One Month Free Trial After that  </Text>
         <InfoItem buttonStyle={{
           marginTop:-10

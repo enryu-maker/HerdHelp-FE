@@ -204,7 +204,7 @@ const Addanimals = ({ navigation, route }) => {
     }
   }
   const dispatch = useDispatch()
-  function postAnimal() {
+  async function postAnimal() {
     setLoading(true);
     const formData = new FormData();
     formData.append('name', name);
@@ -270,7 +270,7 @@ const Addanimals = ({ navigation, route }) => {
     formData.append('status', 'Alive');
     formData.append('animal_image', profile_pic);
     if (isEnableSignIn()) {
-      fetch(baseURL + `/animals/`, {
+      await fetch(baseURL + `/animals/`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -306,12 +306,28 @@ const Addanimals = ({ navigation, route }) => {
           }
         })
         .catch(err => {
-          console.log(err)
-          setLoading(false);
-          Toast.show({
-            text1: `Something went Wrong`,
-            type: 'error',
-          });
+          if(err.toString()==="TypeError: Network request failed"){
+            dispatch(getHerds())
+            dispatch(getTags())
+            dispatch(getOverview())
+            clear();
+            Toast.show({
+              text1: 'Animal Added',
+              type: 'success',
+            });
+            setTimeout(() => {
+              navigation.pop()
+              navigation.navigate("Animals")
+            }, 500);
+          }
+          else{
+            setLoading(false);
+            Toast.show({
+              text1: `Something went Wrong`,
+              type: 'error',
+            });
+          }
+          
         });
     } else {
       setLoading(false);

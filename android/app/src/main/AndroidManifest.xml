@@ -8,13 +8,14 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
+        android:usesCleartextTraffic="true"
       android:theme="@style/AppTheme">
       <meta-data android:name="com.supersami.foregroundservice.notification_channel_name" android:value="supersami Service"/> 
       <meta-data android:name="com.supersami.foregroundservice.notification_channel_description" android:value="supersami Service."/> 
@@ -27,7 +28,6 @@
         android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustPan|adjustResize"
-        android:usesCleartextTraffic="true"
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

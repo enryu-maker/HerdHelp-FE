@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { WeightUnit } from '../../Store/actions';
 import Toast from 'react-native-toast-message'
 import { toastConfig } from '../../App';
+import LineDivider from '../../Components/LineDivider';
 export default function Setting({ navigation }) {
   const [unit, setUnit] = React.useState("")
   const [loading, setLoading] = React.useState(false)
@@ -101,15 +102,12 @@ export default function Setting({ navigation }) {
 
           }
         />
-        {/* <SettingContent title={"Weight"}
-          append={
-            <Text style={{
-              ...FONTS.h3
-            }}>
-              {CurrentUnit?"Lbs":"Kg"}
-            </Text>
-          }
-          /> */}
+        <LineDivider/>
+        <SettingContent title={"Account Setting"}
+        onPress={()=>{
+          navigation.navigate("Accountsetting")
+        }}
+          />
       </View>
     )
   }

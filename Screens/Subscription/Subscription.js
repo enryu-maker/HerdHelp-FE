@@ -1,4 +1,4 @@
-import { View, Text, Platform, Alert } from 'react-native'
+import { View, Text, Platform, Alert, TouchableOpacity, Linking, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../../Components/Header'
 import { COLORS, FONTS, images, SIZES } from '../../Components/Constants'
@@ -8,6 +8,7 @@ import InfoItem from '../../Components/InfoItem'
 import CheckBox from '@react-native-community/checkbox';
 import { useDispatch } from 'react-redux'
 import { updateSubs } from '../../Store/actions'
+import Loader from '../../Components/Loader'
 export default function Subscription() {
   const itemSkus = Platform.select({
     ios: [
@@ -27,7 +28,6 @@ export default function Subscription() {
     })
     IAP.getSubscriptions(planId)
     .then(res=>{
-      console.log(res)
       setProduct(res[0])
     })
     .catch(e=>{
@@ -36,6 +36,7 @@ export default function Subscription() {
   }
 
   const buySelectedPlan= async (plan) =>{
+    setLoading(true)
     try{
        await IAP.requestSubscription({sku:plan.productId});
     }
@@ -48,7 +49,6 @@ export default function Subscription() {
   const dispatch = useDispatch()
   React.useEffect(async() => {
     await IAP.initConnection().then((result)=>{
-      console.log(result)
       getSubscriptionplan()
     }).catch((err)=>{
       console.log(err)
@@ -66,14 +66,18 @@ export default function Subscription() {
             console.log(ackResult)
           }
         }
-        
+        setLoading(false)
       }
       catch(err){
         console(err)
+        setLoading(false)
+
       }
     })
     const purchaseErrorListner = IAP.purchaseErrorListener(errror=>{
       console.log(errror)
+      setLoading(false)
+
     })
 
     return ()=>{
@@ -89,41 +93,45 @@ export default function Subscription() {
   
   function renderBody(product) {
     return (
-      <View style={{
-        width: "88%",
-        height: 400,
+      <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    paddingHorizontal: SIZES.padding,
+                    width: "88%",
+        // height: 400,
         backgroundColor: COLORS.lightGray2,
         borderRadius: SIZES.padding,
         alignSelf: "center",
         paddingHorizontal: SIZES.radius,
-      }}>
+                }}>
+      {/* <View style={{
+        
+      }}> */}
         <Text style={{
           ...FONTS.h2,
           alignSelf: "center",
-          marginTop: 20
+          marginTop: 5
         }}>
           {"HerdHelp Free Trial"}
         </Text>
         <Text style={{
           ...FONTS.body3,
           alignSelf: "center",
-          marginTop: 10
+          // marginTop: 10
         }}>
-          {`When you choose to purchase Herd Help Premium, payment will be charged to your iTunes/Playstore account, and your account will be charged for renewal 24 hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the iTunes Store after purchase. Current price for the Herd Help Premium is `}
+          {`When you subscribe to Herd Help Premium, Payments will be charged to your iTunes account. Auto renewal may be turned off at any time. Current price for Herd Help is ${product?.localizedPrice} per month. Your first 30 days are free. Herd Help is a tool to track your animals weights, health, treatments, lineage, profits and losses.`}
           <Text style={{
             ...FONTS.h3,
             alignSelf: "center",
-          }}>{product?.localizedPrice}</Text> per month ​and may vary by country.
+          }}>{'\n'}One month free trial after that {product?.localizedPrice} per month ​and may vary by country.</Text> 
         </Text>
-        <Text style={{
-            ...FONTS.h3,
-            alignSelf: "center",
-            fontWeight:"bold"
-          }}> One Month Free Trial After that  </Text>
         <InfoItem buttonStyle={{
-          marginTop:-10
-        }} label={"Price"} value={`${product?.localizedPrice}/Month`} />
-      </View>
+        }} label={"First Month"} value={`${product?.introductoryPrice}`} />
+        <InfoItem buttonStyle={{
+          marginTop:-20
+        }} label={"After That"} value={`${product?.localizedPrice}/Month`} />
+      {/* </View> */}
+      </ScrollView>
     )
   }
   return (
@@ -131,18 +139,21 @@ export default function Subscription() {
       flex: 1,
       backgroundColor: COLORS.white,
     }}>
+      <Loader loading={loading} />
       {renderHeader()}
       <View style={{
         flex: 1,
         justifyContent: "space-evenly",
         alignSelf: "center"
       }}>
+        
         {renderBody(product)}
         <View style={{
           width:"88%",
           flexDirection:"row",
           alignItems:"center",
-          alignSelf:"center"
+          alignSelf:"center",
+          padding:SIZES.padding
         }}>
         <CheckBox
           tintColor={COLORS.lightGray1}
@@ -156,19 +167,29 @@ export default function Subscription() {
             setChecked(value)
           }
         />
+        <TouchableOpacity 
+        onPress={()=>{
+          Linking.openURL("https://herdhelp.com/terms-and-condition")
+        }}>
         <Text style={{
             ...FONTS.h4,
-            marginLeft:10
+            marginLeft:10,
+            textDecorationLine:"underline",
+            textDecorationColor:"blue"
           }}>I accept Terms & Condition</Text>
+        </TouchableOpacity>
+
         </View>
-       
+        
+
         <TextButton
           border={false}
           buttonContainerStyle={{
             width: 250,
             borderWidth: 3,
             borderColor:checked?COLORS.Primary:COLORS.lightGray1,
-            backgroundColor:COLORS.white
+            backgroundColor:COLORS.white,
+            marginBottom:15
           }}
           onPress={()=>{buySelectedPlan(product)}} 
           loading={loading}

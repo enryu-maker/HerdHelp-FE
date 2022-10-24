@@ -6,7 +6,8 @@ import { Dropdown } from 'sharingan-rn-modal-dropdown';
 export default function SettingContent({
     title,
     append,
-    onPress
+    onPress,
+    titleStyle
   }){
     return(
         <TouchableOpacity
@@ -19,7 +20,7 @@ export default function SettingContent({
         }}
         onPress={onPress}
     >
-        <Text style={{ color: COLORS.darkGray, ...FONTS.h3 }}>{title}</Text>
+        <Text style={{ color: COLORS.darkGray, ...FONTS.h3,...titleStyle }}>{title}</Text>
         {append}
         <Image
         source={images.rightone}

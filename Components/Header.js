@@ -26,7 +26,7 @@ const Header = ({ containerStyle, title, titleStyle, leftComponent, rightCompone
             }
             {title?
             (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-            <Text style={{  ...FONTS.h2, ...titleStyle,color:COLORS.black}}>{title}</Text>
+            <Text style={{  ...FONTS.h2,color:COLORS.black, ...titleStyle}}>{title}</Text>
         </View>):(
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                 <Image

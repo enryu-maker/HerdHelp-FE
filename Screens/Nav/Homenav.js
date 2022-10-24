@@ -40,9 +40,11 @@ import ParentPage from '../Parents/parentPage';
 import Bred from '../Bred/Bred';
 import { ChildInfo } from '../Parents/ChildInfo';
 import { EditFinance } from '../Finance/EditFinance';
-import QRScanner from '../QRScanner/QRScanner'
+import QRScanner from '../QRScanner/qrScanner'
 import Linker from '../QRScanner/Linker';
 import Tutorial from '../Tutorial/Tutorial';
+import AccountSetting from '../Setting/AccountSetting';
+import Delete from '../Setting/Delete';
 const Stack = createNativeStackNavigator()
 
 const DrawerNav = () => {
@@ -203,6 +205,10 @@ fetchprofile = async () => {
           <Stack.Screen name='QR' component={QRScanner}/>
           <Stack.Screen name='Linker' component={Linker}/>
           <Stack.Screen name='Tutorial' component={Tutorial}/>
+          <Stack.Screen name='Accountsetting' component={AccountSetting}/>
+          <Stack.Screen name='Delete' component={Delete}/>
+
+
 
         </Stack.Navigator>
       </>

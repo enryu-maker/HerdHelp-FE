@@ -12,7 +12,7 @@ import React from 'react';
 import Header from '../../Components/Header';
 import FormInput from '../../Components/FormInput';
 import CustomSwitch from '../../Components/CustomSwitch';
-import {images, COLORS, SIZES, FONTS} from '../../Components/Constants';
+import { images, COLORS, SIZES, FONTS } from '../../Components/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TextButton from '../../Components/TextButton';
 import axios from 'axios';
@@ -21,7 +21,7 @@ import utils from '../../utils/Utils';
 import { baseURL } from '../../helpers/helpers';
 import { useDispatch } from 'react-redux'
 import { isSubscriptionActive, Login } from '../../Store/actions';
-const LoginScreen = ({navigation,route}) => {
+const LoginScreen = ({ navigation, route }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showPass, setShowPass] = React.useState(false);
@@ -46,25 +46,25 @@ const LoginScreen = ({navigation,route}) => {
       // console.log(e);
     }
   };
-   async function login() {
+  async function login() {
     if (isEnableSignIn()) {
       setLoading(true);
-      await axios.post(baseURL  + '/login/',
-          {
-            email: email,
-            password: password,
+      await axios.post(baseURL + '/login/',
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
           },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        )
+        },
+      )
         .then(response => {
           if (response.status == 200) {
-              dispatch(Login(response.data.access,response.data.userid.toString()))
-              dispatch(isSubscriptionActive())
-              setLoading(false)            
+            dispatch(isSubscriptionActive())
+            dispatch(Login(response.data.access, response.data.userid.toString()))
+            setLoading(false)
           } else {
             setEmailError('User Not Registered');
             setLoading(false);
@@ -115,49 +115,49 @@ const LoginScreen = ({navigation,route}) => {
             flex: 1,
             marginTop: SIZES.height > 800 ? SIZES.padding * 2 : SIZES.radius,
           }}>
-            <Text
-          style={{
-            ...FONTS.body3,
-            alignSelf: 'center',
-            color:COLORS.red
-          }}>
-          {EmailError}
-        </Text>
-        <FormInput
-          label={'Email'}
-          value={email}
-          onChange={text => {
-            utils.validateEmail(text,setEmailErr)
-            setEmail(text);
-          }}
-          errorMsg={EmailErr}
-          placeholder={'Enter Email'}
-          keyboardType="email-address"
-          autoCompleteType="email"
-          returnKeyType={"next"}
-          appendComponent={
-            <View
-              style={{
-                justifyContent: 'center',
-              }}>
-              <Image
-                source={
-                  email == ''? images.correct : email != '' && EmailErr == ''? images.correct : images.cancel
-                }
+          <Text
+            style={{
+              ...FONTS.body3,
+              alignSelf: 'center',
+              color: COLORS.red
+            }}>
+            {EmailError}
+          </Text>
+          <FormInput
+            label={'Email'}
+            value={email}
+            onChange={text => {
+              utils.validateEmail(text, setEmailErr)
+              setEmail(text);
+            }}
+            errorMsg={EmailErr}
+            placeholder={'Enter Email'}
+            keyboardType="email-address"
+            autoCompleteType="email"
+            returnKeyType={"next"}
+            appendComponent={
+              <View
                 style={{
-                  height: 20,
-                  width: 20,
-                  tintColor:
-                    email == ''
-                      ? COLORS.gray
-                      : email != '' && EmailErr == ''
-                      ? COLORS.green
-                      : COLORS.red,
-                }}
-              />
-            </View>
-          }
-        />
+                  justifyContent: 'center',
+                }}>
+                <Image
+                  source={
+                    email == '' ? images.correct : email != '' && EmailErr == '' ? images.correct : images.cancel
+                  }
+                  style={{
+                    height: 20,
+                    width: 20,
+                    tintColor:
+                      email == ''
+                        ? COLORS.gray
+                        : email != '' && EmailErr == ''
+                          ? COLORS.green
+                          : COLORS.red,
+                  }}
+                />
+              </View>
+            }
+          />
           <FormInput
             label={'Password'}
             value={password}
@@ -193,16 +193,16 @@ const LoginScreen = ({navigation,route}) => {
               marginTop: SIZES.radius,
               width: '88%',
               alignSelf: 'center',
-              justifyContent:"space-evenly",
-              alignItems:"center",
-              marginLeft:20
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              marginLeft: 20
             }}>
             {/* <View style={{flexDirection: 'row', alignItems: 'center'}}> */}
-              <CustomSwitch
-                label="Save Me"
-                value={saveMe}
-                onChange={value => setSaveMe(value)}
-              />
+            <CustomSwitch
+              label="Save Me"
+              value={saveMe}
+              onChange={value => setSaveMe(value)}
+            />
             {/* </View> */}
             <TextButton
               label="Forgot Password?"
@@ -218,7 +218,7 @@ const LoginScreen = ({navigation,route}) => {
             />
           </View>
           <TextButton
-          border={false}
+            border={false}
             icon={images.log}
             buttonContainerStyle={{
               height: 55,
@@ -229,11 +229,11 @@ const LoginScreen = ({navigation,route}) => {
                 ? COLORS.Primary
                 : COLORS.transparentPrimary2,
             }}
-            onPress={async() => {
+            onPress={async () => {
               login();
             }}
             label={'Login'}
-            // disabled={!isEnableSignIn()}
+          // disabled={!isEnableSignIn()}
           />
           <View
             style={{
@@ -241,14 +241,14 @@ const LoginScreen = ({navigation,route}) => {
               marginTop: SIZES.radius,
               justifyContent: 'center',
             }}>
-            <Text style={{color: COLORS.darkGray, ...FONTS.body3}}>
+            <Text style={{ color: COLORS.darkGray, ...FONTS.body3 }}>
               Don't have an account?{' '}
             </Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Signup');
               }}>
-              <Text style={{color: COLORS.Primary, ...FONTS.h3}}>Signup</Text>
+              <Text style={{ color: COLORS.Primary, ...FONTS.h3 }}>Signup</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -26,15 +26,15 @@ const FinanceCard=({
           <Text style={{paddingLeft:SIZES.padding,paddingTop:SIZES.padding-8,...FONTS.h2}}>{category}</Text>
           <View style={{flexDirection:"row"}}>
           <Text style={
-            Platform.OS=="android"?{paddingLeft:SIZES.padding,paddingTop:5,...FONTS.h3,color:COLORS.green}:{paddingLeft:SIZES.padding,paddingTop:5,...FONTS.h3,color:COLORS.green}
+            Platform.OS!="ios"?{paddingLeft:SIZES.padding,paddingTop:5,...FONTS.h3,color:COLORS.green}:{paddingLeft:SIZES.padding,paddingTop:5,...FONTS.h3,color:COLORS.green}
           }>{` Qty: ${quantity}`}</Text>
           <Text style={
-          Platform.OS=="android"?{paddingTop:5,...FONTS.h3,marginLeft:60,color:COLORS.green}:{paddingTop:5,...FONTS.h3,marginLeft:60,color:COLORS.green}
+          Platform.OS!="ios"?{paddingTop:5,...FONTS.h3,marginLeft:60,color:COLORS.green}:{paddingTop:5,...FONTS.h3,marginLeft:60,color:COLORS.green}
             }>{`${formatter.format(price)}`}</Text>
           </View>
           <Text 
           style={
-          Platform.OS=="android"?{paddingLeft:SIZES.padding,paddingTop:5,...FONTS.h3}:{paddingLeft:SIZES.padding,paddingTop:5,...FONTS.body3}
+          Platform.OS!="ios"?{paddingLeft:SIZES.padding,paddingTop:5,...FONTS.h3}:{paddingLeft:SIZES.padding,paddingTop:5,...FONTS.body3}
           }
           
           >{` Date: ${date}`}</Text>

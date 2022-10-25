@@ -351,7 +351,7 @@ export const ChildInfo = ({ navigation, route }) => {
                     backgroundColor: COLORS.lightGray2,
                 }}>
                 <InfoItem label="Flagged Description?" withDivider={false} />
-                <Text style={Platform.OS == "android" ? { flex: 1, textAlign: 'left', ...FONTS.body3, paddingBottom: 20 } : { flex: 1, textAlign: 'left', ...FONTS.body2, paddingBottom: 20 }}>{animal.flag_desc}</Text>
+                <Text style={Platform.OS !="ios" ? { flex: 1, textAlign: 'left', ...FONTS.body3, paddingBottom: 20 } : { flex: 1, textAlign: 'left', ...FONTS.body2, paddingBottom: 20 }}>{animal.flag_desc}</Text>
 
             </View>
         );

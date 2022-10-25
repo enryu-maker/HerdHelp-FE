@@ -23,7 +23,7 @@ const RootNavigation = () => {
 
   const init = async() => {
     await dispatch(Init());
-    // await dispatch(isSubscriptionActive())
+    await dispatch(isSubscriptionActive())
     setLoading(false);
   };
 
@@ -55,8 +55,8 @@ const RootNavigation = () => {
         height:'100%',
         width:'100%'
       }}>
-      {token === null ? <Rootnav /> : <Homenav />}
-      {/* { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> } */}
+      {/* {token === null ? <Rootnav /> : <Homenav />} */}
+      { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> }
 
       </View>
 
@@ -101,7 +101,7 @@ const App = () => {
     <Provider store={store}>
       <Permission.Provider>
         <StatusBar
-          barStyle={Platform.OS === 'android' ? 'default' : 'dark-content'}
+          barStyle={Platform.OS != 'ios' ? 'default' : 'dark-content'}
           backgroundColor={'black'}
         />
         <RootNavigation />

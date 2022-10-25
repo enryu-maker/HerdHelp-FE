@@ -35,7 +35,7 @@ const  ReportB=({
               justifyContent:"space-evenly"
           }}>
               <Text style={
-                 Platform.OS=="android"?[FONTS.h3,{letterSpacing:1,fontWeight:'600'}]:[FONTS.h2,{letterSpacing:1,fontWeight:'600'}]}>
+                 Platform.OS!="ios"?[FONTS.h3,{letterSpacing:1,fontWeight:'600'}]:[FONTS.h2,{letterSpacing:1,fontWeight:'600'}]}>
                   {reportText}
               </Text>
               

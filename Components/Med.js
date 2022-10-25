@@ -23,7 +23,7 @@ const Med = ({
       }}>
       <Text
         style={
-          Platform.OS == 'android'
+          Platform.OS !="ios"
             ? {letterSpacing: 2, padding: 2, ...FONTS.h3, color: COLORS.green}
             : {letterSpacing: 2, padding: 2, ...FONTS.h3, color: COLORS.green}
         }>
@@ -31,7 +31,7 @@ const Med = ({
       </Text>
       <Text
         style={
-          Platform.OS == 'android'
+          Platform.OS !="ios"
             ? {
                 letterSpacing: 2,
                 padding: 2,
@@ -55,7 +55,7 @@ const Med = ({
         }}>
         <Text
           style={
-            Platform.OS == 'android'
+            Platform.OS !="ios"
               ? {letterSpacing: 2, padding: 2, ...FONTS.h4, color: COLORS.green}
               : {
                   letterSpacing: 2,
@@ -69,7 +69,7 @@ const Med = ({
 
         <Text
           style={
-            Platform.OS == 'android'
+            Platform.OS !="ios"
               ? {letterSpacing: 2, padding: 2, ...FONTS.h4, color: COLORS.black}
               : {
                   letterSpacing: 2,
@@ -89,7 +89,7 @@ const Med = ({
           }}>
           <Text
             style={
-              Platform.OS == 'android'
+              Platform.OS !="ios"
                 ? {
                     letterSpacing: 2,
                     padding: 2,
@@ -108,7 +108,7 @@ const Med = ({
 
           <Text
             style={
-              Platform.OS == 'android'
+              Platform.OS !="ios"
                 ? {letterSpacing: 2, padding: 2, ...FONTS.h3, color: COLORS.red}
                 : {
                     letterSpacing: 2,

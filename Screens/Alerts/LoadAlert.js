@@ -181,7 +181,7 @@ export default function LoadAlert({ navigation }) {
                       { ...FONTS.h3 }
                     }>{`Issue: ${data.item.title}`}</Text>
                     <Text style={
-                      Platform.OS == "android" ? { ...FONTS.body3 } : { ...FONTS.body3 }
+                      Platform.OS !="ios" ? { ...FONTS.body3 } : { ...FONTS.body3 }
                     }>{`Solution: ${data.item.content}`}</Text>
                     {
                       data.item.support_tag != "" ?
@@ -192,7 +192,7 @@ export default function LoadAlert({ navigation }) {
                     }
                     <View style={{}}>
                       <Text style={
-                        Platform.OS == "android" ? { ...FONTS.h4, color: COLORS.Primary } : { ...FONTS.h3, color: COLORS.Primary }
+                        Platform.OS !="ios" ? { ...FONTS.h4, color: COLORS.Primary } : { ...FONTS.h3, color: COLORS.Primary }
                       }>{`Date: ${data.item.start_date}`}</Text>
                     </View>
                   </View></View>

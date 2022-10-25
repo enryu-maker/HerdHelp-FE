@@ -24,8 +24,8 @@ const InfoItem = ({ label, value, withDivider = true,onPress, buttonStyle }) => 
                     height: 70,
                     alignItems: 'center',
                 }}>
-                <Text style={Platform.OS==="android"?{ color: COLORS.gray, ...FONTS.h3 }:{ color: COLORS.gray, ...FONTS.h2 }}>{label}</Text>
-                <Text  style={Platform.OS=="android"?{ flex: 1, textAlign: 'right',  ...FONTS.body3 }:{ flex: 1, textAlign: 'right',  ...FONTS.body2 }}>{value}</Text>
+                <Text style={Platform.OS!="ios"?{ color: COLORS.gray, ...FONTS.h3 }:{ color: COLORS.gray, ...FONTS.h2 }}>{label}</Text>
+                <Text  style={Platform.OS!="ios"?{ flex: 1, textAlign: 'right',  ...FONTS.body3 }:{ flex: 1, textAlign: 'right',  ...FONTS.body2 }}>{value}</Text>
                 </View>
             </TouchableOpacity>
 

@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Image, Text, ToastAndroid, Alert } from 'react-native';
+import { View, TouchableOpacity, Image, Text, Alert } from 'react-native';
 import React from 'react';
 import Header from '../../Components/Header';
 import { COLORS, FONTS, images, SIZES } from '../../Components/Constants';

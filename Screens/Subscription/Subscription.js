@@ -10,14 +10,6 @@ import { useDispatch } from 'react-redux'
 import { updateSubs } from '../../Store/actions'
 import Loader from '../../Components/Loader'
 export default function Subscription() {
-  const itemSkus = Platform.select({
-    ios: [
-      'T699'
-    ],
-    android: [
-      'hh_t699'
-    ]
-  });
   const [product, setProduct] = React.useState({})
   const [checked, setChecked] = React.useState(false);
   const [loading, setLoading] = React.useState(false);

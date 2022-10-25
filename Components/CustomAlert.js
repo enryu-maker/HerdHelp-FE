@@ -53,7 +53,7 @@ const CustomAlert=({
         
         <Text 
         style={
-           Platform.OS=="android"?{...FONTS.h3,alignSelf:"center"} : {...FONTS.h2,alignSelf:"center"}
+           Platform.OS!="ios"?{...FONTS.h3,alignSelf:"center"} : {...FONTS.h2,alignSelf:"center"}
             }>{label}</Text>
         </View>
         </View>

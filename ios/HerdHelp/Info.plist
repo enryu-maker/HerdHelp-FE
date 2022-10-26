@@ -42,7 +42,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>HerdHelp needs to access camera to load images of your animals</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone usage is used while the recording of video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>HerdHelp needs to access Photos to load images of your animals</string>
 	<key>UIAppFonts</key>
@@ -84,7 +86,7 @@
 		<string>Poppins-ThinItalic.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>LaunchScreen.storyboard</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -99,7 +101,5 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone usage is used while the recording of video</string>
 </dict>
 </plist>

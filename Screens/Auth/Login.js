@@ -21,6 +21,8 @@ import utils from '../../utils/Utils';
 import { baseURL } from '../../helpers/helpers';
 import { useDispatch } from 'react-redux'
 import { isSubscriptionActive, Login } from '../../Store/actions';
+import { useSelector } from 'react-redux';
+import { getSubscriptions } from 'react-native-iap';
 const LoginScreen = ({ navigation, route }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -30,22 +32,13 @@ const LoginScreen = ({ navigation, route }) => {
   const [loading, setLoading] = React.useState(false);
   const [EmailErr, setEmailErr] = React.useState('');
   const [rec, setRec] = React.useState([]);
-
+  const subscribed = useSelector(state => state.Reducers.subscribed);
+  console.log('loginsubs ->',subscribed)
   const dispatch = useDispatch()
   function isEnableSignIn() {
     return email != '' && password != '';
   }
-  const storeData = async (token, refresh, id) => {
-    try {
-      await AsyncStorage.setItem('token', token);
-      await AsyncStorage.setItem('refresh', refresh);
-      await AsyncStorage.setItem('id', id);
-      await AsyncStorage.setItem('route', "true");
-      await AsyncStorage.setItem('weight', "true");
-    } catch (e) {
-      // console.log(e);
-    }
-  };
+
   async function login() {
     if (isEnableSignIn()) {
       setLoading(true);
@@ -62,7 +55,7 @@ const LoginScreen = ({ navigation, route }) => {
       )
         .then(response => {
           if (response.status == 200) {
-            dispatch(isSubscriptionActive())
+            subscribed===undefined || subscribed===false? dispatch(isSubscriptionActive()) : null
             dispatch(Login(response.data.access, response.data.userid.toString()))
             setLoading(false)
           } else {

@@ -34,7 +34,6 @@ const RootNavigation = () => {
     }, 2000);
     init();
   }, []);
-
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', height:'100%' }}>
@@ -47,6 +46,7 @@ const RootNavigation = () => {
       </View>
     );
   }
+ 
 
   return (
     <NavigationContainer >

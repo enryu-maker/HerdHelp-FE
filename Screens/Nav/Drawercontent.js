@@ -16,8 +16,10 @@ import LineDivider from '../../Components/LineDivider';
 import axiosIns, { baseURL } from '../../helpers/helpers';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { getOverview, Logout, UserData } from '../../Store/actions';
+import { getOverview, getSubs, Logout, UserData } from '../../Store/actions';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getSubscriptions } from 'react-native-iap';
+
 export default function Drawercontent(props) {
   const subscribed = useSelector(state => state.Reducers.subscribed);
   const dispatch = useDispatch()
@@ -313,7 +315,10 @@ export default function Drawercontent(props) {
                   },
                   style: "cancel"
                 },
-                { text: "Logout", onPress: () => dispatch(Logout()) }
+                { text: "Logout", onPress: () => {
+                  dispatch(Logout())
+                  // dispatch(getSubscriptions())
+                } }
               ]
             );
             // dispatch(Logout())

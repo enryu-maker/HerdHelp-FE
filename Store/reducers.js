@@ -16,7 +16,7 @@ const initialState = {
   overView: [],
   gender: [],
   baby: [],
-  subscribed:false
+  subscribed:false,
 };
 
 export default (state = initialState, action) => {

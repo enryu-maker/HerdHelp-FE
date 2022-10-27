@@ -215,7 +215,7 @@ export const Signup = ({navigation}) => {
             setPhone(text);
           }}
           returnKeyType={"next"}
-          errorMsg={EmailErr}
+          // errorMsg={EmailErr}
           placeholder={'Enter mobile number with country code'}
           keyboardType="numeric"
           

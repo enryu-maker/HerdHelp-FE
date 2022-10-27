@@ -14,6 +14,17 @@ export const Init = () => {
     }
   }
 }
+// export const getSubs = () => {
+//   return async dispatch => {
+//     let sub = JSON.parse(await AsyncStorage.getItem('sub'))
+//     if (sub !== null) {
+//       dispatch({
+//         type: 'PREMIUM',
+//         payload: sub,
+//       })
+//     }
+//   }
+// }
 export const isSubscriptionActive = () => {
   let sub;
   const itemSkus = Platform.select({
@@ -28,6 +39,7 @@ export const isSubscriptionActive = () => {
     await RNIap.initConnection().then(async() => {
       const purchases = await RNIap.getAvailablePurchases();
       let active = false;
+      // console.log("-->",purchases[0].productId == itemSkus)
       purchases.forEach(purchase => {
         if (purchase.productId == itemSkus) {
           active = true;
@@ -43,6 +55,8 @@ export const isSubscriptionActive = () => {
     }).catch((err) => {
       // console.log("suberr=>", err)
     })
+    console.log(sub)
+    await AsyncStorage.setItem('sub',sub.toString())
     dispatch({
       type: 'PREMIUM',
       payload: sub,

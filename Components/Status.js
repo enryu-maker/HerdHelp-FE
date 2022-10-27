@@ -70,7 +70,7 @@ const Status = ({show, setShow, animal}) => {
           }
         })
         .catch(err=>{
-          console.log(err)
+          // console.log(err)
           setErr(err.data.msg);
         })
   

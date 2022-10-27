@@ -479,7 +479,7 @@ export const Info = ({ navigation, route }) => {
             Alert.alert('Are you sure', 'You want ot edit animal?', [
               {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => {},
                 style: 'cancel',
               },
               {

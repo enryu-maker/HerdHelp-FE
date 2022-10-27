@@ -41,7 +41,7 @@ export default function LoadAlert({ navigation }) {
           })
         }
         else {
-          console.log(res)
+          // console.log(res)
           setLoading(false)
           Toast.show({
             text1: "Something Went Wrong",
@@ -50,7 +50,7 @@ export default function LoadAlert({ navigation }) {
         }
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
         setLoading(false)
         Toast.show({
           text1: "Something Went Wrong",
@@ -136,7 +136,7 @@ export default function LoadAlert({ navigation }) {
   }
   // console.log(alert)
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor:COLORS.white}}>
       {renderHeader()}
 
       {

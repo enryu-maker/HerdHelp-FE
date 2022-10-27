@@ -280,7 +280,7 @@ const Addanimals = ({ navigation, route }) => {
         body: formData,
       })
         .then(response => {
-          console.log(response)
+          // console.log(response)
           if (response.status == 201) {
             setLoading(false);
             dispatch(getHerds())

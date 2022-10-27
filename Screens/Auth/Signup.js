@@ -21,6 +21,8 @@ import Toast from 'react-native-toast-message'
 import { toastConfig } from '../../App';
 export const Signup = ({navigation}) => {
   const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState(0);
+
   const [password, setPassword] = React.useState('');
   const [username, setUsername] = React.useState('');
   const [first, setFirst] = React.useState('');
@@ -50,6 +52,7 @@ export const Signup = ({navigation}) => {
             email: email,
             first_name:first,
             last_name:last,
+            phone:phone
           },
           {
             headers: {
@@ -200,9 +203,23 @@ export const Signup = ({navigation}) => {
                       : COLORS.red,
                 }}
               />
+             
             </View>
           }
         />
+         <FormInput
+          label={'Phone number with country code'}
+          value={phone}
+          onChange={text => {
+            // utils.validateEmail(text,setEmailErr)
+            setPhone(text);
+          }}
+          returnKeyType={"next"}
+          errorMsg={EmailErr}
+          placeholder={'Enter mobile number with country code'}
+          keyboardType="numeric"
+          
+              />
         <FormInput
           label={'Username'}
           value={username}

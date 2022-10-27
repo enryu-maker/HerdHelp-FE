@@ -73,7 +73,7 @@ class Generate extends Component {
       })
       .catch(error => {
         if (error.response) {
-          console.log(error)
+          // console.log(error)
           this.setState({ loader: false });
           Toast.show({
             text1: `${error.response.data.msg}`,

@@ -175,7 +175,7 @@ const EditAnimal = ({ navigation, route }) => {
         })
         .catch(err => {
           setLoading(false);
-          console.log(err);
+          // console.log(err);
           Toast.show({
             text1: `${err.response.data.msg}`,
             type: 'error'

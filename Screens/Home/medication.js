@@ -109,7 +109,7 @@ export const Medication = ({ navigation, route }) => {
           }
         }))
       } catch (err) {
-        console.log(err)
+        // console.log(err)
         setLoading(false)
         Toast.show({
           text1: `${err.response.data.msg}`,

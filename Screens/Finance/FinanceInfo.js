@@ -29,7 +29,7 @@ export default function FinanceInfo({navigation}) {
           })
         }
         else {
-          console.log(res)
+          // console.log(res)
           setLoading(false)
           Toast.show({
             text1: "Something Went Wrong",
@@ -38,7 +38,7 @@ export default function FinanceInfo({navigation}) {
         }
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
         setLoading(false)
         Toast.show({
           text1: "Something Went Wrong",
@@ -144,6 +144,9 @@ export default function FinanceInfo({navigation}) {
       {
         finance?.length<0?<ActivityIndicatorExample />:
         <SwipeListView
+        style={{
+          marginBottom:SIZES.height>700?Platform.OS=="ios"?120:90:75,
+        }}
         data={finance}
         keyExtractor={item => `${item.id}`}
         showsVerticalScrollIndicator={false}

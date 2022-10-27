@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Modal } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Modal, Platform } from 'react-native'
 import React from 'react'
 import { images, COLORS, SIZES, FONTS } from '../../Components/Constants';
 import Header from '../../Components/Header';
@@ -6,10 +6,17 @@ import FormInput from '../../Components/FormInput';
 import utils from '../../utils/Utils';
 import TextButton from '../../Components/TextButton';
 import { Dropdown } from 'sharingan-rn-modal-dropdown';
+import axiosIns from '../../helpers/helpers';
+
+import { useDispatch } from 'react-redux';
+import { Logout } from '../../Store/actions';
+import Loader from '../../Components/Loader';
 export default function Delete({ navigation }) {
     const [email, setEmail] = React.useState('');
     const [reason, setReason] = React.useState('');
     const [reasonc, setReasonc] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+
 
     const [EmailErr, setEmailErr] = React.useState('');
     const data = [
@@ -34,7 +41,39 @@ export default function Delete({ navigation }) {
             value: "Other",
         },
     ]
+    // {console.log(reasonc)}
+    const dispatch = useDispatch()
+    async function deleteUser() {
+        setLoading(true)
+        axiosIns.post('/deleteuser/', {
+            reason:reasonc
+        }).then((Response) => {
+            if (Response.status === 200) {
+                Alert.alert(
+                    "Account Deleted we will miss you",
+                    Platform.OS === "ios" ? "Go to Apple store to cancle subscription" : "Go to Play store to cancle subscription",
+                    [
+                        {
+                            text: "Logout", onPress: () => { dispatch(Logout()) },
+                            style: "destructive"
+                        }
+                    ]
+                );
+                setLoading(false)
 
+            }
+            else {
+                alert("Something Went Wrong")
+                setLoading(false)
+
+            }
+        }).catch((e) => {
+            // console.log(e)
+            alert("Invalid user details")
+            setLoading(false)
+
+        })
+    }
     function renderheader() {
         return (
             <Header
@@ -77,6 +116,7 @@ export default function Delete({ navigation }) {
             flex: 1,
             backgroundColor: COLORS.white
         }}>
+            <Loader loading={loading}/>
             {renderheader()}
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -143,7 +183,7 @@ export default function Delete({ navigation }) {
                         setReasonc(value)
                     }}
                     mainContainerStyle={{
-                        marginTop:20,
+                        marginTop: 20,
                         borderRadius: SIZES.padding,
                         width: '88%',
                         alignSelf: 'center'
@@ -166,7 +206,7 @@ export default function Delete({ navigation }) {
 
                     }}
                     containerStyle={{
-                        marginTop:20,
+                        marginTop: 20,
 
                     }}
                 />
@@ -196,7 +236,7 @@ export default function Delete({ navigation }) {
                                 style: "cancel"
                             },
                             {
-                                text: "Delete the whole data", onPress: () => { console.log("hey") },
+                                text: "Delete the whole data", onPress: () => { deleteUser() },
                                 style: "destructive"
                             }
                         ]
@@ -205,6 +245,7 @@ export default function Delete({ navigation }) {
                 label={'Delete'}
             // disabled={!isEnableSignIn()}
             />
+
         </View>
     )
 }

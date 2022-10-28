@@ -97,7 +97,9 @@ export const Medication = ({ navigation, route }) => {
             });
             setTimeout(() => {
               navigation.pop()
-              navigation.navigate("medication")
+              navigation.navigate("medication",{
+                cond:cond
+              })
             }, 500);
           }
           else {
@@ -301,6 +303,7 @@ export const Medication = ({ navigation, route }) => {
               /> */}
           <MultiSelect
           style={styles.dropdown}
+          activeColor={COLORS.Primary}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}

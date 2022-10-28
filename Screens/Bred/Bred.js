@@ -231,6 +231,7 @@ export default function Bred({
         /> */}
         <View style={styles.container}>
         <MultiSelect
+          activeColor={COLORS.Primary}
           style={styles.dropdown}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}

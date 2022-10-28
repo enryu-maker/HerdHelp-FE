@@ -14,17 +14,7 @@ export const Init = () => {
     }
   }
 }
-// export const getSubs = () => {
-//   return async dispatch => {
-//     let sub = JSON.parse(await AsyncStorage.getItem('sub'))
-//     if (sub !== null) {
-//       dispatch({
-//         type: 'PREMIUM',
-//         payload: sub,
-//       })
-//     }
-//   }
-// }
+
 export const isSubscriptionActive = () => {
   let sub;
   const itemSkus = Platform.select({

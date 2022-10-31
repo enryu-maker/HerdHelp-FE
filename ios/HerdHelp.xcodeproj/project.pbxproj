@@ -16,6 +16,7 @@
 		1B1B7A0A96E945F791AE108B /* Inconsolata-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FFF1C65862A4EDCA462452B /* Inconsolata-Bold.ttf */; };
 		2845C3AD56334B83BCA2C5FD /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38E8428475914EC9B5EDEC7D /* Poppins-Medium.ttf */; };
 		3DC474D3E21F4AC780317AE0 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F87D99E297547A494432F25 /* Poppins-Regular.ttf */; };
+		4F4219F8290D9E13001D9ED5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4219F7290D9E13001D9ED5 /* StoreKit.framework */; };
 		567E18BF8344449EA860DB86 /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CFA08D8F29143BA9BF56BBE /* Poppins-ExtraLightItalic.ttf */; };
 		66986B33998A48438A968A96 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E125E4A446043FEA49AA0BB /* Poppins-SemiBold.ttf */; };
 		6A85548E3A2D4307B03B1FA8 /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89047910C111411AB48E82F7 /* Poppins-SemiBoldItalic.ttf */; };
@@ -68,6 +69,7 @@
 		3BB15ED27BE54FC2B4D1BFBC /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BoldItalic.ttf"; path = "../assets/Poppins/Poppins-BoldItalic.ttf"; sourceTree = "<group>"; };
 		3CD3DC8F3BF945298AB8943A /* Poppins-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Thin.ttf"; path = "../assets/Poppins/Poppins-Thin.ttf"; sourceTree = "<group>"; };
 		4E125E4A446043FEA49AA0BB /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/Poppins/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		4F4219F7290D9E13001D9ED5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5709B34CF0A7D63546082F79 /* Pods-HerdHelp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HerdHelp.release.xcconfig"; path = "Target Support Files/Pods-HerdHelp/Pods-HerdHelp.release.xcconfig"; sourceTree = "<group>"; };
 		5A7E5E5AE4804CF0AEF0911C /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-MediumItalic.ttf"; path = "../assets/Poppins/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-HerdHelp-HerdHelpTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HerdHelp-HerdHelpTests.debug.xcconfig"; path = "Target Support Files/Pods-HerdHelp-HerdHelpTests/Pods-HerdHelp-HerdHelpTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C80B921A6F3F58F76C31292 /* libPods-HerdHelp.a in Frameworks */,
+				4F4219F8290D9E13001D9ED5 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +142,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F4219F7290D9E13001D9ED5 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-HerdHelp.a */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-HerdHelp-HerdHelpTests.a */,
@@ -584,7 +588,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 4.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -615,7 +619,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 4.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

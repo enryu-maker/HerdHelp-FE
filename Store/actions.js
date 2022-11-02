@@ -19,7 +19,7 @@ export const isSubscriptionActive = () => {
   let sub;
   const itemSkus = Platform.select({
     ios: [
-      'T699'
+      '1M_699'
     ],
     android: [
       'hh_t699'

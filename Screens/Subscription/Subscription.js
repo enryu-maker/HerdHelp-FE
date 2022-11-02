@@ -15,7 +15,7 @@ export default function Subscription() {
   const [loading, setLoading] = React.useState(false);
   const getSubscriptionplan=()=>{
     const planId = Platform.select({
-      ios:['T699'],
+      ios:['1M_699'],
       android:['hh_t699']
     })
     IAP.getSubscriptions(planId)

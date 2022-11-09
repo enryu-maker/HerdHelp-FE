@@ -18,7 +18,7 @@ const MyAccount = ({ navigation, route }) => {
   const dispatch = useDispatch()
   React.useEffect(() => {
     dispatch(UserData())
-    setPic(User.profile_picture)
+    setPic(User?.profile_picture)
 
   }, []);
   function renderFileUri(pic) {
@@ -71,7 +71,7 @@ const MyAccount = ({ navigation, route }) => {
           alignSelf: "center",
         }}>
           <Image
-            source={{ uri: `https://ui-avatars.com/api/?name=${User.username}` }}
+            source={{ uri: `https://ui-avatars.com/api/?name=${User?.username}` }}
             resizeMethod="auto"
             resizeMode="contain"
             style={{
@@ -189,15 +189,15 @@ const MyAccount = ({ navigation, route }) => {
           paddingHorizontal: SIZES.radius,
           backgroundColor: COLORS.lightGray2,
         }}>
-        <InfoItem label="Full Name" value={User.fullname} />
-        <InfoItem label="Username" value={User.username} />
+        <InfoItem label="Full Name" value={User?.fullname} />
+        <InfoItem label="Username" value={User?.username} />
         <InfoItem
           label="Phone Number"
-          value={User.phone}
+          value={User?.phone}
         />
         <InfoItem
           label="Email"
-          value={User.email}
+          value={User?.email}
           withDivider={false}
         />
       </View>
@@ -216,11 +216,11 @@ const MyAccount = ({ navigation, route }) => {
 
         <InfoItem
           label="Farm Name"
-          value={User.farm_name}
+          value={User?.farm_name}
 
         // withDivider={false}
         />
-        <InfoItem label="Address" value={User.address} withDivider={false} />
+        <InfoItem label="Address" value={User?.address} withDivider={false} />
       </View>
     );
   }

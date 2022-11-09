@@ -1,7 +1,5 @@
-import { baseURL } from './helpers/helpers';
 import { request, PERMISSIONS, requestMultiple } from 'react-native-permissions';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
-import FlashMessage from 'react-native-flash-message';
 import SplashScreen from 'react-native-splash-screen';
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -22,8 +20,8 @@ const RootNavigation = () => {
   const dispatch = useDispatch();
 
   const init = async() => {
-    await dispatch(Init());
     await dispatch(isSubscriptionActive())
+    await dispatch(Init());
     setLoading(false);
   };
 
@@ -47,7 +45,6 @@ const RootNavigation = () => {
     );
   }
  
-
   return (
     <NavigationContainer >
       <View style={{
@@ -55,9 +52,7 @@ const RootNavigation = () => {
         height:'100%',
         width:'100%'
       }}>
-      {/* {token === null ? <Rootnav /> : <Homenav />} */}
-      { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> }
-
+      { token === null ? <Rootnav /> : !subscribed ? <Homenav /> : <Subscription/> }
       </View>
 
     </NavigationContainer>

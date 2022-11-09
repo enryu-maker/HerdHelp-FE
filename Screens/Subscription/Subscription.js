@@ -15,7 +15,7 @@ export default function Subscription() {
   const [loading, setLoading] = React.useState(false);
   const getSubscriptionplan=()=>{
     const planId = Platform.select({
-      ios:['1M_699'],
+      ios:['1M_699_1M0'],
       android:['hh_t699']
     })
     IAP.getSubscriptions(planId)
@@ -111,7 +111,7 @@ export default function Subscription() {
           alignSelf: "center",
           // marginTop: 10
         }}>
-          {`When you subscribe to Herd Help Premium, Payments will be charged to your iTunes account. Auto renewal may be turned off at any time. Current price for Herd Help is ${product?.localizedPrice} per month. Your first 30 days are free. Herd Help is a tool to track your animals weights, health, treatments, lineage, profits and losses.`}
+          {`When you subscribe to Herd Help Premium, Payments will be charged to your iTunes account. Auto renewal may be turned off at any time. Current price for Herd Help is ${product?.localizedPrice} per month. Your first 30 days are free. Herd Help is a tool to track your animals weights, health, treatments, lineage, profits and losses. Removing the app doesn’t automatically cancel the subscription You need to remove it from App Store.`}
           <Text style={{
             ...FONTS.h3,
             alignSelf: "center",

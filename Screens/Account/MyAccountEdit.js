@@ -15,12 +15,13 @@ import { UserData } from '../../Store/actions';
 
 
 const MyAccountEdit = ({ navigation, route }) => {
-  const [fullName, setFullName] = useState(route.params.user.fullname);
-  const [phoneNo, setPhoneNo] = useState(route.params.user.phone);
-  const [idCard, setIdCard] = useState(route.params.user.farm_name);
-  const [addr, setAddr] = useState(route.params.user.address);
+  const [fullName, setFullName] = useState(route.params?.user?.fullname);
+  const [phoneNo, setPhoneNo] = useState(route.params?.user?.phone);
+  const [idCard, setIdCard] = useState(route.params?.user?.farm_name);
+  const [addr, setAddr] = useState(route.params?.user?.address);
   const [user, setUser] = React.useState([])
   const [loading, setLoading] = React.useState(false);
+  console.log(global.id)
   const dispatch = useDispatch()
   const updateprofile = async () => {
     setLoading(true)
@@ -45,9 +46,10 @@ const MyAccountEdit = ({ navigation, route }) => {
         dispatch(UserData())
       })
     } catch (e) {
+      console.log(e)
       setLoading(false)
       Toast.show({
-        text1: `${e.response.data.msg}`,
+        text1: `${e.msg}`,
         type: 'error'
       });
     }
@@ -116,7 +118,7 @@ const MyAccountEdit = ({ navigation, route }) => {
         {/* Name */}
         <FormInput
           label="Full Name"
-          placeholder={user.fullname}
+          placeholder={user?.fullname}
           value={fullName}
           onChange={value => {
             setFullName(value);
@@ -130,7 +132,7 @@ const MyAccountEdit = ({ navigation, route }) => {
         {/* Phone Number */}
         <FormInput
           label="Phone Number"
-          placeholder={user.phone}
+          placeholder={user?.phone}
           value={phoneNo}
           onChange={value => {
             setPhoneNo(value);
@@ -147,7 +149,7 @@ const MyAccountEdit = ({ navigation, route }) => {
         {/* ID Card */}
         <FormInput
           label="Farm Name"
-          placeholder={user.farm_name}
+          placeholder={user?.farm_name}
 
           value={idCard}
           onChange={value => {
@@ -164,7 +166,7 @@ const MyAccountEdit = ({ navigation, route }) => {
         {/* Address */}
         <FormInput
           label="Address"
-          placeholder={user.address}
+          placeholder={user?.address}
 
           value={addr}
           onChange={value => {

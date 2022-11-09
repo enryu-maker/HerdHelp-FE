@@ -16,10 +16,10 @@ export const Init = () => {
 }
 
 export const isSubscriptionActive = () => {
-  let sub;
+  var sub;
   const itemSkus = Platform.select({
     ios: [
-      '1M_699'
+      '1M_699_1M0'
     ],
     android: [
       'hh_t699'
@@ -28,24 +28,16 @@ export const isSubscriptionActive = () => {
   return async dispatch => {
     await RNIap.initConnection().then(async() => {
       const purchases = await RNIap.getAvailablePurchases();
-      let active = false;
-      // console.log("-->",purchases[0].productId == itemSkus)
+      sub = false;
       purchases.forEach(purchase => {
         if (purchase.productId == itemSkus) {
-          active = true;
+          sub = true;
         }
       })
-      if (active == false) {
-        // console.log("error done")
-        sub = false
-      } else {
-        sub = true
-        // console.log("done")
-      }
     }).catch((err) => {
-      // console.log("suberr=>", err)
+      sub = false;
+      console.log(err)
     })
-    console.log(sub)
     await AsyncStorage.setItem('sub',sub.toString())
     dispatch({
       type: 'PREMIUM',

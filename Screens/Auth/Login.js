@@ -33,7 +33,7 @@ const LoginScreen = ({ navigation, route }) => {
   const [EmailErr, setEmailErr] = React.useState('');
   const [rec, setRec] = React.useState([]);
   const subscribed = useSelector(state => state.Reducers.subscribed);
-  console.log('loginsubs ->',subscribed)
+
   const dispatch = useDispatch()
   function isEnableSignIn() {
     return email != '' && password != '';

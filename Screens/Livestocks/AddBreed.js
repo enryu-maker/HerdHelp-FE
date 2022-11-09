@@ -165,7 +165,7 @@ const Addanimals = ({ navigation, route }) => {
             borderColor: COLORS.black,
           }}>
           <Image
-            source={{ uri: pic == '' ? `https://ui-avatars.com/api/?name=${username[0].username}` : pic }}
+            source={{ uri: pic == '' ? `https://ui-avatars.com/api/?name=${username[0]?.username}` : pic }}
             resizeMethod="auto"
             resizeMode="contain"
             style={{

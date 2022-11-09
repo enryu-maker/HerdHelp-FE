@@ -148,8 +148,8 @@ fetchprofile = async () => {
       this.fetchprofile().then((data)=>{
         global.User = data;
         this.setState({
-          username:data[0].username,
-          profile_pic:data[0].profile_picture
+          username:data[0]?.username,
+          profile_pic:data[0]?.profile_picture
         })
       })
       // this.checkSubs().then(data=>{

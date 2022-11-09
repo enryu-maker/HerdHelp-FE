@@ -138,8 +138,8 @@ android {
         applicationId "com.herdhelp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 18
-        versionName "1.1"
+        versionCode 19
+        versionName "1.2"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         missingDimensionStrategy 'store', 'play'
         missingDimensionStrategy 'react-native-camera', 'general'

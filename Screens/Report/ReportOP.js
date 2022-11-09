@@ -27,6 +27,7 @@ export default function ReportOP({navigation,route}) {
   const [footer,setFooter] =React.useState(false)
   const [amount,setAmount] = React.useState([])
   const [fields,setFileds] = React.useState([])
+  const [Bred, setBred] = React.useState('')
 
   function filterList(list) {
     return list.filter(
@@ -197,7 +198,9 @@ async function getData(api){
         show &&
       <FilterModal isVisible={show} onClose={()=>{
         setShow(false)
-      }} setSpec={setSpec} setMed={setMed} setVacc={setVacc} vacc={vacc} med={med}/>
+      }} setSpec={setSpec} setMed={setMed} setVacc={setVacc} vacc={vacc} med={med}
+      bred={Bred} setBred={setBred}
+      />
       }
       {
         loading?(

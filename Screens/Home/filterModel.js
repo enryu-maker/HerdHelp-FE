@@ -315,7 +315,6 @@ const FilterModal = ({
                                 setSpec('');
                                 setVacc('');
                                 setBred('');
-
                                 setShowFilterModal(false)
                               }}
                         />

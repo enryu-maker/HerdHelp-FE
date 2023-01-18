@@ -16,7 +16,8 @@ const initialState = {
   overView: [],
   gender: [],
   baby: [],
-  subscribed:false,
+  subscribed: false,
+  appVersion: null
 };
 
 export default (state = initialState, action) => {
@@ -31,7 +32,7 @@ export default (state = initialState, action) => {
         ...state,
         parent: action.payload,
       };
-      case 'PREMIUM':
+    case 'PREMIUM':
       return {
         ...state,
         subscribed: action.payload,
@@ -124,6 +125,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         fcat: action.payload,
+      };
+    case 'VERSION':
+      return {
+        ...state,
+        appVersion: action.payload,
       };
     default:
       return state;

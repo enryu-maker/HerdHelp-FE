@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar, View, Platform, Text } from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { Init, isSubscriptionActive } from './Store/actions';
+import { getVersion, Init, isSubscriptionActive } from './Store/actions';
 import { store } from './Store';
 import { ActivityIndicator } from 'react-native-paper';
 import { COLORS, FONTS, SIZES } from './Components/Constants';
@@ -13,15 +13,23 @@ import Homenav from './Screens/Nav/Homenav';
 import Rootnav from './Screens/Nav/Rootnav';
 import { enableScreens } from 'react-native-screens';
 import Subscription from './Screens/Subscription/Subscription';
-const RootNavigation = () => {
+import InfoPage from './Screens/Home/InfoPage';
+const RootNavigation = ({
+  navigation
+}) => {
   const token = useSelector(state => state.Reducers.authToken);
+  const version = useSelector(state => state.Reducers.appVersion);
+
   const subscribed = useSelector(state => state.Reducers.subscribed);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  function updateStaus(){
 
+  }
   const init = async() => {
     await dispatch(isSubscriptionActive())
     await dispatch(Init());
+    await dispatch(getVersion());
     setLoading(false);
   };
 
@@ -52,7 +60,9 @@ const RootNavigation = () => {
         height:'100%',
         width:'100%'
       }}>
-      { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> }
+      {/* { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> } */}
+      { token === null ? <Rootnav /> :version==="1.23"? <Homenav />:<InfoPage navigation={navigation}/>}
+
       </View>
 
     </NavigationContainer>

@@ -88,7 +88,7 @@ export default function Delete({ navigation }) {
                         <TouchableOpacity
                             style={{
                                 marginLeft: 25,
-                                backgroundColor: COLORS.red,
+                                backgroundColor: COLORS.Primary,
                                 height: 40,
                                 width: 40,
                                 justifyContent: "center",
@@ -121,7 +121,7 @@ export default function Delete({ navigation }) {
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
-                    paddingHorizontal: SIZES.padding,
+                    // paddingHorizontal: SIZES.padding,
                 }}>
                 <FormInput
                     label={'Registered Email*'}

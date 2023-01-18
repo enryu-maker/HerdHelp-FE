@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Modal } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView,Linking, ActivityIndicator, Alert, Modal } from 'react-native'
 import React from 'react'
 import { images, COLORS, SIZES, FONTS } from '../../Components/Constants';
 import Header from '../../Components/Header';
@@ -106,6 +106,18 @@ export default function Setting({ navigation }) {
         <SettingContent title={"Account Setting"}
         onPress={()=>{
           navigation.navigate("Accountsetting")
+        }}
+          />
+        <LineDivider/>
+        <SettingContent title={"App Version"}
+        onPress={()=>{
+          navigation.navigate("About")
+        }}
+          />
+        <LineDivider/>
+        <SettingContent title={"Terms and Conditions"}
+        onPress={()=>{
+          Linking.openURL("https://terms.herdhelp.com/")
         }}
           />
       </View>

@@ -1,5 +1,8 @@
+import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axiosIns from "../helpers/helpers";
+import { getAppstoreAppMetadata } from "react-native-appstore-version-checker";
+
 import { Platform } from "react-native";
 import * as RNIap from 'react-native-iap';
 export const Init = () => {
@@ -12,6 +15,34 @@ export const Init = () => {
         payload: token,
       })
     }
+  }
+}
+
+export const getVersion = () => {
+  return async dispatch => {
+    var version;
+    const storeSpecificId = Platform.OS === "ios" ? "1627766617" : "com.herdhelp";
+    getAppstoreAppMetadata(storeSpecificId) //put any apps id here
+        .then(appVersion => {
+          version=appVersion.version;
+          dispatch({
+            type: 'VERSION',
+            payload: version,
+          })
+        })
+        .catch(err => {
+          version="Someting went wrong";
+          dispatch({
+            type: 'VERSION',
+            payload: version,
+          })
+        });
+  }
+}
+
+export const setDetails = (details) => {
+  return async dispatch => {
+
   }
 }
 

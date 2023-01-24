@@ -23,20 +23,20 @@ export const getVersion = () => {
     var version;
     const storeSpecificId = Platform.OS === "ios" ? "1627766617" : "com.herdhelp";
     getAppstoreAppMetadata(storeSpecificId) //put any apps id here
-        .then(appVersion => {
-          version=appVersion.version;
-          dispatch({
-            type: 'VERSION',
-            payload: version,
-          })
+      .then(appVersion => {
+        version = appVersion.version;
+        dispatch({
+          type: 'VERSION',
+          payload: version,
         })
-        .catch(err => {
-          version="Someting went wrong";
-          dispatch({
-            type: 'VERSION',
-            payload: version,
-          })
-        });
+      })
+      .catch(err => {
+        version = "Someting went wrong";
+        dispatch({
+          type: 'VERSION',
+          payload: version,
+        })
+      });
   }
 }
 
@@ -57,19 +57,31 @@ export const isSubscriptionActive = () => {
     ]
   });
   return async dispatch => {
-    await RNIap.initConnection().then(async() => {
+    await RNIap.initConnection().then(async () => {
       const purchases = await RNIap.getAvailablePurchases();
       sub = false;
       purchases.forEach(purchase => {
         if (purchase.productId == itemSkus) {
           sub = true;
+          axiosIns.post('/dashboard/devicetypedata/', {
+            "device_type": Platform.OS== "ios" ? "iOS" : "Android",
+          })
+          axiosIns.post('/dashboard/subscriptiondata/', {
+            "isactive":true,
+          })
         }
       })
     }).catch((err) => {
       sub = false;
+      axiosIns.post('/dashboard/devicetypedata/', {
+        "device_type": Platform.OS== "ios" ? "iOS" : "Android",
+      })
+      axiosIns.post('/dashboard/subscriptiondata/', {
+        "isactive":false,
+      })
       console.log(err)
     })
-    await AsyncStorage.setItem('sub',sub.toString())
+    await AsyncStorage.setItem('sub', sub.toString())
     dispatch({
       type: 'PREMIUM',
       payload: sub,

@@ -60,8 +60,8 @@ const RootNavigation = ({
         height:'100%',
         width:'100%'
       }}>
-      {/* { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> } */}
-      { token === null ? <Rootnav /> :version==="1.23"? <Homenav />:<InfoPage navigation={navigation}/>}
+      { token === null ? <Rootnav /> : subscribed ? <Homenav /> : <Subscription/> }
+      {/* { token === null ? <Rootnav /> :<Homenav />} */}
 
       </View>
 

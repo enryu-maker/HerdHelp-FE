@@ -1,5 +1,6 @@
-import {View, Text, Image, TouchableOpacity, FlatList,} from 'react-native';
+import {View, Text, Image, TouchableOpacity, FlatList,Modal, ScrollView, Platform, Linking} from 'react-native';
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../Components/Header';
 import {COLORS, FONTS, images, SIZES} from '../../Components/Constants';
 import TextButton from '../../Components/TextButton';
@@ -12,10 +13,33 @@ import { getHerds } from '../../Store/actions';
 import ActivityIndicatorExample from '../../Components/Loading';
 export const Home = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
+  const [update, setUpdate] = React.useState({});
+  const [feature, setFeature] = React.useState("");
+  const [modalVisible, setModalVisible] = React.useState(false);
   const animals = useSelector(state=>state.Reducers.herds)
+  const appversion = useSelector(state=>state.Reducers.appVersion)
+  // const animals = useSelector(state=>state.Reducers.herds)
+  React.useEffect(() => {
+    axiosIns.get('/dashboard/getupdatedata/').then(res=>{
+      console.log(res.data.download_link_ios)
+      if(Platform.OS==="ios"?res.data.version_ios!=appversion:res.data.version_android!=appversion){
+        setModalVisible(true)
+      setFeature(res.data.features.split('|'))
+        setUpdate(res.data)
+      }else{
+        setModalVisible(false)
+
+
+      }
+    }).catch(err=>{
+      console.log(err)
+    })
+  }, [])
+
+
+
   const User = useSelector(state=>state.Reducers.userData)
   function removeDuplicates(arr) {
-    // console.log(arr)
     let jsonObject = arr.map(JSON.stringify);
     let uniqueSet = new Set(jsonObject);
     let uniqueArray = Array.from(uniqueSet).map(JSON.parse);
@@ -94,6 +118,78 @@ export const Home = ({navigation}) => {
   }
   return (
     <View style={{flex: 1, backgroundColor: COLORS.white}}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={{
+          // flex:1,
+          height: SIZES.height,
+          width: SIZES.width,
+          alignItems:"center",
+          justifyContent:"space-evenly",
+          backgroundColor:"rgba(256,256,256,0.90)"
+        }} >
+          <Text style={{
+            ...FONTS.h2,
+            letterSpacing:1,
+          }}>
+           New Version Available
+          </Text>
+          <Text style={{
+            ...FONTS.h1,
+            letterSpacing:1,
+          }}>
+          {` V ${Platform.OS==="ios"?update['version_ios']:update['version_android']} 🐄`}
+          </Text>
+          <View style={{
+            height:250,
+            width:SIZES.width*0.8,
+          }}>
+            <Text style={{
+            ...FONTS.h2,
+            color:COLORS.Primary,
+            letterSpacing:1,
+          }}>
+           Features 🔥
+          </Text>
+          <FlatList style={{
+            width:SIZES.width*0.8,
+            backgroundColor:COLORS.white,
+            borderRadius:10,
+            padding:10
+          }}
+          data={feature}
+          keyExtractor={item=>item}
+          renderItem={({item,index})=>
+
+            <Text style={{
+              ...FONTS.h3,
+              textAlign:"left",
+            }}>
+              {`${index+1}. ${item}`}
+            </Text>
+          }
+          />
+          </View>
+          <TextButton
+          onPress={()=>{
+            Linking.openURL(Platform.OS==="ios"?update['download_link_ios']:update['download_link_android'].toString())
+          }}
+          border={false}
+          buttonContainerStyle={{
+            margin:0,
+            padding:0
+          }}
+          icon={images.update}
+          label={"Update"}
+          />
+        </View>
+      </Modal>
       {renderHeader()}
       {
         animals?.length===0?<ActivityIndicatorExample/>:

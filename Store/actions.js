@@ -96,6 +96,16 @@ export const updateSubs = (sub) => {
     })
   }
 }
+export const getUpdate = () => {
+
+  return async dispatch => {
+    let {data} = await axiosIns.get('/dashboard/getupdatedata/');
+    dispatch({
+      type: 'UPDATE',
+      payload: data,
+    })
+  }
+}
 export const Login = (token, id) => {
   return async dispatch => {
     if (token && id) {

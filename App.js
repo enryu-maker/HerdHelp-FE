@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar, View, Platform, Text } from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { getVersion, Init, isSubscriptionActive } from './Store/actions';
+import { getUpdate, getVersion, Init, isSubscriptionActive } from './Store/actions';
 import { store } from './Store';
 import { ActivityIndicator } from 'react-native-paper';
 import { COLORS, FONTS, SIZES } from './Components/Constants';
@@ -30,6 +30,7 @@ const RootNavigation = ({
     await dispatch(isSubscriptionActive())
     await dispatch(Init());
     await dispatch(getVersion());
+    await dispatch(getUpdate());
     setLoading(false);
   };
 

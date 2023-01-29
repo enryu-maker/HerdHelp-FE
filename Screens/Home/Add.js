@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity, Image, TextInput, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, Image, TextInput, FlatList, Alert } from 'react-native'
 import React from 'react'
 import Header from '../../Components/Header';
 import Card from '../../Components/Card';
 import natsort from 'natsort';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import {
   COLORS,
   FONTS,
@@ -10,6 +11,10 @@ import {
   SIZES,
 } from '../../Components/Constants';
 import FilterModal from './filterModel';
+import TextButton from '../../Components/TextButton';
+import { useDispatch, useSelector } from 'react-redux';
+import axiosIns from '../../helpers/helpers';
+import { getHerds } from '../../Store/actions';
 export default function Add({ navigation, route }) {
   const [label, setLabel] = React.useState("")
   const [loading, setLoading] = React.useState(false)
@@ -25,7 +30,7 @@ export default function Add({ navigation, route }) {
   const [Bred, setBred] = React.useState('')
   const [Animal, setAnimal] = React.useState([])
   var sorter = natsort();
-  
+  const dispatch = useDispatch();
   React.useEffect(() => {
 
     let { label } = route.params
@@ -41,14 +46,21 @@ export default function Add({ navigation, route }) {
       // console.log(data)
     }
   }, [])
-  
-  // function removeDuplicates(arr) {
-  //   // console.log(arr)
-  //   let jsonObject = arr.map(JSON.stringify);
-  //   let uniqueSet = new Set(jsonObject);
-  //   let uniqueArray = Array.from(uniqueSet).map(JSON.parse);
-  //   return uniqueArray
-  // }
+
+  function deleteAnimal(item) {
+    axiosIns.delete(`/animals/${item}`)
+      .then((res) => {
+        console.log(res)
+        dispatch(getHerds())
+        alert("Animal Deleted")
+      }
+      )
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+
   function filterList(list) {
     return list.filter(
       (listItem) =>
@@ -56,23 +68,23 @@ export default function Add({ navigation, route }) {
           .toString()
           .toLowerCase()
           .includes(searched.toString().toLowerCase()) ||
-        listItem.name.toString().toLowerCase().includes(searched.toString().toLowerCase()) ||
-        listItem.weight.toString().includes(searched.toString().toLowerCase()) ||
-        listItem.gender.toLowerCase().includes(searched.toLowerCase())) &&
+          listItem.name.toString().toLowerCase().includes(searched.toString().toLowerCase()) ||
+          listItem.weight.toString().includes(searched.toString().toLowerCase()) ||
+          listItem.gender.toLowerCase().includes(searched.toLowerCase())) &&
         (listItem.species
           .toString()
           .includes(sep.toString()) &&
           (listItem.vaccinated
-          .toString()
-          .includes(vacc.toString()) &&
-          listItem.medicated
-          .toString()
-          .includes(med.toString())
+            .toString()
+            .includes(vacc.toString()) &&
+            listItem.medicated
+              .toString()
+              .includes(med.toString())
           ) &&
           listItem.bred
-          .toString()
-          .includes(Bred.toString())
-          )
+            .toString()
+            .includes(Bred.toString())
+        )
     );
   }
 
@@ -112,7 +124,7 @@ export default function Add({ navigation, route }) {
             </TouchableOpacity>
           </View>
         }
-        title={label=="Sheep"?`My ${label}`:`My ${label}s`} 
+        title={label == "Sheep" ? `My ${label}` : `My ${label}s`}
 
         titleStyle={{
           marginLeft: 65,
@@ -243,7 +255,89 @@ export default function Add({ navigation, route }) {
           setBred={setBred}
         />
       }
-      <FlatList
+      <Text style={{ ...FONTS.h4, color: COLORS.Primary, alignSelf: "center" }}>
+        Swipe Left To{" "}
+        <Text style={{ ...FONTS.h4, color: COLORS.red, marginLeft: 10 }}>
+          Delete
+        </Text>
+      </Text>
+      <SwipeListView
+        // style={{
+        //   marginBottom:SIZES.height>700?Platform.OS=="ios"?120:90:75,
+        // }}
+        data={filterList(Animal)}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <Card
+            Flagged={item?.flagged}
+            cond={cond}
+            Name={item.name}
+            Tagnumber={item.support_tag}
+            Gender={item.gender}
+            Species={item.category}
+            Weight={item.weight}
+            image={item.animal_image == null ? item.image : item.animal_image}
+            weight_kg={item.weight_kg}
+            birth={item.bought}
+            onPress={() => {
+              navigation.navigate('Info', {
+                value: item,
+                cond: cond,
+              });
+            }}
+          />
+        )}
+        renderHiddenItem={(data, rowMap) => (
+          <View style={{
+            flexDirection: "row",
+            alignSelf: "center",
+            marginTop: 5,
+
+          }}>
+
+            <TextButton
+              buttonContainerStyle={{
+                // flex: 1,
+                justifyContent: "flex-end",
+                height: 120,
+                width: "88%",
+                marginTop: 5,
+                backgroundColor: COLORS.red,
+              }}
+              border={false}
+              icon={images.delet}
+              iconStyle={{
+                height: 30,
+                width: 30,
+                marginRight: 15
+              }}
+              onPress={() => {
+                Alert.alert(
+                  "Delete",
+                  "Are you sure you want to delete this animal?",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                    },
+                    {
+                      text: "OK", onPress: () => {
+                        deleteAnimal(data.item.tag_number)
+                        navigation.goBack()
+
+                      }
+                    }
+                  ]
+                );
+              }}
+            />
+          </View>
+        )}
+        // leftOpenValue={75}
+        rightOpenValue={-75}
+      />
+      {/* <FlatList
         data={filterList(Animal)}
         // keyExtractor={item => `${item.support_tag}`}
         showsVerticalScrollIndicator={false}
@@ -266,7 +360,7 @@ export default function Add({ navigation, route }) {
               });
             }}
           />
-        )} />
+        )} /> */}
     </View>
   )
 }

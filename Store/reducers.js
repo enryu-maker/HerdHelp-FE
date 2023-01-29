@@ -17,7 +17,8 @@ const initialState = {
   gender: [],
   baby: [],
   subscribed: false,
-  appVersion: null
+  appVersion: null,
+  update:[]
 };
 
 export default (state = initialState, action) => {
@@ -70,6 +71,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: action.payload,
+      };
+      case 'UPDATE':
+      return {
+        ...state,
+        update: action.payload,
       };
     case 'TAGS':
       return {

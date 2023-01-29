@@ -13,27 +13,13 @@ import { getHerds } from '../../Store/actions';
 import ActivityIndicatorExample from '../../Components/Loading';
 export const Home = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
-  const [update, setUpdate] = React.useState({});
   const [feature, setFeature] = React.useState("");
   const [modalVisible, setModalVisible] = React.useState(false);
   const animals = useSelector(state=>state.Reducers.herds)
   const appversion = useSelector(state=>state.Reducers.appVersion)
-  // const animals = useSelector(state=>state.Reducers.herds)
+  const update = useSelector(state=>state.Reducers.update)
   React.useEffect(() => {
-    axiosIns.get('/dashboard/getupdatedata/').then(res=>{
-      console.log(res.data.download_link_ios)
-      if(Platform.OS==="ios"?res.data.version_ios!=appversion:res.data.version_android!=appversion){
-        setModalVisible(true)
-      setFeature(res.data.features.split('|'))
-        setUpdate(res.data)
-      }else{
-        setModalVisible(false)
-
-
-      }
-    }).catch(err=>{
-      console.log(err)
-    })
+    Platform.OS==="ios"?setModalVisible(update['version_ios']!=appversion):setModalVisible(update['version_android']!=appversion)
   }, [])
 
 
@@ -122,10 +108,7 @@ export const Home = ({navigation}) => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
+        >
         <View style={{
           // flex:1,
           height: SIZES.height,
@@ -134,6 +117,17 @@ export const Home = ({navigation}) => {
           justifyContent:"space-evenly",
           backgroundColor:"rgba(256,256,256,0.90)"
         }} >
+          <TouchableOpacity style={{
+            alignSelf:"flex-end",
+            marginRight:20,
+          }}
+          onPress={()=>setModalVisible(false)}
+          >
+            <Image source={images.x} style={{
+              height:30,
+              width:30,
+            }} onPress={()=>setModalVisible(false)} />
+          </TouchableOpacity>
           <Text style={{
             ...FONTS.h2,
             letterSpacing:1,
@@ -163,7 +157,7 @@ export const Home = ({navigation}) => {
             borderRadius:10,
             padding:10
           }}
-          data={feature}
+          data={update['features'].split('|')}
           keyExtractor={item=>item}
           renderItem={({item,index})=>
 

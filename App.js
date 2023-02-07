@@ -28,9 +28,9 @@ const RootNavigation = ({
   }
   const init = async() => {
     await dispatch(isSubscriptionActive())
-    await dispatch(Init());
-    await dispatch(getVersion());
     await dispatch(getUpdate());
+    await dispatch(getVersion());
+    await dispatch(Init());
     setLoading(false);
   };
 

@@ -11,15 +11,24 @@ import { ActivityIndicator } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHerds } from '../../Store/actions';
 import ActivityIndicatorExample from '../../Components/Loading';
+import { getAppstoreAppMetadata } from "react-native-appstore-version-checker";
 export const Home = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [feature, setFeature] = React.useState("");
   const [modalVisible, setModalVisible] = React.useState(false);
   const animals = useSelector(state=>state.Reducers.herds)
-  const appversion = useSelector(state=>state.Reducers.appVersion)
   const update = useSelector(state=>state.Reducers.update)
+
+
   React.useEffect(() => {
-    Platform.OS==="ios"?setModalVisible(update['version_ios']!=appversion):setModalVisible(update['version_android']!=appversion)
+    const storeSpecificId = Platform.OS === "ios" ? "1627766617" : "com.herdhelp";
+    getAppstoreAppMetadata(storeSpecificId) //put any apps id here
+        .then(appVersion => {
+           Platform.OS==="ios"?setModalVisible(appVersion.version!="1.3"):setModalVisible(appVersion.version!="1.3")
+        })
+        .catch(err => {
+          setModalVisible(false)
+        });
   }, [])
 
 
@@ -157,7 +166,7 @@ export const Home = ({navigation}) => {
             borderRadius:10,
             padding:10
           }}
-          data={update['features'].split('|')}
+          data={update['features']?.split('|')}
           keyExtractor={item=>item}
           renderItem={({item,index})=>
 

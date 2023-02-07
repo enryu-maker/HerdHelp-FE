@@ -20,18 +20,18 @@ export const Init = () => {
 
 export const getVersion = () => {
   return async dispatch => {
-    var version;
     const storeSpecificId = Platform.OS === "ios" ? "1627766617" : "com.herdhelp";
+    console.log(storeSpecificId)
     getAppstoreAppMetadata(storeSpecificId) //put any apps id here
       .then(appVersion => {
-        version = appVersion.version;
         dispatch({
           type: 'VERSION',
-          payload: version,
+          payload: appVersion?.version,
         })
       })
       .catch(err => {
-        version = "Someting went wrong";
+        console.log(err)
+        version = "Error fecthing version";
         dispatch({
           type: 'VERSION',
           payload: version,
@@ -99,11 +99,19 @@ export const updateSubs = (sub) => {
 export const getUpdate = () => {
 
   return async dispatch => {
-    let {data} = await axiosIns.get('/dashboard/getupdatedata/');
-    dispatch({
-      type: 'UPDATE',
-      payload: data,
+    await axiosIns.get('/dashboard/getupdatedata/').then((res) => {
+      var data = res.data;
+      dispatch({
+        type: 'UPDATE',
+        payload: data,
+      })
+    }).catch((err) => {
+      dispatch({
+        type: 'UPDATE',
+        payload: err,
+      })
     })
+    
   }
 }
 export const Login = (token, id) => {

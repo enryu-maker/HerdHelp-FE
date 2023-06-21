@@ -46,6 +46,7 @@ import Tutorial from '../Tutorial/Tutorial';
 import AccountSetting from '../Setting/AccountSetting';
 import Delete from '../Setting/Delete';
 import About from '../Setting/About';
+import Download from '../Report/Download';
 const Stack = createNativeStackNavigator()
 
 const DrawerNav = () => {
@@ -209,6 +210,8 @@ fetchprofile = async () => {
           <Stack.Screen name='Accountsetting' component={AccountSetting}/>
           <Stack.Screen name='Delete' component={Delete}/>
           <Stack.Screen name='About' component={About}/>
+          <Stack.Screen name='Download' component={Download}/>
+
 
 
 

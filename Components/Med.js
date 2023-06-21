@@ -14,7 +14,6 @@ const Med = ({
     <View
       style={{
         backgroundColor: COLORS.lightGray2,
-        height: withdrawal? 120 : 100,
         margin: SIZES.base2,
         borderRadius: SIZES.radius,
         width: '88%',

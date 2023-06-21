@@ -235,6 +235,7 @@ async function getData(api){
               onPress={() => {
                 navigation.navigate('Info', {
                   value: item,
+                  label:item.name==="Sold Animals"?item.name:null,
                   cond:con
                 });
               }}

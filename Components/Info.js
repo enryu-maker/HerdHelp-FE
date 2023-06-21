@@ -29,7 +29,7 @@ export const Info = ({ navigation, route }) => {
   const [pic, setPic] = React.useState('');
   const [showu, setshowu] = React.useState(false);
   const [showc, setshowc] = React.useState(false);
-
+  const [label, setLabel] = React.useState('');
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -42,7 +42,8 @@ export const Info = ({ navigation, route }) => {
    
   React.useEffect(() => {
     let { value } = route.params;
-
+    let {label} = route.params
+    setLabel(label)
     let { cond } = route.params;
     let { type } = route.params;
     setType(type)
@@ -61,7 +62,6 @@ export const Info = ({ navigation, route }) => {
     setCond(cond);
   }, []);
   const unit = JSON.parse(useSelector(state => state.Reducers.unit))
-
   function renderSectionOne() {
     return (
       <View
@@ -286,8 +286,17 @@ export const Info = ({ navigation, route }) => {
             <InfoItem
               label="Price"
               value={`${formatter.format(animal?.price)}`}
-              withDivider={false}
+              // withDivider={false}
             />
+            {
+              label==="Sold Animals"?
+              <InfoItem 
+              label="Sold Price"
+              value={`${formatter.format(animal?.soldprice)}`}
+              withDivider={false}
+              />:
+              null
+            }
           </>
         )}
       </View>

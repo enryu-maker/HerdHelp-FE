@@ -13,7 +13,6 @@ import Homenav from './Screens/Nav/Homenav';
 import Rootnav from './Screens/Nav/Rootnav';
 import { enableScreens } from 'react-native-screens';
 import Subscription from './Screens/Subscription/Subscription';
-import InfoPage from './Screens/Home/InfoPage';
 const RootNavigation = ({
   navigation
 }) => {

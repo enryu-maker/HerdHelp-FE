@@ -42,8 +42,6 @@ class Generate extends Component {
   }
   genReport(dic, label) {
     this.setState({ loader: true });
-    console.log(dic);
-    console.log(label);
     axiosIns
       .post(
         'reports/generate/',

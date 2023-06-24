@@ -7,7 +7,6 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 import { name as app_name, version as app_version } from '../../package.json';
 export default function About({ navigation }) {
   const version = useSelector(state => state.Reducers.appVersion)
-  console.log(version)
 
     // const [version,setVersion]=React.useState("")
     // const storeSpecificId = Platform.OS === "ios" ? "1627766617" : "com.herdhelp";

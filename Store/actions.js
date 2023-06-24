@@ -21,7 +21,6 @@ export const Init = () => {
 export const getVersion = () => {
   return async dispatch => {
     const storeSpecificId = Platform.OS === "ios" ? "1627766617" : "com.herdhelp";
-    console.log(storeSpecificId)
     getAppstoreAppMetadata(storeSpecificId) //put any apps id here
       .then(appVersion => {
         dispatch({

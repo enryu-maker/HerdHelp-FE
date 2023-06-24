@@ -276,6 +276,15 @@ export const Info = ({ navigation, route }) => {
               value={animal?.father_supporttag}
               withDivider={false}
             />
+            {
+              label==="Sold Animals"?
+              <InfoItem 
+              label="Sold Price"
+              value={`${formatter.format(animal?.soldprice)}`}
+              withDivider={false}
+              />:
+              null
+            }
           </View>
         ) : (
           <>

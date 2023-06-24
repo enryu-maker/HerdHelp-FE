@@ -6,9 +6,6 @@ export default function InfoPage({
     navigation
 }) {
     const [data,setData] = React.useState("")
-    const getNewData=()=>{
-        console.log("getNewData")
-    }
     function renderheader() {
         return (
             <Header

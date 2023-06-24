@@ -233,7 +233,6 @@ async function getData(api){
               birth={item.bought}
               image={item.animal_image==null?item.image:item.animal_image}
               onPress={() => {
-                console.log(item.name)
                 navigation.navigate('Info', {
                   value: item,
                   label:label==="Sold Animals"?label:null,

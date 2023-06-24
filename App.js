@@ -22,9 +22,6 @@ const RootNavigation = ({
   const subscribed = useSelector(state => state.Reducers.subscribed);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  function updateStaus(){
-
-  }
   const init = async() => {
     await dispatch(isSubscriptionActive())
     await dispatch(getUpdate());
@@ -94,14 +91,11 @@ export const toastConfig = {
   )
 };
 const App = () => {
-  const [PermissionResult, setPermissionResult] = React.useState(null);
   requestMultiple(
     Platform.OS === 'ios'
       ? [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.PHOTO_LIBRARY]
       : [PERMISSIONS.ANDROID.CAMERA, PERMISSIONS.ANDROID.ACCESS_MEDIA_LOCATION],
   );
-  // console.log(pub)
-
   return (
     <Provider store={store}>
       <Permission.Provider>

@@ -50,7 +50,6 @@ export default function Add({ navigation, route }) {
   function deleteAnimal(item) {
     axiosIns.delete(`/animals/${item}`)
       .then((res) => {
-        console.log(res)
         dispatch(getHerds())
         alert("Animal Deleted")
       }

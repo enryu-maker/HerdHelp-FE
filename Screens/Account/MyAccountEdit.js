@@ -21,7 +21,6 @@ const MyAccountEdit = ({ navigation, route }) => {
   const [addr, setAddr] = useState(route.params?.user?.address);
   const [user, setUser] = React.useState([])
   const [loading, setLoading] = React.useState(false);
-  console.log(global.id)
   const dispatch = useDispatch()
   const updateprofile = async () => {
     setLoading(true)
@@ -46,7 +45,6 @@ const MyAccountEdit = ({ navigation, route }) => {
         dispatch(UserData())
       })
     } catch (e) {
-      console.log(e)
       setLoading(false)
       Toast.show({
         text1: `${e.msg}`,

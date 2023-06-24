@@ -55,7 +55,6 @@ export default function Subscription() {
           if(receipt){
             const ackResult = IAP.finishTransaction(purchase)
             dispatch(updateSubs(receipt?true:false))
-            console.log(ackResult)
           }
         }
         setLoading(false)

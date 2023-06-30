@@ -110,14 +110,14 @@ export default function Subscription() {
           alignSelf: "center",
           // marginTop: 10
         }}>
-          {`When you subscribe to Herd Help Premium, Payments will be charged to your iTunes account. Auto renewal may be turned off at any time. Current price for Herd Help is ${product?.localizedPrice} per month. Your first 30 days are free. Herd Help is a tool to track your animals weights, health, treatments, lineage, profits and losses. Removing the app doesn’t automatically cancel the subscription You need to remove it from App Store.`}
+          {`When you subscribe to Herd Help Premium, Payments will be charged to your iTunes account. Auto renewal may be turned off at any time. Current price for Herd Help is ${product?.localizedPrice} per month. Your first 3 days are free. Herd Help is a tool to track your animals weights, health, treatments, lineage, profits and losses. Removing the app doesn’t automatically cancel the subscription You need to remove it from App Store.`}
           <Text style={{
             ...FONTS.h3,
             alignSelf: "center",
-          }}>{'\n'}One month free trial after that {product?.localizedPrice} per month ​and may vary by country.</Text> 
+          }}>{'\n'}Three Days free trial after that {product?.localizedPrice} per month ​and may vary by country.</Text> 
         </Text>
         <InfoItem buttonStyle={{
-        }} label={"First Month"} value={`${product?.introductoryPrice}`} />
+        }} label={"Trial Period"} value={`${product?.introductoryPrice}`} />
         <InfoItem buttonStyle={{
           marginTop:-20
         }} label={"After That"} value={`${product?.localizedPrice}/Month`} />

@@ -4,27 +4,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../Components/Header';
 import {COLORS, FONTS, images, SIZES} from '../../Components/Constants';
 import TextButton from '../../Components/TextButton';
-import axiosIns, { baseURL } from '../../helpers/helpers';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import  { baseURL } from '../../helpers/helpers';
 import CustomButton from './CustomButtom';
-import { ActivityIndicator } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { getHerds } from '../../Store/actions';
+import { useSelector } from 'react-redux';
 import ActivityIndicatorExample from '../../Components/Loading';
 import { getAppstoreAppMetadata } from "react-native-appstore-version-checker";
 export const Home = ({navigation}) => {
-  const [loading, setLoading] = React.useState(false);
-  const [feature, setFeature] = React.useState("");
   const [modalVisible, setModalVisible] = React.useState(false);
   const animals = useSelector(state=>state.Reducers.herds)
   const update = useSelector(state=>state.Reducers.update)
-
-
   React.useEffect(() => {
     const storeSpecificId = Platform.OS === "ios" ? "1627766617" : "com.herdhelp";
     getAppstoreAppMetadata(storeSpecificId) //put any apps id here
         .then(appVersion => {
-           Platform.OS==="ios"?setModalVisible(appVersion.version!="1.3"):setModalVisible(appVersion.version!="1.3")
+           Platform.OS==="ios"?setModalVisible(appVersion.version!="1.4"):setModalVisible(appVersion.version!="1.4")
         })
         .catch(err => {
           setModalVisible(false)
